@@ -1,0 +1,144 @@
+[
+  
+  {
+    "id": 1,
+    "title": "Padre Rico, Padre Pobre",
+    "author": "Robert T. Kiyosaki",
+    "description": "Clásico que enseña la importancia de la educación financiera y la inversión en activos.",
+    "cover": "assets/books/covers/61cg2eMTGGL._SL1200_.jpg",
+    "pdf": "assets/books/pdfs/padre-rico-padre-pobre.pdf",
+    "tags": ["Inversión", "Educación Financiera", "Mentalidad y Motivación"]
+  },
+  {
+    "id": 2,
+    "title": "La Buena Suerte",
+    "author": "Alex Rovira",
+    "description": "Un libro extraordinariamente inspirador y positivo: una fábula mediante la cual se desvelan las claves de la Buena Suerte y la prosperidad.",
+    "cover": "assets/books/covers/51db0XcRxoL.jpg",
+    "pdf": "assets/books/pdfs/La-Buena-Suerte-Alex-Rovira.pdf",
+    "tags": ["Autoayuda Novelada", "Inspirador"]
+  },
+  {
+    "id": 3,
+    "title": "Los 7 hábitos de la gente altamente efectiva",
+    "author": "Stephen R. Covey",
+    "description": "Si queremos cambiar nuestra situación, deberemos cambiarnos a nosotros mismos con eficacia y para ello también modificar nuestras percepciones.",
+    "cover": "assets/books/covers/7abitos.jpg",
+    "pdf": "assets/books/pdfs/los7HabitosGenteAltamenteEfectiva.pdf",
+    "tags": ["Autoconfianza", "Educación Financiera", "Mentalidad y Motivación"]
+  },
+  {
+    "id": 4,
+    "title": "Piense y hágase rico",
+    "author": "Napoleon Hill",
+    "description": "Obra diseñada para llevarnos al triunfo.",
+    "cover": "assets/books/covers/piensehagaserico.jpg",
+    "pdf": "assets/books/pdfs/piense-hagase-rico.pdf",
+    "tags": ["Finanzas Personales", "Educación Financiera", "Disciplina", "Mentalidad y Motivación"]
+  },
+  {
+    "id": 5,
+    "title": "De cero a uno",
+    "author": "Peter Thiel",
+    "description": "Ofrece ideas completamente nuevas y refrescantes sobre cómo crear valor en el mundo, a partir de cero, sin copiar lo que ya existe.",
+    "cover": "assets/books/covers/818tUnj4CIL._SL1500_.jpg",
+    "pdf": "assets/books/pdfs/de-cero-a-uno-peter-thiel_compress.pdf",
+    "tags": ["Inversión", "Educación Financiera", "Gestión y Estrategias de Negocio"]
+  },
+  {
+    "id": 6,
+    "title": "El mito del emprendedor",
+    "author": "Michael E. Gerber",
+    "description": "Esta obra está destinada a desmontar los mitos que giran alrededor de la puesta en marcha de un negocio.",
+    "cover": "assets/books/covers/71ISs8zUrgL._SL1451_.jpg",
+    "pdf": "assets/books/pdfs/el-mito-del-emprendedor-MICHAEL.E.GERBER.pdf",
+    "tags": ["Inversión", "Educación Financiera"]
+  },
+  {
+    "id": 7,
+    "title": "El método Lean Startup",
+    "author": "Eric Ries",
+    "description": "Eric Ries define una startup como una organización dedicada a crear algo bajo condiciones de incertidumbre extrema.",
+    "cover": "assets/books/covers/51U8g-yW7eL.jpg",
+    "pdf": "assets/books/pdfs/libros-461-el-metodo-lean-startup.pdf",
+    "tags": ["Inversión", "Educación Financiera", "Innovación y Startup"]
+  },
+  {
+    "id": 8,
+    "title": "El Hombre Más Rico de Babilonia",
+    "author": "George S. Clason",
+    "description": "Parábolas sobre ahorro, inversión y administración del dinero en la antigua Babilonia.",
+    "cover": "assets/books/covers/elhombremasrico_.jpg",
+    "pdf": "assets/books/pdfs/El_hombre_mas_rico_de_Babilonia_George_S_Clason.pdf",
+    "tags": ["Ahorro", "Finanzas Personales"]
+  },
+  {
+    "id": 9,
+    "title": "La Psicología del Dinero",
+    "author": "Morgan Housel",
+    "description": "Explora cómo nuestras emociones y sesgos influyen en nuestras decisiones financieras.",
+    "cover": "assets/books/covers/61rlCBqxJQL._SL1000_.jpg",
+    "pdf": "assets/books/pdfs/47530_Como_piensan_los_ricos.pdf",
+    "tags": ["Psicología Financiera", "Comportamiento"]
+  },
+  {
+    "id": 10,
+    "title": "El Inversor Inteligente",
+    "author": "Benjamin Graham",
+    "description": "Guía definitiva para la inversión basada en el análisis fundamental y la gestión del riesgo.",
+    "cover": "assets/books/covers/98rlCBqxJQL._SL1000_.jpg",
+    "pdf": "assets/books/pdfs/50700_El_inversor_inteligente.pdf",
+    "tags": ["Inversión", "Análisis Fundamental"]
+  },
+  {
+    "id": 11,
+    "title": "Retírate Joven y Rico",
+    "author": "Robert T. Kiyosaki",
+    "description": "Este libro trata sobre cómo empecé sin nada y me retiré financieramente libre en menos de diez años.",
+    "cover": "assets/books/covers/71bqLtt9SDL._SL1500_.jpg",
+    "pdf": "assets/books/pdfs/Retirate-Joven-Y-Rico.pdf",
+    "tags": ["Desarrollo personal", "Autoayuda"]
+  },
+  {
+    "id": 12,
+    "title": "El negocio del siglo XXI",
+    "author": "Robert T. Kiyosaki",
+    "description": "En El negocio del siglo XXI Robert T. Kiyosaki te explica que el problema no es la economía; el problema, eres tú.",
+    "cover": "assets/books/covers/81FS3bT1yGL._SL1500_.jpg",
+    "pdf": "assets/books/pdfs/El-negocio-del-siglo-XXI-Robert-T-Kiyosaki.pdf",
+    "tags": ["Finanzas personales", "Aptitudes empresariales", "Inversiones"]
+  },
+  {
+    "id": 13,
+    "title": "Niño rico, niño listo",
+    "author": "Robert T. Kiyosaki",
+    "description": "En la Era de la Información, una buena educación es más importante que nunca.",
+    "cover": "assets/books/covers/81Kql23LWML._SL1500_.jpg",
+    "pdf": "assets/books/pdfs/Robert-Kiyosaki-Niño-Rico-Niño-Listo.pdf",
+    "tags": ["Desarrollo personal", "Autoayuda"]
+  },
+  {
+    "id": 14,
+    "title": "EL cuadrante del flujo de dinero",
+    "author": "Robert T. Kiyosaki",
+    "description": "¿... por qué algunos inversores arriesgan poco y ganan mucho mientras la mayoría de los inversores sólo llegan al punto de equilibrio?",
+    "cover": "assets/books/covers/81dXM3BiYML._SL1500_.jpg",
+    "pdf": "assets/books/pdfs/EL-cuadrante-del-flujo-de-dinero-Robert.pdf",
+    "tags": ["Desarrollo personal", "Autoayuda"]
+  },
+  {
+    "id": 15,
+    "title": "La bolsa o la vida: las finanzas contra los pueblos",
+    "author": "Éric Toussaint",
+    "description": "Un clásico que replantea la relación con el dinero y el consumo, enfocándose en la libertad financiera.",
+    "cover": "assets/books/covers/71ldEcWcrnL._SY522_.jpg",
+    "pdf": "assets/books/pdfs/labolsa.pdf",
+    "tags": ["Relaciones internacionales", "Globalización"]
+  }
+
+
+
+
+]
+
+
