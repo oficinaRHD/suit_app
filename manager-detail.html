@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sales Manager Profile | Suit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* High-contrast border utility for Sales Ops Protocol */
+        .ops-border { border: 1px solid #E2E8F0; }
+        .active-tab-indicator { height: 2px; bottom: -1px; position: absolute; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#515f74",
+                        "primary-fixed": "#dbe1ff",
+                        "inverse-surface": "#2d3133",
+                        "surface-dim": "#d8dadc",
+                        "surface-variant": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#d5e3fd",
+                        "surface-bright": "#f7f9fb",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-secondary-container": "#57657b",
+                        "outline": "#737686",
+                        "primary": "#004ac6",
+                        "tertiary-fixed": "#ffdbcd",
+                        "tertiary-container": "#bc4800",
+                        "on-primary-container": "#eeefff",
+                        "surface-container": "#eceef0",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "outline-variant": "#c3c6d7",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-tertiary-container": "#ffede6",
+                        "on-surface-variant": "#434655",
+                        "on-background": "#191c1e",
+                        "secondary-fixed": "#d5e3fd",
+                        "inverse-primary": "#b4c5ff",
+                        "on-tertiary-fixed": "#360f00",
+                        "tertiary": "#943700",
+                        "surface-tint": "#0053db",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f3",
+                        "background": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "primary-container": "#2563eb",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-lg": "32px",
+                        "stack-md": "16px",
+                        "container-padding": "24px",
+                        "gutter": "16px",
+                        "base": "4px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "title-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-bold": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24">
+<!-- Top Navigation Anchor (Suppressing SideNav for focused Profile view on Mobile) -->
+<header class="bg-surface-bright flex items-center h-16 px-container-padding sticky top-0 z-40 border-b border-outline-variant">
+<button class="mr-4 p-1 hover:bg-surface-container-high transition-colors rounded">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary flex-1">Manager Profile</h1>
+<div class="flex gap-stack-sm">
+<span class="material-symbols-outlined text-on-surface-variant">sync</span>
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-4 py-stack-md space-y-gutter">
+<!-- Profile Header Section -->
+<section class="bg-surface-container-lowest ops-border rounded-lg p-stack-md flex flex-col items-center text-center">
+<div class="relative mb-stack-sm">
+<img alt="Manager Profile" class="w-24 h-24 rounded-full object-cover border-4 border-primary-fixed shadow-sm" data-alt="A professional headshot of a mature sales manager with a confident expression, wearing a tailored navy blue suit and a crisp white shirt. The background is a clean, bright corporate office with soft natural lighting and a shallow depth of field. The lighting is high-key and professional, emphasizing a modern light-mode aesthetic that communicates reliability and executive leadership." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpQ61leAGd5lIXVgVucnSh-Azx-YhaNebVLSHG55M579aJgM14jAOQC0UE8Ng84mY3M1G6wjwzqcsvPCz191o4l_dlijXTm6YoIiPcg6mmdEWO2qn7KeB1fkqdP7C4EpeDgdcH2UBfvaffdeZ1bTUu1rXtgbkYhYcMPPasfKlZkxjwh0P4S2IIR3A_9E0ZZ-O4A1P4qWaHrQXfz7suT19wOV9Wzyo5_ITSp6kQgCPu-7TlMVDdW5Lvhc78EymXcCFB8gJEWQrZpRw"/>
+<div class="absolute bottom-1 right-1 w-6 h-6 bg-green-500 border-2 border-white rounded-full" title="Online"></div>
+</div>
+<h2 class="font-headline-md text-headline-md font-extrabold text-on-surface">Ricardo Silva</h2>
+<p class="font-label-bold text-label-bold text-secondary uppercase tracking-widest">Senior Accounts Manager</p>
+<div class="flex gap-stack-md mt-stack-md w-full justify-center">
+<div class="flex items-center gap-base text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+<span>ricardo.s@saleshub.pro</span>
+</div>
+<div class="flex items-center gap-base text-body-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>+351 912 345 678</span>
+</div>
+</div>
+</section>
+<!-- Performance Summary (Bento Grid Style) -->
+<section class="grid grid-cols-2 gap-stack-sm">
+<div class="col-span-2 bg-surface-container-lowest ops-border rounded-lg p-stack-md flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<span class="font-label-bold text-label-bold text-secondary uppercase">Total Sales Volume</span>
+<span class="text-green-600 font-data-mono text-data-mono flex items-center gap-base">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +14.2%
+                    </span>
+</div>
+<div class="mt-stack-sm">
+<span class="font-display-lg text-display-lg font-bold text-primary">€842,500.00</span>
+<p class="text-body-sm text-on-surface-variant">Gross revenue generated YTD</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest ops-border rounded-lg p-stack-md">
+<span class="font-label-bold text-label-bold text-secondary uppercase block mb-stack-sm">Conv. Rate</span>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">24.8%</span>
+<div class="w-full bg-surface-container h-1.5 rounded-full mt-stack-sm">
+<div class="bg-primary h-full rounded-full" style="width: 24.8%"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest ops-border rounded-lg p-stack-md">
+<span class="font-label-bold text-label-bold text-secondary uppercase block mb-stack-sm">Active Vouchers</span>
+<div class="flex items-baseline gap-base">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">1,248</span>
+<span class="text-body-sm text-on-surface-variant">units</span>
+</div>
+<p class="text-label-bold text-label-bold text-primary mt-stack-sm">Rank: #2 Top Seller</p>
+</div>
+</section>
+<!-- Tabbed Interaction Section -->
+<section class="bg-surface-container-lowest ops-border rounded-lg overflow-hidden flex flex-col h-[400px]">
+<!-- Tab Headers -->
+<div class="flex border-b border-outline-variant">
+<button class="flex-1 py-stack-md font-label-bold text-label-bold uppercase text-primary border-b-2 border-primary transition-all" id="tab-history" onclick="switchTab('history')">
+                    Voucher History
+                </button>
+<button class="flex-1 py-stack-md font-label-bold text-label-bold uppercase text-on-surface-variant border-b-2 border-transparent transition-all" id="tab-metrics" onclick="switchTab('metrics')">
+                    Metrics
+                </button>
+</div>
+<!-- Tab Content: Voucher History -->
+<div class="flex-1 overflow-y-auto p-0 no-scrollbar block" id="content-history">
+<table class="w-full text-left border-collapse">
+<thead class="sticky top-0 bg-surface-container text-on-surface-variant font-label-bold text-label-bold uppercase">
+<tr>
+<th class="px-4 py-3">Ref</th>
+<th class="px-4 py-3">Amount</th>
+<th class="px-4 py-3">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-3 font-data-mono text-data-mono">#VC-2041</td>
+<td class="px-4 py-3 font-bold">€1,200</td>
+<td class="px-4 py-3">
+<span class="bg-green-100 text-green-800 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Settled</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-3 font-data-mono text-data-mono">#VC-1988</td>
+<td class="px-4 py-3 font-bold">€450</td>
+<td class="px-4 py-3">
+<span class="bg-green-100 text-green-800 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Settled</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-3 font-data-mono text-data-mono">#VC-1872</td>
+<td class="px-4 py-3 font-bold">€3,100</td>
+<td class="px-4 py-3">
+<span class="bg-primary-fixed text-on-primary-fixed-variant text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Pending</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-3 font-data-mono text-data-mono">#VC-1865</td>
+<td class="px-4 py-3 font-bold">€890</td>
+<td class="px-4 py-3">
+<span class="bg-green-100 text-green-800 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Settled</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-4 py-3 font-data-mono text-data-mono">#VC-1744</td>
+<td class="px-4 py-3 font-bold">€1,100</td>
+<td class="px-4 py-3">
+<span class="bg-error-container text-on-error-container text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Void</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Tab Content: Metrics (Hidden by default) -->
+<div class="flex-1 p-stack-md space-y-stack-md hidden overflow-y-auto no-scrollbar" id="content-metrics">
+<div class="space-y-base">
+<div class="flex justify-between items-end">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Target Achievement</span>
+<span class="font-data-mono text-data-mono text-primary">92%</span>
+</div>
+<div class="w-full h-8 bg-surface-container-highest rounded overflow-hidden flex">
+<div class="h-full bg-primary" style="width: 92%"></div>
+</div>
+</div>
+<div class="bg-surface-container-low p-stack-sm rounded-lg border border-dashed border-outline">
+<p class="font-label-bold text-label-bold text-secondary uppercase mb-base text-[10px]">Monthly Trend</p>
+<div class="h-24 w-full flex items-end gap-1.5 justify-between px-1">
+<div class="w-full bg-primary-fixed-dim" style="height: 40%"></div>
+<div class="w-full bg-primary-fixed-dim" style="height: 60%"></div>
+<div class="w-full bg-primary-fixed-dim" style="height: 55%"></div>
+<div class="w-full bg-primary-fixed-dim" style="height: 80%"></div>
+<div class="w-full bg-primary" style="height: 95%"></div>
+</div>
+<div class="flex justify-between mt-base font-data-mono text-[10px] text-on-surface-variant">
+<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-stack-sm">
+<div class="p-base">
+<p class="text-[10px] font-label-bold text-secondary uppercase">AVG Order Value</p>
+<p class="text-title-sm font-bold text-on-surface">€675.20</p>
+</div>
+<div class="p-base">
+<p class="text-[10px] font-label-bold text-secondary uppercase">Retention</p>
+<p class="text-title-sm font-bold text-on-surface">88.4%</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Buttons Section -->
+<section class="flex flex-col gap-stack-sm">
+<button class="w-full bg-primary text-on-primary font-title-sm py-4 rounded-lg flex items-center justify-center gap-stack-sm shadow-md active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined">chat</span>
+                Message Manager
+            </button>
+<button class="w-full bg-surface-container-highest text-on-surface font-title-sm py-4 rounded-lg flex items-center justify-center gap-stack-sm border border-outline-variant active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined">settings_suggest</span>
+                Manage Connection
+            </button>
+</section>
+</main>
+<!-- Contextual FAB (Restricted Use per protocol: Suppressed on Details) -->
+<!-- FAB is hidden because this is a Profile/Details screen -->
+<!-- Persistent Bottom Bar for Mobile Ecosystem -->
+<nav class="fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest border-t border-outline-variant px-stack-md flex items-center justify-around z-50">
+<button class="flex flex-col items-center justify-center text-on-surface-variant gap-0.5">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-medium">Dashboard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant gap-0.5">
+<span class="material-symbols-outlined">add_notes</span>
+<span class="text-[10px] font-medium">Voucher</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant gap-0.5">
+<span class="material-symbols-outlined">history</span>
+<span class="text-[10px] font-medium">History</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary gap-0.5">
+<span class="material-symbols-outlined font-variation-settings-fill" style="font-variation-settings: 'FILL' 1;">handshake</span>
+<span class="text-[10px] font-bold">Suppliers</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant gap-0.5">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-medium">Settings</span>
+</button>
+</nav>
+        <script src="loading-overlay.js" data-message="Cargando..." data-icon="autorenew" data-min-time="300"></script>
+<script>
+        function switchTab(tab) {
+            const histBtn = document.getElementById('tab-history');
+            const metrBtn = document.getElementById('tab-metrics');
+            const histCont = document.getElementById('content-history');
+            const metrCont = document.getElementById('content-metrics');
+
+            if (tab === 'history') {
+                histBtn.classList.add('text-primary', 'border-primary');
+                histBtn.classList.remove('text-on-surface-variant', 'border-transparent');
+                metrBtn.classList.add('text-on-surface-variant', 'border-transparent');
+                metrBtn.classList.remove('text-primary', 'border-primary');
+                
+                histCont.classList.remove('hidden');
+                metrCont.classList.add('hidden');
+            } else {
+                metrBtn.classList.add('text-primary', 'border-primary');
+                metrBtn.classList.remove('text-on-surface-variant', 'border-transparent');
+                histBtn.classList.add('text-on-surface-variant', 'border-transparent');
+                histBtn.classList.remove('text-primary', 'border-primary');
+                
+                metrCont.classList.remove('hidden');
+                histCont.classList.add('hidden');
+            }
+        }
+    </script>
+</body></html>

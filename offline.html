@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Suit - Sin Conexión</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pulse-slow {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        .shadow-soft {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+        }
+        .offline-icon {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        }
+        .btn-primary {
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+        }
+        .btn-outline {
+            transition: all 0.2s ease;
+        }
+        .btn-outline:hover {
+            background-color: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md mx-auto animate-fade-in-up">
+
+        <!-- Icono de estado offline -->
+        <div class="w-28 h-28 offline-icon rounded-full flex items-center justify-center mx-auto mb-6 shadow-soft pulse-slow">
+            <span class="material-symbols-outlined text-6xl text-primary">cloud_off</span>
+        </div>
+
+        <h1 class="font-display-lg text-3xl md:text-4xl text-on-surface text-center mb-3 font-extrabold tracking-tight">
+            Sin Conexión
+        </h1>
+
+        <p class="text-body-md text-on-surface-variant text-center mb-6 max-w-sm mx-auto">
+            No estás conectado a internet en este momento.<br>
+            Algunas funciones pueden no estar disponibles.
+        </p>
+
+        <!-- Tarjeta de funciones offline -->
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-5 mb-6 shadow-soft">
+            <p class="font-label-bold text-xs text-on-surface-variant uppercase tracking-wider mb-3 flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm text-primary">checklist</span>
+                Funciones disponibles offline
+            </p>
+            <ul class="space-y-2.5 text-body-sm text-on-surface-variant">
+                <li class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span>
+                    Panel de Gestion (Resumen de rendimiento / datos locales)
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span>
+                    Ver vales guardados localmente
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span>
+                    Lectura de contenido literario / Potenciar tu libertad financiera
+                </li>
+            </ul>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex flex-col sm:flex-row gap-3">
+        </div>
+
+        <!-- Estado de conexión en tiempo real -->
+        <div class="mt-6 pt-5 border-t border-outline-variant">
+            <div class="flex items-center justify-center gap-3 text-body-sm text-on-surface-variant">
+                <span id="status-led" class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+                <span id="status-text" class="font-medium">Verificando conexión...</span>
+            </div>
+            <!-- Barra de progreso para redirección (opcional) -->
+            <div id="progress-container" class="mt-3 hidden w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+                <div id="progress-bar" class="bg-primary h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Pie de página -->
+        <p class="mt-8 text-on-surface-variant text-[10px] text-center">
+            &copy; 2026 Suit · Todos los derechos reservados
+        </p>
+    </div>
+
+    <script>
+        // ========== MONITOREO DE CONEXIÓN ==========
+        const statusLed = document.getElementById('status-led');
+        const statusText = document.getElementById('status-text');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        let redirectTimer = null;
+        let progressInterval = null;
+
+        function updateConnectionStatus() {
+            if (navigator.onLine) {
+                // Conexión restablecida
+                statusLed.className = 'w-2.5 h-2.5 rounded-full bg-green-500';
+                statusText.textContent = '¡Conexión restablecida! Redirigiendo...';
+                progressContainer.classList.remove('hidden');
+
+                // Iniciar barra de progreso
+                let progress = 0;
+                if (progressInterval) clearInterval(progressInterval);
+                progressInterval = setInterval(() => {
+                    progress += 2;
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                        progressInterval = null;
+                    }
+                    progressBar.style.width = Math.min(progress, 100) + '%';
+                }, 60);
+
+                // Redirigir después de 3 segundos
+                if (redirectTimer) clearTimeout(redirectTimer);
+                redirectTimer = setTimeout(() => {
+                    window.location.href = 'lobby.html';
+                }, 3000);
+
+            } else {
+                // Sin conexión
+                statusLed.className = 'w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse';
+                statusText.textContent = 'Sin conexión a internet';
+                progressContainer.classList.add('hidden');
+                if (progressInterval) {
+                    clearInterval(progressInterval);
+                    progressInterval = null;
+                }
+                progressBar.style.width = '0%';
+                if (redirectTimer) {
+                    clearTimeout(redirectTimer);
+                    redirectTimer = null;
+                }
+            }
+        }
+
+        // Escuchar cambios de conectividad
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+
+        // Verificar estado inicial
+        updateConnectionStatus();
+
+        // Limpiar temporizadores al salir
+        window.addEventListener('beforeunload', function() {
+            if (redirectTimer) clearTimeout(redirectTimer);
+            if (progressInterval) clearInterval(progressInterval);
+        });
+
+        // Pequeña animación de entrada (fade-in)
+        document.querySelector('.animate-fade-in-up')?.classList.add('opacity-0');
+        setTimeout(() => {
+            document.querySelector('.animate-fade-in-up')?.classList.remove('opacity-0');
+            document.querySelector('.animate-fade-in-up')?.classList.add('transition-opacity', 'duration-500', 'ease-out');
+        }, 50);
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+# SUIT - CONTEXTO COMPLETO DEL PROYECTO
+
+## 1. IDENTIDAD
+- Nombre: Suit
+- Tipo: Plataforma B2B de gestión de ventas y vales (vouchers)
+- Público: Agentes/Managers + Proveedores
+- Valor: Conexión entre red de distribución y proveedores
+
+## 2. ROLES Y FLUJOS
+
+### MANAGER / AGENTE
+- Archivos: home-managers.html, vouche.html, histori-vouche.html, supplier-managers.html, settings.html
+- Acciones:
+  - Crear vales (con documentos ID frontal+posterior)
+  - Ver historial de vales creados
+  - Vincular proveedores mediante código
+  - Gestionar perfil y configuración
+- Flujo vale: Manager crea → adjunta ID cliente → envía a proveedor
+
+### PROVEEDOR
+- Archivos: home-supplier.html, histori-vouche-receive.html, manage-managers.html, settings.html
+- Acciones:
+  - Recibir vales pendientes de aprobación
+  - Aprobar/rechazar con chat integrado
+  - Ver historial de vales recibidos
+  - Gestionar solicitudes de vinculación de managers
+  - Aprobar/rechazar managers que solicitan enlace
+
+### USUARIO GENERAL
+- Archivos: login.html, signup.html, index.html
+- Landing pública con dos CTAs: Acceso Proveedores / Acceso Gestores
+- Registro con selector de tipo de cuenta (provider/manager)
+
+## 3. SISTEMA DE DISEÑO (Tailwind + Material)
+
+### PALETA DE COLORES CLAVE
+```css
+primary: "#004ac6"           // Azul principal
+primary-container: "#2563eb" // Azul contenedor
+surface: "#f7f9fb"           // Fondo general
+surface-container-lowest: "#ffffff" // Tarjetas blancas
+outline-variant: "#c3c6d7"   // Bordes suaves
+error: "#ba1a1a"             // Errores
+tertiary: "#943700"          // Acento naranja
+on-surface: "#191c1e"        // Texto principal
+on-surface-variant: "#434655" // Texto secundario
+
+
+gutter: 16px, stack-sm: 8px, stack-md: 16px, stack-lg: 32px, container-padding: 24px
+
+
+
+Este archivo contiene **todo** lo que necesitas para retomar el proyecto en cualquier conversación nueva. Está optimizado para que yo como IA pueda:
+
+1. **Entender la estructura completa** de archivos y roles
+2. **Replicar el diseño** con las clases Tailwind exactas
+3. **Mantener consistencia** de colores, espaciados y tipografía
+4. **Saber qué componentes** son reutilizables
+5. **Conocer los flujos** de negocio entre manager y proveedor
+6. **Aplicar el patrón responsive** correcto
+7. **Usar las funciones JS** existentes
+
+¿Necesitas que ajuste algo del archivo o que lo formatee de otra manera?
+
+
+*****************************************************************
+
+CONTEXTO PARA EL MODELO DE NEGOCIO PARA LOS GESTORES  //  TRABAJO DE MANERA ONLINE
+
+AHORA TE PROPORCIONARE EL CONTEXTO DEL MODELO DE NEGOCIO QUE QUIERO TENER.
+
+bien sabes que son 2 alcances 
+1. El gestor y 2. El proveedor
+
+son algo como dos secciones diferentes pero que comparten el mismo index que devera de dirigir al usuario a su respectiva secion {home-..}, aqui necesito que la web integre la tecnlogia pwa, tambien toda la seccion del gestoo sea todas sus vistas permitan el trabajo basico de manera  ofline sin obligacion de registrarce en la web [plan de pago (beneficio de consumir todas las estadisticas de manera online, comunicacion con proveedores y todos los datos enriquecidos por la db etc..)], aqui de esta manera de trabajo offline se tendria que trabajar con db locales en el dispocitivo a la que la web tenga asceso para que se creen todas las tablas necesarias para todos los datos que muestra y consumen toas las vistas, sabiendo que el usuario puede contratar un plan de pago que le permita utilizar la cominicacion online y los beneficios estas tablas locales deven de estar preparadas para una estructura compatible para actualizaciones en ambos sentidos es decir poder actualizar informacion hacia la db online como actualizarce desde la db online.
+
+para las vistas que si pueden funcionar de manera offline consumiendo solo sus propios datos guardados de manera local  para el gestor estan las siguientes vistas,
+
+home-managers.html;  vouche.html;  histori-vouche.html; teniendo en cuanta que aquellos datos y metricas que neceitan conexion a la db online deven de estar desavilitadas,
+
+
+
+
+
+┌─────────────────────────────────────────────────────────────┐
+│                    SUIT - OFFLINE FIRST                      │
+├─────────────────────────────────────────────────────────────┤
+│  Index → Detecta rol → Redirige a home-{rol}.html           │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  🟢 GESTOR (Offline + Online opcional)                      │
+│  ├── home-managers.html     (dashboard local)               │
+│  ├── vouche.html            (crear vales offline)           │
+│  ├── histori-vouche.html    (historial local)               │
+│  └── settings.html          (config + plan)                 │
+│                                                              │
+│  🔵 PROVEEDOR (Siempre online - fase 2)                     │
+│  └── home-supplier.html     (requiere conexión)             │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+
+
+paso 6
+
+index.html (Landing PWA)
+    ↓
+Detecta sesión guardada → Redirige automáticamente
+    ↓
+Selección manual de rol → Login → Guarda sesión
+    ↓
+┌─────────────────────┐     ┌─────────────────────┐
+│   home-managers.html │     │   home-supplier.html │
+│   (Offline-first)     │     │   (Online requerido)  │
+├─────────────────────┤     ├─────────────────────┤
+│ • Dashboard local    │     │ • Dashboard online   │
+│ • Crear vales        │     │ • Aprobar vales      │
+│ • Historial local    │     │ • Gestionar gestores │
+│ • Sincronización     │     │                      │
+└─────────────────────┘     └─────────────────────┘
+

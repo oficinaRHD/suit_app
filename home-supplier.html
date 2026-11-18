@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Suit">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="theme-color" content="#004ac6">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#d5e3fd",
+                        "primary": "#004ac6",
+                        "tertiary": "#943700",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary-fixed": "#00174b",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "error-container": "#ffdad6",
+                        "background": "#f7f9fb",
+                        "inverse-primary": "#b4c5ff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#2563eb",
+                        "outline-variant": "#c3c6d7",
+                        "surface-container": "#eceef0",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "outline": "#737686",
+                        "on-tertiary-container": "#ffede6",
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface-tint": "#0053db",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-variant": "#e0e3e5",
+                        "surface": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary": "#515f74",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#bc4800",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#434655",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#eeefff",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-container": "#57657b",
+                        "secondary-fixed": "#d5e3fd",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "base": "4px",
+                        "stack-sm": "8px",
+                        "container-padding": "24px",
+                        "stack-lg": "32px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c3c6d7;
+            border-radius: 10px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        @media (max-width: 768px) {
+            .responsive-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .responsive-table table {
+                min-width: 700px;
+            }
+        }
+
+        .sidebar-overlay {
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 640px) {
+            button,
+            [onclick],
+            .cursor-pointer {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            .action-buttons-mobile button {
+                min-height: 40px;
+            }
+        }
+
+        /* Toast */
+        #toast {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #toast.hidden {
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+        }
+
+        /* Skeleton shimmer */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0
+            }
+
+            100% {
+                background-position: 200% 0
+            }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #eceef0 25%, #f2f4f6 50%, #eceef0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 4px;
+        }
+
+        /* Message bubble animation */
+        @keyframes bubbleIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .bubble-in {
+            animation: bubbleIn 0.2s ease forwards;
+        }
+
+        /* Spin icon */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spinning {
+            display: inline-block;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* Fix para Badge Premium */
+        button.premium-locked .material-symbols-outlined:last-of-type {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            font-size: 16px;
+            background: #fbbf24;
+            color: #1e293b;
+            border-radius: 9999px;
+            padding: 2px;
+            line-height: 1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            opacity: 1 !important;
+            pointer-events: auto;
+            z-index: 2;
+            margin-left: 0 !important;
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen overflow-hidden md:overflow-auto">
+
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay"
+        class="md:hidden fixed inset-0 bg-on-background/40 backdrop-blur-sm z-40 hidden transition-opacity duration-300"
+        onclick="closeMobileSidebar()"></div>
+
+    <!-- SideNavBar -->
+    <aside id="sideNavBar"
+        class="h-screen w-64 fixed left-0 top-0 bg-surface dark:bg-inverse-surface border-r border-outline-variant dark:border-outline flex flex-col py-stack-lg z-50 transition-transform duration-300 -translate-x-full md:translate-x-0 md:relative md:z-auto">
+        <div class="px-6 mb-10 flex justify-between items-center md:justify-start">
+            <div>
+                <h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">Suit</h1>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Panel de Proveedor</p>
+            </div>
+            <button id="closeMobileSidebar" class="md:hidden p-2 text-on-surface-variant hover:text-primary">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <nav class="flex-1 space-y-1">
+            <a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container rounded-lg transition-all text-label-bold font-label-bold group"
+                href="home-supplier.html">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span>
+                <span>Panel</span>
+                <span
+                    class="nav-badge-messages-count hidden ml-auto bg-error text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">0</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-on-secondary-fixed-variant hover:bg-surface-container-highest rounded-lg transition-all text-label-bold font-label-bold group"
+                href="histori-vouche-receive.html">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">receipt_long</span>
+                <span>Historial de Vales</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-on-secondary-fixed-variant hover:bg-surface-container-highest rounded-lg transition-all text-label-bold font-label-bold group"
+                href="manage-managers.html">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">handshake</span>
+                <span>Gestores</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="financial-books.html">
+                <span class="material-symbols-outlined"
+                    style="font-variation-settings:'FILL' 1;">menu_book</span><span>Biblioteca</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-on-secondary-fixed-variant hover:bg-surface-container-highest rounded-lg transition-all text-label-bold font-label-bold group"
+                href="settings.html">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+                <span>Ajustes</span>
+            </a>
+        </nav>
+        <div class="px-6 pt-6 mt-auto border-t border-outline-variant">
+            <div class="flex items-center gap-3">
+                <div id="sidebar-avatar"
+                    class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-sm overflow-hidden">
+                    <span id="sidebar-initials">--</span>
+                </div>
+                <div class="flex-1">
+                    <p id="sidebar-name" class="font-label-bold text-label-bold text-on-surface">Cargando...</p>
+                    <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Proveedor</p>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2 text-on-surface-variant">
+                <span class="material-symbols-outlined text-[18px]" id="sync-icon">cloud_done</span>
+                <span class="font-label-bold text-label-bold" id="sync-label">Sincronizado</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Canvas -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden w-full">
+        <!-- TopAppBar -->
+        <header
+            class="flex justify-between items-center w-full px-4 md:px-container-padding h-16 bg-surface-bright border-b border-outline-variant sticky top-0 z-40">
+            <div class="flex items-center gap-4 flex-1 max-w-xl">
+                <div class="relative w-full">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input id="search-input"
+                        class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-sm text-body-sm"
+                        placeholder="Buscar vales por ID o cliente..." type="text" />
+                </div>
+            </div>
+            <div class="flex items-center gap-2 md:gap-4">
+                <button id="refresh-btn"
+                    class="p-2 text-on-surface-variant hover:text-primary transition-transform active:scale-90"
+                    title="Sincronizar">
+                    <span class="material-symbols-outlined" id="refresh-icon">sync</span>
+                </button>
+                <div class="relative">
+                    <button
+                        class="p-2 text-on-surface-variant hover:text-primary transition-transform active:scale-90 relative hidden">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span
+                            class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface-bright"></span>
+                    </button>
+                </div>
+                <div id="header-avatar-wrap"
+                    class="hidden md:flex w-8 h-8 rounded-full border border-outline-variant overflow-hidden items-center justify-center bg-primary-container text-on-primary-container text-xs font-bold">
+                    <span id="header-initials">--</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-container-padding space-y-4 md:space-y-stack-lg custom-scrollbar"
+            style="margin-bottom:5rem;">
+
+            <!-- Header Section -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3">
+                <div>
+                    <h2 class="font-display-lg text-display-lg text-on-background text-2xl md:text-3xl">Vales Pendientes
+                    </h2>
+                    <p class="font-body-sm md:font-body-md text-body-sm text-on-surface-variant">Gestión de colas de
+                        aprobación de vales entrantes.</p>
+                </div>
+                <div class="flex gap-stack-sm w-full sm:w-auto">
+                    <div
+                        class="bg-surface-container-highest px-3 py-2 sm:px-4 sm:py-2 rounded-lg border border-outline-variant flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
+                        <span class="font-label-bold text-label-bold text-on-surface-variant uppercase">Total
+                            Pendientes</span>
+                        <span id="stat-pending" class="font-title-sm text-title-sm text-primary">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Table -->
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                <div class="responsive-table overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[700px] md:min-w-0">
+                        <thead>
+                            <tr class="bg-surface-container-low border-b border-outline-variant">
+                                <th
+                                    class="px-4 md:px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase">
+                                    Voucher ID</th>
+                                <th
+                                    class="px-4 md:px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase">
+                                    Gestor</th>
+                                <th
+                                    class="px-4 md:px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase">
+                                    Cliente</th>
+                                <th
+                                    class="px-4 md:px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase text-right">
+                                    Monto</th>
+                                <th
+                                    class="px-4 md:px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase">
+                                    Fecha</th>
+                                <th
+                                    class="px-4 md:px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase">
+                                    Estado</th>
+                                <th
+                                    class="px-4 md:px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase text-center">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vouchers-tbody" class="divide-y divide-outline-variant">
+                            <!-- Rows injected by JS -->
+                            <tr id="table-loading">
+                                <td colspan="7"
+                                    class="px-6 py-12 text-center text-on-surface-variant font-body-sm text-body-sm">
+                                    <span
+                                        class="material-symbols-outlined spinning text-primary text-3xl block mx-auto mb-2">sync</span>
+                                    Cargando vales...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Metrics Quick Glance -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-gutter">
+                <div
+                    class="bg-surface-container-lowest p-4 md:p-6 rounded-xl border border-outline-variant flex flex-col gap-2">
+                    <span class="font-label-bold text-label-bold text-on-surface-variant uppercase">Tiempo Promedio
+                        Respuesta</span>
+                    <span class="font-display-lg text-display-lg text-on-background text-2xl md:text-3xl">1.4 hrs</span>
+                    <span class="text-primary font-label-bold flex items-center gap-1 text-sm">
+                        <span class="material-symbols-outlined text-sm">trending_up</span> -15% vs ayer
+                    </span>
+                </div>
+                <div
+                    class="bg-surface-container-lowest p-4 md:p-6 rounded-xl border border-outline-variant flex flex-col gap-2">
+                    <span class="font-label-bold text-label-bold text-on-surface-variant uppercase">Tasa de
+                        Aprobación</span>
+                    <span id="stat-approval"
+                        class="font-display-lg text-display-lg text-on-background text-2xl md:text-3xl">—%</span>
+                    <span class="text-primary font-label-bold flex items-center gap-1 text-sm">
+                        <span class="material-symbols-outlined text-sm">trending_up</span> Histórico
+                    </span>
+                </div>
+                <div
+                    class="bg-surface-container-lowest p-4 md:p-6 rounded-xl border border-outline-variant flex flex-col gap-2 sm:col-span-2 md:col-span-1">
+                    <span class="font-label-bold text-label-bold text-on-surface-variant uppercase">Vales Completados
+                        Hoy</span>
+                    <span id="stat-today"
+                        class="font-display-lg text-display-lg text-on-background text-2xl md:text-3xl">—</span>
+                    <span class="text-on-surface-variant font-label-bold flex items-center gap-1 text-sm">
+                        <span class="material-symbols-outlined text-sm">today</span> Hoy
+                    </span>
+                </div>
+            </div>
+             <footer
+                class="w-full py-stack-lg px-container-padding flex justify-between items-center bg-surface border-t border-outline-variant"
+                style="margin-bottom:0.5rem;">
+                <span class="text-label-bold font-label-bold text-on-surface-variant">© 2026 Pixel Logic Solutions. Todos los derechos
+                    reservados.</span>
+            </footer>
+        </div>
+    </main>
+
+    <!-- ─────────────────────────────────────────────────
+         Detail View Drawer
+    ───────────────────────────────────────────────── -->
+    <div class="fixed inset-0 z-[60] hidden" id="voucher-detail">
+        <div class="absolute inset-0 bg-on-background/40 backdrop-blur-sm" onclick="closeDetail()"></div>
+        <div
+            class="absolute right-0 top-0 h-screen w-full max-w-2xl bg-surface shadow-2xl flex flex-col transform transition-transform duration-300 translate-x-full">
+            <div class="p-4 md:p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-background text-xl md:text-2xl">Detalles del
+                        Vale <span id="detail-id-label"></span></h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Revisión Exhaustiva de Operaciones</p>
+                </div>
+                <button class="p-2 hover:bg-surface-container rounded-full" onclick="closeDetail()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 md:space-y-8 custom-scrollbar">
+                <!-- ID Documentation -->
+                <section>
+                    <h4 class="font-title-sm text-title-sm text-primary mb-3 md:mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined">fingerprint</span> Documentación del Cliente
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <span
+                                class="font-label-bold text-label-bold text-on-surface-variant uppercase">Identificación
+                                (Anverso)</span>
+                            <div id="detail-front-id"
+                                class="aspect-[1.6/1] bg-surface-variant rounded-lg overflow-hidden border border-outline-variant group relative cursor-zoom-in">
+                                <div class="w-full h-full skeleton"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <span
+                                class="font-label-bold text-label-bold text-on-surface-variant uppercase">Identificación
+                                (Reverso)</span>
+                            <div id="detail-back-id"
+                                class="aspect-[1.6/1] bg-surface-variant rounded-lg overflow-hidden border border-outline-variant group relative cursor-zoom-in">
+                                <div class="w-full h-full skeleton"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Product Breakdown -->
+                <section>
+                    <h4 class="font-title-sm text-title-sm text-primary mb-3 md:mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined">inventory_2</span> Desglose del Producto
+                    </h4>
+                    <div class="bg-surface-container-low rounded-xl border border-outline-variant overflow-hidden">
+                        <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-y-4">
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Producto
+                                </p>
+                                <p id="detail-product" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Cliente</p>
+                                <p id="detail-client" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Teléfono
+                                </p>
+                                <p id="detail-phone" class="font-data-mono text-data-mono text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Dirección
+                                </p>
+                                <p id="detail-address" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Correo</p>
+                                <p id="detail-email" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Notas</p>
+                                <p id="detail-notes" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Financials -->
+                <section>
+                    <h4 class="font-title-sm text-title-sm text-primary mb-3 md:mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined">account_balance_wallet</span> Resumen Financiero
+                    </h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center py-2 border-b border-outline-variant">
+                            <span class="font-body-md text-body-md text-on-surface">Precio Base</span>
+                            <span id="detail-base" class="font-data-mono text-data-mono text-on-surface">—</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-outline-variant">
+                            <span class="font-body-md text-body-md text-on-surface">Comisión</span>
+                            <span id="detail-commission" class="font-data-mono text-data-mono text-on-surface">—</span>
+                        </div>
+                        <div class="flex justify-between items-center py-4">
+                            <span class="font-title-sm text-title-sm text-on-surface">Total del Vale</span>
+                            <span id="detail-total"
+                                class="font-display-lg text-display-lg text-primary text-2xl md:text-3xl">—</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- Footer Actions -->
+            <div
+                class="p-4 md:p-6 border-t border-outline-variant bg-surface-container-low flex flex-col sm:flex-row gap-3 md:gap-4">
+                <button id="detail-approve-btn"
+                    class="py-3 px-6 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary/90 transition-all shadow-md active:scale-[0.98] w-full sm:flex-1 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-xl">check_circle</span> Aprobar Vale
+                </button>
+                <button id="detail-reject-btn"
+                    class="py-3 px-6 border-2 border-error text-error font-bold rounded-lg hover:bg-error/5 transition-all active:scale-[0.98] w-full sm:flex-1 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-xl">cancel</span> Rechazar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─────────────────────────────────────────────────
+         Chat Drawer
+    ───────────────────────────────────────────────── -->
+    <div class="fixed inset-0 z-[70] hidden overflow-hidden" id="chat-drawer">
+        <div class="absolute inset-0 bg-on-background/20" onclick="closeChat()"></div>
+        <div
+            class="absolute right-0 top-0 h-screen w-full sm:w-96 bg-surface-container-lowest shadow-2xl flex flex-col border-l border-outline-variant transform transition-transform duration-300 translate-x-full">
+            <div class="p-4 md:p-6 border-b border-outline-variant bg-surface flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary">chat_bubble</span>
+                    <div>
+                        <h3 class="font-title-sm text-title-sm text-on-background text-base md:text-lg" id="chat-title">
+                            Feedback del Vale</h3>
+                        <p class="font-label-bold text-label-bold text-on-surface-variant text-xs" id="chat-subtitle">
+                            Gestor: —</p>
+                    </div>
+                </div>
+                <button class="p-2 hover:bg-surface-container rounded-full" onclick="closeChat()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <!-- Message Area -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 custom-scrollbar bg-background"
+                id="message-container">
+                <p id="chat-loading" class="text-center text-on-surface-variant font-body-sm text-body-sm pt-6">Cargando
+                    mensajes...</p>
+            </div>
+            <!-- Quick Suggestions -->
+            <div class="p-3 bg-surface border-t border-outline-variant flex flex-wrap gap-2">
+                <button
+                    class="text-[11px] font-bold px-3 py-1 border border-outline-variant rounded-full hover:bg-secondary-container transition-colors"
+                    onclick="appendQuickNote('ID ilegible, por favor reenviar.')">ID Ilegible</button>
+                <button
+                    class="text-[11px] font-bold px-3 py-1 border border-outline-variant rounded-full hover:bg-secondary-container transition-colors"
+                    onclick="appendQuickNote('Falta dirección completa.')">Falta Dirección</button>
+                <button
+                    class="text-[11px] font-bold px-3 py-1 border border-outline-variant rounded-full hover:bg-secondary-container transition-colors"
+                    onclick="appendQuickNote('Falta firma del cliente.')">Falta Firma</button>
+            </div>
+            <!-- Input Area -->
+            <div class="p-3 md:p-4 border-t border-outline-variant bg-surface">
+                <div class="flex gap-2">
+                    <textarea id="chat-input"
+                        class="flex-1 bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-sm text-body-sm resize-none"
+                        placeholder="Escribir comentario..." rows="2"></textarea>
+                    <button id="send-btn"
+                        class="bg-primary text-on-primary w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center hover:bg-primary/90 transition-all self-end active:scale-90"
+                        onclick="sendMessage()">
+                        <span class="material-symbols-outlined text-xl">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant z-50 flex items-center justify-around h-16 px-2">
+        <a class="flex flex-col items-center gap-1 text-primary relative" href="home-supplier.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span>
+            <span
+                class="nav-badge-messages-dot hidden absolute top-0 right-3 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface"></span>
+            <span class="text-[10px] font-bold">Panel</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="histori-vouche-receive.html">
+            <span class="material-symbols-outlined">history</span>
+            <span class="text-[10px]">Historial</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="manage-managers.html">
+            <span class="material-symbols-outlined">handshake</span>
+            <span class="text-[10px]">Gestores</span>
+        </a>
+         <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="financial-books.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">menu_book</span>
+            <span class="text-[10px] font-bold">Libros</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="settings.html">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="text-[10px]">Ajustes</span>
+        </a>
+    </nav>
+
+    <script src="loading-overlay.js" data-message="Cargando..." data-icon="autorenew" data-min-time="300"></script>
+
+    <!-- Toast -->
+    <div id="toast"
+        class="fixed bottom-24 md:bottom-6 left-1/2 -translate-x-1/2 z-[100] px-5 py-3 rounded-xl font-label-bold text-label-bold shadow-lg hidden transition-all duration-300 flex items-center gap-2">
+    </div>
+
+    <script src="db-manager.js"></script>
+    <script src="register-sw.js"></script>
+    <script src="install-pwa.js"></script>
+    <!-- ─────────────────────────────────────────────────
+         Supabase client (inline — replace with your
+         shared supabase-client.js script tag if preferred)
+    ───────────────────────────────────────────────── -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+
+    <script src="subscription.js"></script>
+
+    <script>
+
+        // ── App state ───────────────────────────────────────────────────
+        let currentProfile = null;
+        let allVouchers = [];           // full list from RPC
+        let filteredVouchers = [];
+        let activeVoucherId = null;         // detail drawer
+        let chatVoucherId = null;         // chat drawer
+        let realtimeChannel = null;         // Supabase realtime channel
+
+        // Unread messages badge state
+        let unreadCounts = {};              // { [voucherId]: count }
+        let globalBadgeChannel = null;
+
+
+        // ── Helpers ─────────────────────────────────────────────────────
+        function fmt(amount) {
+            return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(amount);
+        }
+        function fmtDate(iso) {
+            if (!iso) return '—';
+            return new Date(iso).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+        function fmtTime(iso) {
+            if (!iso) return '';
+            return new Date(iso).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+        }
+        function initials(name) {
+            if (!name) return '??';
+            return name.trim().split(/\s+/).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+        }
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            const colors = { info: 'bg-on-surface text-inverse-on-surface', success: 'bg-primary text-on-primary', error: 'bg-error text-on-error' };
+            t.className = `fixed bottom-24 md:bottom-6 left-1/2 -translate-x-1/2 z-[100] px-5 py-3 rounded-xl font-label-bold text-label-bold shadow-lg transition-all duration-300 flex items-center gap-2 ${colors[type] || colors.info}`;
+            t.innerHTML = `<span class="material-symbols-outlined text-lg">${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}</span>${msg}`;
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 3500);
+        }
+
+        const VOUCHER_IMAGES_BUCKET = 'vouches';
+        const SIGNED_URL_TTL = 300;
+
+        async function getVoucherImageUrl(path) {
+            if (!path) return null;
+            if (path.startsWith('http')) return path;
+            const { data, error } = await window.suitSupabase.storage
+                .from(VOUCHER_IMAGES_BUCKET)
+                .createSignedUrl(path, SIGNED_URL_TTL);
+            if (error) {
+                console.warn('[Storage] No se pudo generar URL firmada:', error);
+                return null;
+            }
+            return data?.signedUrl ?? null;
+        }
+
+        // ── Auth guard ──────────────────────────────────────────────────
+        async function init() {
+            const { data: { session } } = await window.suitSupabase.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            const { data: profile, error } = await window.suitSupabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+
+            if (error || !profile) { window.location.href = 'login.html'; return; }
+
+            // Guard de rol (UX): sin rol -> select-role.html, gestor -> su panel.
+            // La seguridad real la impone el servidor (RLS / RPC).
+            if (!suitEnforceRole(profile, 'provider')) return;
+
+            currentProfile = profile;
+            renderProfileUI(profile);
+            await loadVouchers();
+            await loadStats();
+            await loadUnreadCounts();
+            subscribeToGlobalMessageBadges();
+
+            setupSearch();
+            setupRefreshBtn();
+
+            if (currentProfile) {
+                if(typeof subscribeToPushNotifications === 'function') {
+                    subscribeToPushNotifications();
+                }
+            }
+
+
+        }
+
+        // ── Profile UI ──────────────────────────────────────────────────
+        function renderProfileUI(p) {
+            const ini = initials(p.full_name);
+            document.getElementById('sidebar-name').textContent = p.full_name || p.email;
+            document.getElementById('sidebar-initials').textContent = ini;
+            document.getElementById('header-initials').textContent = ini;
+
+            if (p.avatar_url) {
+                const avatarEl = document.getElementById('sidebar-avatar');
+                avatarEl.innerHTML = `<img src="${p.avatar_url}" class="w-full h-full object-cover" alt="Avatar"/>`;
+                const headerWrap = document.getElementById('header-avatar-wrap');
+                headerWrap.innerHTML = `<img src="${p.avatar_url}" class="w-full h-full object-cover" alt="Avatar"/>`;
+            }
+        }
+
+        // ── Vouchers ────────────────────────────────────────────────────
+        async function loadVouchers() {
+            setSyncState('loading');
+            const { data, error } = await window.suitSupabase.rpc('get_pending_vouchers_for_provider');
+            setSyncState('done');
+
+            if (error) { showToast('Error al cargar vales', 'error'); console.error(error); return; }
+
+            allVouchers = data ?? [];
+            filteredVouchers = [...allVouchers];
+            renderTable(filteredVouchers);
+        }
+
+        function renderTable(vouchers) {
+            const tbody = document.getElementById('vouchers-tbody');
+
+            if (!vouchers.length) {
+                tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="px-6 py-16 text-center">
+                        <span class="material-symbols-outlined text-4xl text-on-surface-variant block mx-auto mb-3">inbox</span>
+                        <p class="font-body-md text-body-md text-on-surface-variant">No hay vales pendientes</p>
+                    </td>
+                </tr>`;
+            } else {
+                tbody.innerHTML = vouchers.map(v => {
+                    const ini = initials(v.manager_name);
+                    const avatarHtml = v.manager_avatar
+                        ? `<img src="${v.manager_avatar}" class="w-6 h-6 rounded-full object-cover" alt="${v.manager_name}"/>`
+                        : `<div class="w-6 h-6 rounded-full bg-tertiary-container flex items-center justify-center text-[10px] text-on-tertiary-container font-bold">${ini}</div>`;
+
+                    return `
+                <tr class="hover:bg-surface-container transition-colors cursor-pointer" onclick="openDetail('${v.id}')">
+                    <td class="px-4 md:px-6 py-4 font-data-mono text-data-mono text-primary text-sm">${v.voucher_number}</td>
+                    <td class="px-4 md:px-6 py-4">
+                        <div class="flex items-center gap-2">
+                            ${avatarHtml}
+                            <span class="font-body-sm text-body-sm text-on-surface">${v.manager_name}</span>
+                        </div>
+                    </td>
+                    <td class="px-4 md:px-6 py-4 font-body-sm text-body-sm text-on-surface">${v.client_name}</td>
+                    <td class="px-4 md:px-6 py-4 font-data-mono text-data-mono text-on-surface text-right">${fmt(v.total_amount)}</td>
+                    <td class="px-4 md:px-6 py-4 font-body-sm text-body-sm text-on-surface-variant">${fmtDate(v.sent_at || v.created_at)}</td>
+                    <td class="px-4 md:px-6 py-4">
+                        <span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[11px] font-bold rounded uppercase">Pendiente</span>
+                    </td>
+                    <td class="px-4 md:px-6 py-4">
+                        <div class="flex items-center justify-center gap-1 md:gap-2" onclick="event.stopPropagation()">
+                            <button class="p-2 text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Aprobar" onclick="resolveVoucher('${v.id}','approved')">
+                                <span class="material-symbols-outlined text-xl">check_circle</span>
+                            </button>
+                            <button class="p-2 text-error hover:bg-error/10 rounded-lg transition-colors" title="Rechazar" onclick="resolveVoucher('${v.id}','rejected')">
+                                <span class="material-symbols-outlined text-xl">cancel</span>
+                            </button>
+                            <button data-premium="sms_messaging" class="relative p-2 text-on-surface-variant hover:text-primary transition-colors" title="Mensajes" onclick="openChat('${v.id}','${v.manager_name}')">
+                                ${(unreadCounts[v.id] || 0) > 0 ? `<span class="absolute -top-1 -left-1 bg-error text-white text-[9px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1 leading-none z-10">${unreadCounts[v.id] > 9 ? '9+' : unreadCounts[v.id]}</span>` : ''}
+                                <span class="material-symbols-outlined text-xl relative z-0">forum</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>`;
+                }).join('');
+            }
+
+            // Reparación crucial: si el DOM de la tabla se dibuja de nuevo (como al buscar, cargar o recibir msjs),
+            // le decimos al archivo de suscripción que vuelva a calcular y poner el candado premium.
+            setTimeout(() => {
+                if (window.SUBSCRIPTION && typeof window.SUBSCRIPTION.init === 'function') {
+                    window.SUBSCRIPTION.init();
+                }
+            }, 50);
+        }
+
+        // ── Stats ───────────────────────────────────────────────────────
+        async function loadStats() {
+            const { data, error } = await window.suitSupabase.rpc('get_provider_stats');
+            if (error) return;
+            document.getElementById('stat-pending').textContent = data?.pending_count ?? '—';
+            document.getElementById('stat-today').textContent = data?.completed_today ?? '—';
+            document.getElementById('stat-approval').textContent = data?.approval_rate != null ? `${data.approval_rate}%` : '—%';
+        }
+
+        // ── Search ──────────────────────────────────────────────────────
+        function setupSearch() {
+            document.getElementById('search-input').addEventListener('input', e => {
+                const q = e.target.value.toLowerCase().trim();
+                filteredVouchers = q
+                    ? allVouchers.filter(v =>
+                        v.voucher_number.toLowerCase().includes(q) ||
+                        v.client_name.toLowerCase().includes(q) ||
+                        v.manager_name.toLowerCase().includes(q))
+                    : [...allVouchers];
+                renderTable(filteredVouchers);
+            });
+        }
+
+        // ── Refresh btn ─────────────────────────────────────────────────
+        function setupRefreshBtn() {
+            document.getElementById('refresh-btn').addEventListener('click', async () => {
+                await loadVouchers();
+                await loadStats();
+            });
+        }
+
+        // ── Sync state indicator ─────────────────────────────────────────
+        function setSyncState(state) {
+            const icon = document.getElementById('refresh-icon');
+            const sicon = document.getElementById('sync-icon');
+            const slbl = document.getElementById('sync-label');
+            if (state === 'loading') {
+                icon.classList.add('spinning');
+                sicon.textContent = 'sync';
+                slbl.textContent = 'Sincronizando...';
+            } else {
+                icon.classList.remove('spinning');
+                sicon.textContent = 'cloud_done';
+                slbl.textContent = 'Sincronizado';
+            }
+        }
+
+        // ── Approve / Reject ─────────────────────────────────────────────
+        async function resolveVoucher(voucherId, action) {
+            const { error } = await window.suitSupabase.rpc('resolve_voucher', { p_voucher_id: voucherId, p_action: action });
+            if (error) { showToast(`Error: ${error.message}`, 'error'); return; }
+            showToast(action === 'approved' ? 'Vale aprobado ✓' : 'Vale rechazado', action === 'approved' ? 'success' : 'info');
+            closeDetail();
+            await loadVouchers();
+            await loadStats();
+        }
+
+        // ── Detail Drawer ────────────────────────────────────────────────
+        function openDetail(voucherId) {
+            activeVoucherId = voucherId;
+            const v = allVouchers.find(x => x.id === voucherId);
+            if (!v) return;
+
+            const modal = document.getElementById('voucher-detail');
+            const panel = modal.querySelector('.transform');
+
+            document.getElementById('detail-id-label').textContent = v.voucher_number;
+            document.getElementById('detail-product').textContent = v.product_name || '—';
+            document.getElementById('detail-client').textContent = v.client_name || '—';
+            document.getElementById('detail-phone').textContent = v.client_phone || '—';
+            document.getElementById('detail-address').textContent = v.client_address || '—';
+            document.getElementById('detail-email').textContent = v.client_email || '—';
+            document.getElementById('detail-notes').textContent = v.notes || '—';
+            document.getElementById('detail-base').textContent = fmt(v.base_price);
+            document.getElementById('detail-commission').textContent = `${v.commission_pct}%`;
+            document.getElementById('detail-total').textContent = fmt(v.total_amount);
+
+            // ID images
+            setDetailImage('detail-front-id', v.front_id_image);
+            setDetailImage('detail-back-id', v.back_id_image);
+
+            // Footer action buttons
+            document.getElementById('detail-approve-btn').onclick = () => resolveVoucher(voucherId, 'approved');
+            document.getElementById('detail-reject-btn').onclick = () => resolveVoucher(voucherId, 'rejected');
+
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => panel.classList.remove('translate-x-full'));
+        }
+
+        async function setDetailImage(containerId, imagePath) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="w-full h-full skeleton"></div>`;
+            const url = await getVoucherImageUrl(imagePath);
+            if (url) {
+                container.innerHTML = `
+                <img src="${url}" alt="ID" class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform" />
+                <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>`;
+            } else {
+                container.innerHTML = `
+                <div class="w-full h-full flex items-center justify-center text-on-surface-variant">
+                    <span class="material-symbols-outlined text-3xl">image_not_supported</span>
+                </div>`;
+            }
+        }
+
+        function closeDetail() {
+            const modal = document.getElementById('voucher-detail');
+            const panel = modal.querySelector('.transform');
+            panel.classList.add('translate-x-full');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+            activeVoucherId = null;
+        }
+
+        // ── Badges de mensajes no leídos ───────────────────────────────────
+        async function loadUnreadCounts() {
+            if (!window.suitSupabase) return;
+            const { data, error } = await window.suitSupabase.rpc('get_unread_message_counts');
+            if (error) { console.warn('[Unread] Error cargando conteos:', error); return; }
+            unreadCounts = {};
+            (data || []).forEach(r => { unreadCounts[r.voucher_id] = Number(r.unread_count); });
+            renderGlobalBadge();
+        }
+
+        function totalUnread() {
+            return Object.values(unreadCounts).reduce((a, b) => a + b, 0);
+        }
+
+        function renderGlobalBadge() {
+            const total = totalUnread();
+            document.querySelectorAll('.nav-badge-messages-count').forEach(el => {
+                el.textContent = total > 9 ? '9+' : String(total);
+                el.classList.toggle('hidden', total === 0);
+            });
+            document.querySelectorAll('.nav-badge-messages-dot').forEach(el => {
+                el.classList.toggle('hidden', total === 0);
+            });
+        }
+
+        function subscribeToGlobalMessageBadges() {
+            if (!window.suitSupabase) return;
+            if (globalBadgeChannel) window.suitSupabase.removeChannel(globalBadgeChannel);
+
+            globalBadgeChannel = window.suitSupabase
+                .channel('global-msg-badges-provider')
+                .on(
+                    'postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'voucher_messages' },
+                    (payload) => {
+                        const msg = payload.new;
+                        if (!msg || msg.sender_id === currentProfile?.id) return;
+                        const belongsToMe = allVouchers.some(v => v.id === msg.voucher_id);
+                        if (!belongsToMe) return;
+                        if (chatVoucherId === msg.voucher_id) return; // chat abierto, se marca leído al instante
+
+                        unreadCounts[msg.voucher_id] = (unreadCounts[msg.voucher_id] || 0) + 1;
+                        renderGlobalBadge();
+                        renderTable(filteredVouchers);
+                    }
+                )
+                .subscribe();
+        }
+
+
+        // ── Chat Drawer ──────────────────────────────────────────────────
+        async function openChat(voucherId, managerName) {
+
+            // Verificar acceso premium
+            const hasAccess = await SUBSCRIPTION.checkFeature('sms_messaging');
+            if (!hasAccess) {
+                showToast('El chat con el gestor es una función premium. Suscríbete para desbloquearla.', 'warning');
+                return;
+            }
+
+            chatVoucherId = voucherId;
+            const v = allVouchers.find(x => x.id === voucherId);
+
+            document.getElementById('chat-title').textContent = `Mensajes · ${v?.voucher_number ?? ''}`;
+            document.getElementById('chat-subtitle').textContent = `Gestor: ${managerName}`;
+
+            const drawer = document.getElementById('chat-drawer');
+            const panel = drawer.querySelector('.transform');
+            drawer.classList.remove('hidden');
+            requestAnimationFrame(() => panel.classList.remove('translate-x-full'));
+
+            await fetchAndRenderMessages(voucherId);
+
+            // Si abrimos el chat y teníamos mensajes sin leer, los limpiamos y re-renderizamos visualmente
+            if (window.suitSupabase && unreadCounts[voucherId] > 0) {
+                try {
+                    await window.suitSupabase.rpc('mark_voucher_messages_read', { p_voucher_id: voucherId });
+                } catch (err) {
+                    console.warn('[Chat] No se pudo marcar como leído:', err);
+                }
+                delete unreadCounts[voucherId];
+                renderGlobalBadge();
+                renderTable(filteredVouchers);
+            }
+
+            subscribeToMessages(voucherId);
+        }
+
+        function closeChat() {
+            const drawer = document.getElementById('chat-drawer');
+            const panel = drawer.querySelector('.transform');
+            panel.classList.add('translate-x-full');
+            setTimeout(() => drawer.classList.add('hidden'), 300);
+
+            // Unsubscribe realtime
+            if (realtimeChannel) {
+                window.suitSupabase.removeChannel(realtimeChannel);
+                realtimeChannel = null;
+            }
+            chatVoucherId = null;
+        }
+
+        async function fetchAndRenderMessages(voucherId) {
+            const container = document.getElementById('message-container');
+            container.innerHTML = `<p id="chat-loading" class="text-center text-on-surface-variant font-body-sm text-body-sm pt-6">Cargando mensajes...</p>`;
+
+            const { data, error } = await window.suitSupabase.rpc('get_voucher_messages', { p_voucher_id: voucherId });
+            if (error) { container.innerHTML = `<p class="text-center text-error font-body-sm">Error al cargar mensajes</p>`; return; }
+
+            renderMessages(data ?? [], container);
+        }
+
+        function renderMessages(messages, container) {
+            if (!messages.length) {
+                container.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-center pt-12">
+                    <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">chat_bubble_outline</span>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Sin mensajes aún.<br>Inicia la conversación.</p>
+                </div>`;
+                return;
+            }
+
+            container.innerHTML = messages.map(m => buildBubble(m)).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function buildBubble(m) {
+            const isMe = m.sender_id === currentProfile?.id;
+            const timeStr = fmtTime(m.created_at);
+            const label = isMe ? 'Tú' : m.sender_name;
+
+            if (isMe) {
+                return `
+            <div class="flex flex-col gap-1 items-end bubble-in">
+                <div class="bg-primary p-3 rounded-tl-xl rounded-bl-xl rounded-br-xl max-w-[85%] text-on-primary">
+                    <p class="font-body-sm text-body-sm">${escHtml(m.body)}</p>
+                </div>
+                <span class="text-[10px] text-on-surface-variant mr-2 uppercase font-bold">${label} · ${timeStr}</span>
+            </div>`;
+            } else {
+                return `
+            <div class="flex flex-col gap-1 items-start bubble-in">
+                <div class="bg-surface-container-highest p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl max-w-[85%]">
+                    <p class="font-body-sm text-body-sm text-on-surface">${escHtml(m.body)}</p>
+                </div>
+                <span class="text-[10px] text-on-surface-variant ml-2 uppercase font-bold">${label} · ${timeStr}</span>
+            </div>`;
+            }
+        }
+
+        function escHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // ── Realtime subscription ─────────────────────────────────────────
+        function subscribeToMessages(voucherId) {
+            if (realtimeChannel) window.suitSupabase.removeChannel(realtimeChannel);
+
+            console.log(`[Chat] Intentando suscribir a voucher: ${voucherId}`);
+
+            realtimeChannel = window.suitSupabase
+                .channel(`voucher-messages-${voucherId}`)
+                .on(
+                    'postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'voucher_messages', filter: `voucher_id=eq.${voucherId}` },
+                    async (payload) => {
+                        console.log('[Chat] 🔔 Evento INSERT recibido:', payload);
+                        const { data } = await window.suitSupabase.rpc('get_voucher_messages', { p_voucher_id: voucherId });
+                        if (!data) return;
+                        const container = document.getElementById('message-container');
+                        renderMessages(data, container);
+
+                        // Si el chat está abierto marcamos como leído en automático
+                        if (payload?.new && payload.new.sender_id !== currentProfile?.id) {
+                            try {
+                                await window.suitSupabase.rpc('mark_voucher_messages_read', { p_voucher_id: voucherId });
+                            } catch (err) { /* silencioso */ }
+                            delete unreadCounts[voucherId];
+                            renderGlobalBadge();
+                            renderTable(filteredVouchers);
+                        }
+                    }
+                )
+                .subscribe((status, err) => {
+                    console.log('[Chat] 📡 Estado de suscripción:', status, err);
+                });
+        }
+
+        // ── Send message ──────────────────────────────────────────────────
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const body = input.value.trim();
+            if (!body || !chatVoucherId) return;
+
+            input.value = '';
+            const { error } = await window.suitSupabase.rpc('send_voucher_message', {
+                p_voucher_id: chatVoucherId,
+                p_body: body
+            });
+            if (error) {
+                showToast('Error al enviar mensaje', 'error');
+                input.value = body; // restore
+            }
+            // Realtime will update the UI automatically
+        }
+
+        function appendQuickNote(note) {
+            const input = document.getElementById('chat-input');
+            input.value = note;
+            input.focus();
+        }
+
+        // ── Enter to send ─────────────────────────────────────────────────
+        document.getElementById('chat-input').addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+        });
+
+        // ── Mobile Sidebar ────────────────────────────────────────────────
+        const sidebar = document.getElementById('sideNavBar');
+        const overlay = document.getElementById('mobileOverlay');
+        const closeSideBtn = document.getElementById('closeMobileSidebar');
+
+        function openMobileSidebar() {
+            if (window.innerWidth < 768) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        function closeMobileSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            sidebar.classList.remove('translate-x-0');
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        if (closeSideBtn) closeSideBtn.addEventListener('click', closeMobileSidebar);
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                overlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ── Boot ──────────────────────────────────────────────────────────
+        init();
+    </script>
+</body>
+
+</html>

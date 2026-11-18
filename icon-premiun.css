@@ -1,0 +1,22 @@
+button.premium-locked .material-symbols-outlined:last-child {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  font-size: 18px;
+  background: #fbbf24;
+  color: #1e293b;
+  border-radius: 9999px;
+  padding: 2px;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  opacity: 1 !important;
+  pointer-events: auto;
+  z-index: 2;
+  /* Elimina el margen izquierdo que tenía originalmente */
+  margin-left: 0 !important;
+}
+
+/* Para que el botón no recorte el badge */
+button.premium-locked {
+  overflow: visible !important;
+}

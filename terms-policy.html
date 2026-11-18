@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Términos y Privacidad - Suit</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Suit">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="theme-color" content="#004ac6">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "background": "#faf8ff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-tertiary-fixed-variant": "#454748",
+                        "primary": "#004ac6",
+                        "on-secondary-fixed": "#121c2a",
+                        "on-background": "#191b23",
+                        "secondary": "#555f6f",
+                        "surface-container": "#ededf9",
+                        "on-surface": "#191b23",
+                        "tertiary-fixed": "#e1e3e4",
+                        "on-tertiary-fixed": "#191c1d",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#0053db",
+                        "surface-container-high": "#e7e7f3",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "secondary-container": "#d6e0f3",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-low": "#f3f3fe",
+                        "surface-bright": "#faf8ff",
+                        "surface-variant": "#e1e2ed",
+                        "secondary-fixed": "#d9e3f6",
+                        "on-secondary-container": "#596373",
+                        "tertiary-fixed-dim": "#c5c7c8",
+                        "outline-variant": "#c3c6d7",
+                        "on-tertiary-container": "#eff0f1",
+                        "inverse-surface": "#2e3039",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f0f0fb",
+                        "on-primary-container": "#eeefff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#faf8ff",
+                        "tertiary-container": "#6b6d6e",
+                        "outline": "#737686",
+                        "surface-container-highest": "#e1e2ed",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#525556",
+                        "on-surface-variant": "#434655",
+                        "primary-container": "#2563eb",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3d4756",
+                        "secondary-fixed-dim": "#bdc7d9",
+                        "surface-dim": "#d9d9e5",
+                        "inverse-primary": "#b4c5ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "container-max": "1280px",
+                        "sm": "8px",
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #faf8ff;
+            /* colors.background */
+            color: #191b23;
+            /* colors.on-background */
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* ── Tipografía legal ── */
+        .legal-content h2 {
+            margin-top: 32px;
+            /* spacing.xl */
+            margin-bottom: 16px;
+            /* spacing.md */
+            color: #191b23;
+            /* colors.on-surface */
+            scroll-margin-top: 100px;
+            /* offset por el header sticky */
+        }
+
+        .legal-content p {
+            margin-bottom: 16px;
+            /* spacing.md */
+            color: #434655;
+            /* colors.on-surface-variant */
+            line-height: 1.65;
+        }
+
+        .legal-content ul {
+            list-style-type: disc;
+            padding-left: 32px;
+            /* spacing.xl */
+            margin-bottom: 16px;
+            color: #434655;
+        }
+
+        .legal-content li {
+            margin-bottom: 8px;
+            /* spacing.sm */
+            line-height: 1.6;
+        }
+
+        .legal-content li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Separación entre el último párrafo/lista de una sección
+       y el siguiente h2 (refuerza el espaciado visual) */
+        .legal-content h2+p,
+        .legal-content h2+ul {
+            margin-top: 0;
+        }
+
+        /* Mejora de legibilidad: los <strong> destacan un poco más */
+        .legal-content strong {
+            color: #191b23;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-primary-container selection:text-on-primary">
+
+    <!-- ── BARRA SUPERIOR (simplificada: cerrar + nombre de la app) ── -->
+    <header
+        class="bg-surface border-b border-outline-variant h-16 sticky top-0 z-50 flex items-center px-4 md:px-lg gap-3">
+        <button id="close-view-btn" aria-label="Cerrar y volver"
+            class="p-2 -ml-2 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        <span class="font-headline-md text-headline-md text-primary font-black tracking-tight">Suit</span>
+    </header>
+
+    <div
+        class="max-w-container-max mx-auto px-margin-mobile md:px-gutter py-xl flex flex-col md:flex-row gap-xl relative">
+        <!-- Navegación lateral fija -->
+        <aside class="w-full md:w-64 shrink-0 relative">
+            <div class="sticky top-[100px] flex flex-col gap-md">
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md">
+                    <h3 class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-sm">Términos y
+                        Condiciones</h3>
+                    <nav class="flex flex-col gap-xs">
+                        <a class="font-body-sm text-body-sm text-primary font-medium hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-intro">1. Introducción</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-cuentas">2. Cuentas y Roles</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-vales">3. Vales, Comisiones y Vinculaciones</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-verificacion">4. Verificación de Identidad</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-suscripciones">5. Suscripciones y Pagos</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-offline">6. Uso Offline y Sincronización</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-conducta">7. Conducta del Usuario</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-propiedad">8. Propiedad Intelectual</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-responsabilidad">9. Limitación de Responsabilidad</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-terminacion">10. Terminación</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#t-ley">11. Ley Aplicable</a>
+                    </nav>
+                    <h3
+                        class="font-label-md text-label-md text-on-surface uppercase tracking-wider mb-sm mt-md pt-md border-t border-outline-variant">
+                        Política de Privacidad</h3>
+                    <nav class="flex flex-col gap-xs">
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#p-data-col">1. Datos que Recopilamos</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#p-data-use">2. Uso de los Datos</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#p-data-share">3. Con Quién Compartimos Datos</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#p-almacenamiento">4. Almacenamiento Local y Offline</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#p-security">5. Seguridad</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#p-notificaciones">6. Notificaciones Push</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#p-rights">7. Tus Derechos</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#p-menores">8. Menores de Edad</a>
+                        <a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary hover:bg-surface-container-low px-sm py-xs rounded transition-colors"
+                            href="#p-cambios">9. Cambios a esta Política</a>
+                    </nav>
+                </div>
+                <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md text-center">
+                    <span class="material-symbols-outlined text-secondary text-[32px] mb-sm">help_center</span>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mb-md">¿Tienes dudas legales o de
+                        privacidad?</p>
+                    <a class="inline-flex items-center justify-center bg-surface-container border border-outline-variant text-on-surface font-label-md text-label-md px-md py-sm rounded w-full hover:bg-surface-container-high transition-colors"
+                        href="mailto:legal@pixellogicsolutions.com">
+                        Contactar al Equipo Legal
+                    </a>
+                </div>
+            </div>
+        </aside>
+        <!-- Contenido principal -->
+        <main class="flex-1 min-w-0 bg-surface-container-lowest border border-outline-variant rounded-lg p-lg md:p-xl">
+            <header class="mb-xl pb-md border-b border-outline-variant">
+                <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-sm">Términos,
+                    Condiciones y Política de Privacidad</h1>
+                <p class="font-body-md text-body-md text-on-surface-variant">Última actualización: 25 de julio, 2026</p>
+            </header>
+            <div class="legal-content">
+
+                <!-- ═══════════════════ TÉRMINOS Y CONDICIONES ═══════════════════ -->
+                <div class="mb-xl">
+                    <h1
+                        class="font-headline-md text-headline-md text-on-surface mb-lg pb-sm border-b border-outline-variant">
+                        Términos y Condiciones</h1>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-intro">1. Introducción</h2>
+                    <p class="font-body-md text-body-md">Bienvenido a Suit, la plataforma digital que conecta a
+                        <strong>Proveedores</strong> (empresas y comercios que ofrecen productos o servicios) con
+                        <strong>Gestores</strong> (agentes de ventas independientes) para la emisión, seguimiento y
+                        liquidación de vales de venta ("Vales"). Suit es desarrollada y operada por <strong>Pixel Logic
+                            Solutions</strong> ("nosotros", "la Compañía").
+                    </p>
+                    <p class="font-body-md text-body-md">Al crear una cuenta, instalar la aplicación o utilizar
+                        cualquier función de Suit —ya sea desde el navegador o como aplicación instalada (PWA) en tu
+                        dispositivo móvil o de escritorio— aceptas quedar vinculado por estos Términos y Condiciones
+                        ("Términos"). Si no estás de acuerdo con alguna parte de estos Términos, debes abstenerte de
+                        usar la plataforma.</p>
+                    <p class="font-body-md text-body-md">Si te registras en nombre de una empresa u organización,
+                        declaras tener la autoridad necesaria para vincular a dicha organización a estos Términos.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-cuentas">2. Cuentas y Roles
+                    </h2>
+                    <p class="font-body-md text-body-md">Suit ofrece dos tipos de perfil, cada uno con funciones y
+                        responsabilidades distintas:</p>
+                    <ul class="font-body-md text-body-md">
+                        <li><strong>Proveedor:</strong> gestiona un catálogo de vales entrantes, aprueba o rechaza los
+                            vales enviados por sus Gestores vinculados, administra su red de agentes y exporta reportes
+                            de auditoría.</li>
+                        <li><strong>Gestor (Agente Independiente):</strong> crea y envía vales a los Proveedores con los
+                            que mantiene un enlace activo, realiza seguimiento de comisiones y estados de aprobación, y
+                            gestiona su propia red de Proveedores.</li>
+                    </ul>
+                    <p class="font-body-md text-body-md">Eres responsable de mantener la confidencialidad de tus
+                        credenciales de acceso y de toda actividad realizada bajo tu cuenta. Debes proporcionar
+                        información veraz, completa y actualizada (nombre completo, teléfono, correo electrónico) y
+                        notificarnos de inmediato ante cualquier uso no autorizado de tu cuenta.</p>
+                    <p class="font-body-md text-body-md">Un mismo usuario no puede vincularse consigo mismo utilizando
+                        su propio Código de Proveedor, y las solicitudes de vinculación entre Gestores y Proveedores
+                        requieren aprobación explícita de la parte receptora antes de generar un contrato de enlace
+                        activo.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-vales">3. Vales, Comisiones y
+                        Vinculaciones</h2>
+                    <p class="font-body-md text-body-md">Un Vale representa una transacción propuesta entre un Gestor y
+                        un cliente final, respaldada por un Proveedor vinculado. Cada Vale contiene, como mínimo: datos
+                        del cliente, producto o servicio, precio base, porcentaje de comisión pactado y el monto total
+                        resultante.</p>
+                    <p class="font-body-md text-body-md">Suit actúa exclusivamente como intermediario tecnológico que
+                        facilita la creación, envío, aprobación, rechazo y trazabilidad de estos Vales. <strong>Suit no
+                            es parte de la relación comercial subyacente</strong> entre Proveedor, Gestor y cliente
+                        final, y no garantiza el cumplimiento de las obligaciones de pago de comisiones entre
+                        Proveedores y Gestores; dichas obligaciones se rigen por los acuerdos comerciales que las partes
+                        establezcan de forma independiente.</p>
+                    <p class="font-body-md text-body-md">Los estados de un Vale (Borrador, Pendiente, Enviado, Aprobado,
+                        Rechazado, Cancelado, Sincronizado) reflejan el flujo de trabajo interno de la plataforma y son
+                        de carácter informativo. La aprobación o rechazo de un Vale es una decisión exclusiva del
+                        Proveedor receptor.</p>
+                    <p class="font-body-md text-body-md">Los enlaces entre Gestores y Proveedores pueden desactivarse
+                        por cualquiera de las partes en cualquier momento. Cuando un Proveedor desvincula a un Gestor,
+                        este último deberá reenviar una nueva solicitud de vinculación para restablecer la relación;
+                        cuando el propio Gestor se desvincula, puede reactivar el enlace directamente si así lo permite
+                        el sistema.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-verificacion">4. Verificación
+                        de Identidad</h2>
+                    <p class="font-body-md text-body-md">La creación de determinados Vales requiere la carga de imágenes
+                        de un documento de identidad del cliente final (anverso y reverso). Al subir estas imágenes, el
+                        Gestor declara y garantiza que ha obtenido el consentimiento del titular de los datos para su
+                        captura, almacenamiento y uso dentro de la plataforma con fines de verificación comercial.</p>
+                    <p class="font-body-md text-body-md">Estas imágenes se almacenan en un contenedor privado y
+                        protegido; el acceso a ellas se realiza mediante enlaces temporales de un solo uso con vigencia
+                        limitada, generados bajo demanda para los usuarios autorizados (el Proveedor receptor del Vale).
+                        Al eliminar de forma permanente un Vale en estado terminal (Aprobado, Rechazado o Cancelado),
+                        las imágenes asociadas se eliminan del almacenamiento junto con la conversación vinculada.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-suscripciones">5.
+                        Suscripciones y Pagos</h2>
+                    <p class="font-body-md text-body-md">Suit ofrece un plan gratuito con funcionalidades básicas y
+                        planes de suscripción premium que desbloquean funciones adicionales, incluyendo —entre otras—
+                        exportación de historial en PDF, mensajería directa entre Gestor y Proveedor, y distribución de
+                        vales sin conexión por SMS o WhatsApp.</p>
+                    <p class="font-body-md text-body-md">La activación de una suscripción de pago se realiza mediante el
+                        envío de un comprobante de transferencia (fecha de pago, teléfono asociado, identificador de
+                        transacción y monto), el cual es revisado y verificado manualmente por nuestro equipo antes de
+                        habilitar el plan correspondiente. Los montos deben coincidir con el precio publicado del plan
+                        seleccionado en el momento del envío.</p>
+                    <p class="font-body-md text-body-md">Las suscripciones no son reembolsables una vez activadas, salvo
+                        que la ley aplicable disponga lo contrario o medie un acuerdo específico con nuestro equipo de
+                        soporte. Nos reservamos el derecho de modificar los precios y características de los planes,
+                        notificando dichos cambios con razonable antelación dentro de la propia plataforma.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-offline">6. Uso Offline y
+                        Sincronización</h2>
+                    <p class="font-body-md text-body-md">Suit está diseñada como una aplicación web progresiva (PWA) con
+                        capacidades de funcionamiento sin conexión: los Vales creados en modo offline se almacenan
+                        localmente en el dispositivo (mediante IndexedDB) y se sincronizan automáticamente con nuestros
+                        servidores en cuanto se restablece la conexión a internet.</p>
+                    <p class="font-body-md text-body-md">Reconoces que, mientras un Vale permanezca únicamente en
+                        almacenamiento local sin sincronizar, no estará disponible para el Proveedor destinatario ni
+                        contará con las garantías de trazabilidad, historial remoto o soporte de mensajería que ofrece
+                        el modo conectado. Recomendamos utilizar los canales de distribución offline (SMS, WhatsApp)
+                        únicamente como método de respaldo temporal.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-conducta">7. Conducta del
+                        Usuario</h2>
+                    <p class="font-body-md text-body-md">Al utilizar Suit, te comprometes a no:</p>
+                    <ul class="font-body-md text-body-md">
+                        <li>Registrar Vales con información de clientes falsa, inventada o sin su consentimiento.</li>
+                        <li>Suplantar la identidad de otro Proveedor, Gestor o cliente, ni compartir tus credenciales de
+                            acceso con terceros.</li>
+                        <li>Intentar acceder, extraer o exponer datos, imágenes de identificación o conversaciones que
+                            no te correspondan.</li>
+                        <li>Utilizar la plataforma para actividades fraudulentas, lavado de comisiones ficticias o
+                            cualquier fin contrario a la legislación vigente.</li>
+                        <li>Interferir con el funcionamiento de la aplicación, sus Service Workers, sincronización o
+                            infraestructura mediante ingeniería inversa, scraping automatizado o ataques de denegación
+                            de servicio.</li>
+                    </ul>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-propiedad">8. Propiedad
+                        Intelectual</h2>
+                    <p class="font-body-md text-body-md">El software, la marca "Suit", su diseño de interfaz,
+                        iconografía y estructura de datos son propiedad de Pixel Logic Solutions y están protegidos por
+                        las leyes de propiedad intelectual aplicables. Se te concede una licencia limitada, no exclusiva
+                        e intransferible para usar la plataforma conforme a estos Términos; no se te transfiere ningún
+                        derecho de propiedad sobre el software.</p>
+                    <p class="font-body-md text-body-md">Conservas la titularidad sobre los datos comerciales que
+                        introduces en la plataforma (información de clientes, vales, catálogos de producto), sin
+                        perjuicio de la licencia operativa necesaria que otorgas a Pixel Logic Solutions para almacenar
+                        y procesar dichos datos con el único fin de prestar el servicio.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-responsabilidad">9.
+                        Limitación de Responsabilidad</h2>
+                    <p class="font-body-md text-body-md">Suit se ofrece "tal cual" y "según disponibilidad". Pixel Logic
+                        Solutions no garantiza que el servicio esté libre de interrupciones, errores o pérdida ocasional
+                        de datos, especialmente en escenarios de uso offline prolongado o fallas de sincronización.</p>
+                    <p class="font-body-md text-body-md">En la máxima medida permitida por la ley, Pixel Logic Solutions
+                        no será responsable por disputas comerciales, incumplimiento de pago de comisiones, pérdidas
+                        económicas indirectas o consecuentes derivadas de la relación entre Proveedores, Gestores y
+                        clientes finales, ya que dicha relación es ajena a nuestro control.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-terminacion">10. Terminación
+                    </h2>
+                    <p class="font-body-md text-body-md">Podemos suspender o cancelar tu acceso a la plataforma, sin
+                        previo aviso, si incumples estos Términos, si detectamos actividad fraudulenta, o por razones de
+                        seguridad de la plataforma y de otros usuarios. Puedes solicitar la eliminación de tu cuenta y
+                        de tus datos personales en cualquier momento contactando a nuestro equipo de soporte desde la
+                        sección de Ajustes de la aplicación.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="t-ley">11. Ley Aplicable</h2>
+                    <p class="font-body-md text-body-md">Estos Términos se rigen e interpretan de conformidad con las
+                        leyes aplicables en la jurisdicción donde Pixel Logic Solutions se encuentra constituida, sin
+                        perjuicio de las disposiciones imperativas de protección al consumidor que puedan aplicar en tu
+                        país de residencia. El hecho de que no exijamos el cumplimiento estricto de alguna disposición
+                        no se considerará una renuncia a nuestros derechos.</p>
+                </div>
+
+                <div class="my-xl border-t-2 border-dashed border-outline-variant w-full h-[2px]"></div>
+
+                <!-- ═══════════════════ POLÍTICA DE PRIVACIDAD ═══════════════════ -->
+                <div>
+                    <h1
+                        class="font-headline-md text-headline-md text-on-surface mb-lg pb-sm border-b border-outline-variant">
+                        Política de Privacidad</h1>
+                    <p class="font-body-md text-body-md mb-md">En Suit y Pixel Logic Solutions tomamos en serio la
+                        protección de tus datos y los de tus clientes. Esta Política de Privacidad describe qué
+                        información recopilamos, cómo la usamos y qué derechos tienes sobre ella.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="p-data-col">1. Datos que
+                        Recopilamos</h2>
+                    <p class="font-body-md text-body-md">Recopilamos las siguientes categorías de información:</p>
+                    <ul class="font-body-md text-body-md">
+                        <li><strong>Datos de cuenta:</strong> nombre completo, correo electrónico, teléfono, rol
+                            (Proveedor o Gestor), avatar y código de proveedor/contrato asignado.</li>
+                        <li><strong>Datos de vales:</strong> nombre, teléfono, dirección y correo del cliente final;
+                            producto o servicio; precio base; porcentaje de comisión; notas; e imágenes de
+                            identificación (anverso y reverso) cuando el flujo lo requiera.</li>
+                        <li><strong>Datos de uso y dispositivo:</strong> estado de conectividad, identificador local de
+                            dispositivo, información técnica del navegador, y registros de sincronización.</li>
+                        <li><strong>Datos de mensajería:</strong> el contenido de las conversaciones entre Proveedores y
+                            Gestores asociadas a un Vale específico.</li>
+                        <li><strong>Datos de facturación:</strong> comprobantes de pago (fecha, teléfono, ID de
+                            transacción y monto) enviados para verificar una suscripción premium.</li>
+                    </ul>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="p-data-use">2. Uso de los Datos
+                    </h2>
+                    <p class="font-body-md text-body-md">Utilizamos la información recopilada para:</p>
+                    <ul class="font-body-md text-body-md">
+                        <li>Prestar las funciones centrales de la plataforma: creación, envío, aprobación y seguimiento
+                            de Vales entre Proveedores y Gestores.</li>
+                        <li>Calcular y mostrar métricas de rendimiento, comisiones pendientes y tasas de aprobación en
+                            los paneles de gestión.</li>
+                        <li>Habilitar la mensajería contextual asociada a cada Vale y notificarte sobre mensajes nuevos.
+                        </li>
+                        <li>Verificar comprobantes de pago y activar o mantener tu suscripción premium.</li>
+                        <li>Enviar notificaciones push relevantes (nuevos vales, respuestas, cambios de estado) cuando
+                            lo hayas autorizado.</li>
+                        <li>Detectar y prevenir actividad fraudulenta o abusiva dentro de la plataforma.</li>
+                    </ul>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="p-data-share">3. Con Quién
+                        Compartimos Datos</h2>
+                    <p class="font-body-md text-body-md">No vendemos tus datos personales ni los de tus clientes a
+                        terceros. Compartimos información únicamente en los siguientes casos:</p>
+                    <ul class="font-body-md text-body-md">
+                        <li>Con la contraparte de un Vale (el Proveedor o el Gestor vinculado), en la medida necesaria
+                            para procesar dicha transacción.</li>
+                        <li>Con nuestro proveedor de infraestructura backend (base de datos y almacenamiento de
+                            archivos), que actúa como encargado de tratamiento bajo estrictas medidas de seguridad y
+                            control de acceso (políticas de seguridad a nivel de fila y URLs firmadas de corta duración
+                            para imágenes).</li>
+                    </ul>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="p-almacenamiento">4.
+                        Almacenamiento Local y Offline</h2>
+                    <p class="font-body-md text-body-md">Para permitir el uso sin conexión, Suit almacena localmente
+                        en tu dispositivo (mediante IndexedDB) una copia de tus vales, clientes, productos y
+                        configuración de sesión. Esta información permanece en tu dispositivo hasta que se
+                        sincroniza con nuestros servidores o hasta que borras los datos de la aplicación desde tu
+                        navegador o sistema operativo.</p>
+                    <p class="font-body-md text-body-md">Eres responsable de la seguridad física de los dispositivos
+                        donde utilices Suit en modo offline, ya que los datos almacenados localmente podrían ser
+                        accesibles por cualquier persona con acceso al dispositivo desbloqueado.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="p-security">5. Seguridad
+                    </h2>
+                    <p class="font-body-md text-body-md">Aplicamos medidas técnicas razonables para proteger tu
+                        información, incluyendo autenticación de dos factores opcional, políticas de acceso a nivel
+                        de fila en nuestra base de datos, buckets de almacenamiento privados para las imágenes de
+                        identificación y generación de enlaces de acceso temporales. No obstante, ningún sistema de
+                        transmisión o almacenamiento de datos puede garantizarse 100% seguro. Si detectas una
+                        vulnerabilidad o un uso indebido de tu cuenta, notifícanos de inmediato a través de la
+                        sección de soporte.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="p-notificaciones">6.
+                        Notificaciones Push</h2>
+                    <p class="font-body-md text-body-md">Si otorgas permiso a tu navegador, Suit puede enviarte
+                        notificaciones push sobre eventos relevantes de tu cuenta (nuevos vales, respuestas de
+                        mensajería, cambios de estado). Puedes revocar este permiso en cualquier momento desde la
+                        configuración de notificaciones de tu navegador o sistema operativo, sin que ello afecte el
+                        resto de las funciones de la plataforma.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="p-rights">7. Tus Derechos
+                    </h2>
+                    <p class="font-body-md text-body-md">Dependiendo de tu ubicación, puedes tener derecho a
+                        acceder, corregir, actualizar, exportar o solicitar la eliminación de tus datos personales y
+                        de los vales asociados a tu cuenta. Puedes editar tu perfil directamente desde la sección de
+                        Ajustes, o contactar a nuestro equipo legal para solicitudes más específicas, incluyendo la
+                        eliminación permanente de vales en estado terminal junto con sus imágenes y conversaciones
+                        asociadas.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="p-menores">8. Menores de
+                        Edad</h2>
+                    <p class="font-body-md text-body-md">Suit es una herramienta de uso profesional dirigida a
+                        Proveedores y Gestores mayores de edad. No recopilamos intencionalmente datos de menores de
+                        edad como titulares de cuentas. Si detectamos que una cuenta fue creada por una persona
+                        menor de edad, procederemos a suspenderla y eliminar la información asociada.</p>
+
+                    <h2 class="font-label-md text-label-md uppercase tracking-wider" id="p-cambios">9. Cambios a
+                        esta Política</h2>
+                    <p class="font-body-md text-body-md">Podemos actualizar esta Política de Privacidad
+                        periódicamente para reflejar cambios en nuestras prácticas o en la normativa aplicable.
+                        Notificaremos cambios sustanciales a través de la propia aplicación o por correo
+                        electrónico. El uso continuado de Suit después de la publicación de los cambios constituye
+                        tu aceptación de la política actualizada.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="max-w-container-max mx-auto px-margin-mobile md:px-gutter pb-xl">
+        <p class="font-body-sm text-body-sm text-on-surface-variant text-center">© 2026 Pixel Logic Solutions. Todos los
+            derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Botón de cierre: vuelve a la vista anterior o, si no hay historial, a index.html
+        document.getElementById('close-view-btn').addEventListener('click', () => {
+            if (document.referrer && history.length > 1) {
+                history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Resaltar la sección activa en la navegación lateral según el scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.legal-content h2');
+            const navLinks = document.querySelectorAll('aside nav a');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -80% 0px',
+                threshold: 0
+            };
+
+            const observerCallback = (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('text-primary', 'font-medium');
+                            link.classList.add('text-on-surface-variant');
+                        });
+
+                        const id = entry.target.getAttribute('id');
+                        const activeLink = document.querySelector(`aside nav a[href="#${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.remove('text-on-surface-variant');
+                            activeLink.classList.add('text-primary', 'font-medium');
+                        }
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+
+</html>

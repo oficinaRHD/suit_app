@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Historial de Vales - Suit </title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+     <link rel="stylesheet" href="/icon-premiun.css?v=002">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Suit">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="theme-color" content="#004ac6">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#c3c6d7",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#2563eb",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-tint": "#0053db",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "secondary": "#515f74",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "tertiary-container": "#bc4800",
+                        "surface-variant": "#e0e3e5",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-primary": "#b4c5ff",
+                        "tertiary-fixed": "#ffdbcd",
+                        "secondary-fixed": "#d5e3fd",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "on-tertiary-container": "#ffede6",
+                        "inverse-on-surface": "#eff1f3",
+                        "error": "#ba1a1a",
+                        "outline": "#737686",
+                        "on-surface-variant": "#434655",
+                        "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#d5e3fd",
+                        "primary": "#004ac6",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-background": "#191c1e",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary": "#943700",
+                        "on-secondary-container": "#57657b",
+                        "on-primary-container": "#eeefff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container": "#eceef0",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed": "#dbe1ff",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-primary-fixed": "#00174b",
+                        "background": "#f7f9fb",
+                        "surface": "#f7f9fb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-padding": "24px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "base": "4px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "title-sm": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-md": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .filter-btn.active {
+            background: white;
+            color: #004ac6;
+            font-weight: 700;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn .2s ease both;
+        }
+
+        /* Chat bubble animation */
+        @keyframes bubbleIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .bubble-in {
+            animation: bubbleIn 0.2s ease forwards;
+        }
+
+        /* Spin */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spinning {
+            display: inline-block;
+            animation: spin 0.8s linear infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface">
+
+    <!-- ============================================================ SIDEBAR -->
+    <aside
+        class="h-screen w-64 fixed left-0 top-0 bg-surface border-r border-outline-variant hidden lg:flex flex-col py-stack-lg z-50">
+        <div class="px-container-padding mb-stack-lg">
+            <h1 class="font-headline-md text-headline-md font-black text-primary tracking-tight">Suit</h1>
+            <p class="font-body-sm text-body-sm text-on-surface-variant opacity-70">Agente Independiente</p>
+        </div>
+        <nav class="flex-1 space-y-1">
+            <a class="flex items-center px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="home-managers.html">
+                <span class="material-symbols-outlined mr-3">dashboard</span><span
+                    class="font-body-md text-body-md">Panel</span>
+            </a>
+            <a class="flex items-center px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="vouche.html">
+                <span class="material-symbols-outlined mr-3">add_notes</span><span
+                    class="font-body-md text-body-md">Crear Vale</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-r-4 border-primary hover:bg-surface-container-high"
+                href="histori-vouche.html">
+                <span class="material-symbols-outlined mr-3">history</span><span
+                    class="font-body-md text-body-md">Historial</span>
+                <span class="nav-badge-messages-count hidden ml-auto bg-error text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">0</span>
+            </a>
+            <a class="flex items-center px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="supplier-managers.html">
+                <span class="material-symbols-outlined mr-3">handshake</span><span
+                    class="font-body-md text-body-md">Proveedores</span>
+            </a>
+             <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="financial-books.html">
+                <span class="material-symbols-outlined"
+                    style="font-variation-settings:'FILL' 1;">menu_book</span><span>Biblioteca</span>
+            </a>
+            <a class="flex items-center px-container-padding py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="settings.html">
+                <span class="material-symbols-outlined mr-3">settings</span><span
+                    class="font-body-md text-body-md">Ajustes</span>
+            </a>
+        </nav>
+        <div class="px-container-padding mt-auto pt-stack-lg border-t border-outline-variant">
+            <a href="vouche.html"
+                class="w-full bg-primary text-on-primary py-3 rounded-lg font-title-sm text-title-sm mb-stack-lg flex items-center justify-center gap-2 shadow-sm hover:brightness-110 transition-all">
+                <span class="material-symbols-outlined">add</span>Nuevo Vale
+            </a>
+            <div class="flex items-center gap-3 py-2 text-on-surface-variant">
+                <span class="material-symbols-outlined text-primary" id="sync-icon">cloud_done</span>
+                <span class="font-label-bold text-label-bold" id="sync-label">Sincronizado</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ============================================================ MAIN -->
+    <main class="lg:ml-64 min-h-screen flex flex-col">
+
+        <!-- TOP NAV -->
+        <header
+            class="flex justify-between items-center w-full px-container-padding h-16 bg-surface-bright border-b border-outline-variant sticky top-0 z-40">
+            <div class="flex items-center flex-1">
+                <div class="relative w-full max-w-md">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input id="search-input"
+                        class="w-full bg-surface-container-lowest border border-outline rounded px-10 py-2 font-body-sm text-body-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                        placeholder="Buscar vales, clientes o IDs..." type="text" />
+                </div>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-4 ml-2">
+                <button class="p-2 text-on-surface-variant hover:text-primary hidden">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <div class="h-8 w-[1px] bg-outline-variant mx-1 hidden sm:block"></div>
+                <img id="manager-avatar" alt="Avatar"
+                    class="h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 border-primary-container object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDltT8aq2AiNm5V1IfxljXEHEtQVXdoWsJ2ysyJqyvrmANvTlYjaodCkEonF2w2FRCz8u7t5VF34jRjAKSpX87QPZo0bAOxzaTMRDX7itgZXKGGFglIOlHXcDXGH0AMs8eBeSS-ovOHJ8bB0zh43tOLvW0QiqV3gUWWxG5-uMcFKFs3Zqxq8HTDj7nxnN747rAb-_KArygkEOZTH0YU9epYX1Se8Vt-ZsR2IKY5iMJZ3ZDYIVtPpXHma486f46O19aCyauqtIu7Sno" />
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <div class="p-gutter sm:p-container-padding max-w-[1440px] mx-auto w-full space-y-stack-lg">
+
+            <!-- Page Header -->
+            <div class="flex flex-col gap-gutter">
+                <div>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Administre y realice el seguimiento de
+                        todos los vales generados.</p>
+                </div>
+
+                <!-- Filters bar -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-stack-md">
+                    <!-- Status tabs -->
+                    <div
+                        class="flex items-center gap-1 bg-surface-container rounded-lg p-1 border border-outline-variant w-full sm:w-auto overflow-x-auto scrollbar-hide">
+                        <button data-status="all"
+                            class="filter-btn active flex-1 sm:flex-none px-4 py-1.5 rounded font-label-bold text-label-bold whitespace-nowrap transition-colors">Todos</button>
+                        <button data-status="draft"
+                            class="filter-btn flex-1 sm:flex-none px-4 py-1.5 rounded text-on-surface-variant font-label-bold text-label-bold hover:bg-surface-container-high whitespace-nowrap transition-colors">Borradores</button>
+                        <button data-status="pending"
+                            class="filter-btn flex-1 sm:flex-none px-4 py-1.5 rounded text-on-surface-variant font-label-bold text-label-bold hover:bg-surface-container-high whitespace-nowrap transition-colors">Pendientes</button>
+                        <button data-status="approved"
+                            class="filter-btn flex-1 sm:flex-none px-4 py-1.5 rounded text-on-surface-variant font-label-bold text-label-bold hover:bg-surface-container-high whitespace-nowrap transition-colors">Aprobados</button>
+                        <button data-status="rejected"
+                            class="filter-btn flex-1 sm:flex-none px-4 py-1.5 rounded text-on-surface-variant font-label-bold text-label-bold hover:bg-surface-container-high whitespace-nowrap transition-colors">Rechazados</button>
+                    </div>
+
+                    <!-- Date range + source filter -->
+                    <div class="flex items-center gap-2">
+                        <select id="date-filter"
+                            class="flex-1 sm:flex-none px-3 py-2 bg-surface-container-lowest border border-outline rounded font-body-sm text-body-sm focus:ring-2 focus:ring-primary outline-none">
+                            <option value="7">Últimos 7 días</option>
+                            <option value="30" selected>Últimos 30 días</option>
+                            <option value="90">Últimos 90 días</option>
+                            <option value="365">Este año</option>
+                            <option value="0">Todos los tiempos</option>
+                        </select>
+                        <select id="source-filter"
+                            class="flex-1 sm:flex-none px-3 py-2 bg-surface-container-lowest border border-outline rounded font-body-sm text-body-sm focus:ring-2 focus:ring-primary outline-none">
+                            <option value="all">Todos los orígenes</option>
+                            <option value="online">Solo online</option>
+                            <option value="local">Solo local</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats cards -->
+            <div
+                class="flex lg:grid lg:grid-cols-4 gap-gutter overflow-x-auto lg:overflow-visible pb-2 -mx-gutter px-gutter lg:mx-0 lg:px-0 scrollbar-hide">
+                <div
+                    class="min-w-[220px] flex-shrink-0 bg-surface-container-lowest border border-outline-variant p-stack-md rounded-xl shadow-sm flex flex-col justify-between">
+                    <div class="flex justify-between items-start">
+                        <span
+                            class="p-2 bg-primary/10 text-primary rounded-lg material-symbols-outlined">receipt_long</span>
+                        <span class="font-label-bold text-label-bold text-tertiary" id="stat-growth">—</span>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-on-surface-variant font-label-bold text-label-bold uppercase">Vales Totales</p>
+                        <h3 class="font-display-lg text-display-lg text-on-surface" id="stat-total">—</h3>
+                    </div>
+                </div>
+                <div
+                    class="min-w-[220px] flex-shrink-0 bg-surface-container-lowest border border-outline-variant p-stack-md rounded-xl shadow-sm flex flex-col justify-between">
+                    <div class="flex justify-between items-start">
+                        <span
+                            class="p-2 bg-secondary-container text-secondary rounded-lg material-symbols-outlined">pending_actions</span>
+                        <span class="font-label-bold text-label-bold text-primary">Activo</span>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-on-surface-variant font-label-bold text-label-bold uppercase">Pendientes</p>
+                        <h3 class="font-display-lg text-display-lg text-on-surface" id="stat-pending">—</h3>
+                    </div>
+                </div>
+                <div
+                    class="min-w-[220px] flex-shrink-0 bg-surface-container-lowest border border-outline-variant p-stack-md rounded-xl shadow-sm flex flex-col justify-between">
+                    <div class="flex justify-between items-start">
+                        <span
+                            class="p-2 bg-tertiary-fixed text-tertiary rounded-lg material-symbols-outlined">payments</span>
+                        <span class="font-label-bold text-label-bold text-on-surface-variant">Liquidado</span>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-on-surface-variant font-label-bold text-label-bold uppercase">Volumen Total</p>
+                        <h3 class="font-display-lg text-display-lg text-on-surface" id="stat-volume">—</h3>
+                    </div>
+                </div>
+                <div
+                    class="min-w-[220px] flex-shrink-0 bg-surface-container-lowest border border-outline-variant p-stack-md rounded-xl shadow-sm flex flex-col justify-between">
+                    <div class="flex justify-between items-start">
+                        <span
+                            class="p-2 bg-error-container text-error rounded-lg material-symbols-outlined">error_outline</span>
+                        <span class="font-label-bold text-label-bold text-error" id="stat-rejected-pct">—</span>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-on-surface-variant font-label-bold text-label-bold uppercase">Rechazados</p>
+                        <h3 class="font-display-lg text-display-lg text-on-surface" id="stat-rejected">—</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table / Cards container -->
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+
+                <!-- Source indicator -->
+                <div id="source-indicator"
+                    class="hidden px-4 py-2 bg-amber-50 border-b border-amber-200 flex items-center gap-2 text-amber-700 text-body-sm">
+                    <span class="material-symbols-outlined text-sm">cloud_off</span>
+                    <span id="source-indicator-text">Mostrando datos locales (offline)</span>
+                </div>
+
+                <!-- Desktop table -->
+                <div class="hidden lg:block overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-surface-container-low border-b border-outline-variant">
+                                <th class="px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase cursor-pointer hover:text-primary select-none"
+                                    data-sort="created_at">
+                                    Fecha <span class="material-symbols-outlined text-sm align-middle"
+                                        id="sort-icon-date">unfold_more</span>
+                                </th>
+                                <th class="px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase">
+                                    ID Vale</th>
+                                <th class="px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase cursor-pointer hover:text-primary select-none"
+                                    data-sort="client_name">
+                                    Cliente <span class="material-symbols-outlined text-sm align-middle"
+                                        id="sort-icon-client">unfold_more</span>
+                                </th>
+                                <th class="px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase">
+                                    Producto</th>
+                                <th class="px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase cursor-pointer hover:text-primary select-none"
+                                    data-sort="total_amount">
+                                    Total <span class="material-symbols-outlined text-sm align-middle"
+                                        id="sort-icon-total">unfold_more</span>
+                                </th>
+                                <th
+                                    class="px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase text-center">
+                                    Estado</th>
+                                <th
+                                    class="px-6 py-4 font-label-bold text-label-bold text-on-surface-variant uppercase text-right">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vouchers-table-body" class="divide-y divide-outline-variant">
+                            <tr>
+                                <td colspan="7" class="px-6 py-12 text-center text-on-surface-variant">
+                                    <span
+                                        class="material-symbols-outlined text-4xl block mb-2 opacity-30">hourglass_empty</span>
+                                    Cargando vales...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile cards -->
+                <div id="vouchers-cards-container" class="lg:hidden divide-y divide-outline-variant">
+                    <div class="px-4 py-12 text-center text-on-surface-variant">
+                        <span class="material-symbols-outlined text-4xl block mb-2 opacity-30">hourglass_empty</span>
+                        Cargando vales...
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div
+                    class="px-4 py-4 sm:px-6 bg-surface-container-low border-t border-outline-variant flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p class="font-body-sm text-body-sm text-on-surface-variant text-center sm:text-left"
+                        id="pagination-info">
+                        Mostrando <span class="font-bold text-on-surface" id="showing-range">—</span> de <span
+                            class="font-bold text-on-surface" id="total-count">—</span> resultados
+                    </p>
+                    <div class="flex items-center gap-2" id="pagination-controls"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-auto py-stack-md text-center opacity-40 px-gutter">
+            <p class="font-label-bold text-[10px] text-on-surface-variant uppercase tracking-widest leading-relaxed">©
+                2026 Pixel Logic Solutions o</p>
+        </footer>
+    </main>
+
+    <!-- ============================================================ DRAWER DE DETALLES -->
+    <div class="fixed right-0 top-0 h-screen w-full sm:w-[420px] bg-surface border-l border-outline-variant shadow-2xl z-[60] translate-x-full transition-transform duration-300 ease-in-out flex flex-col"
+        id="details-drawer">
+        <div class="p-4 sm:p-6 border-b border-outline-variant flex justify-between items-center">
+            <h3 class="font-title-sm text-title-sm">Detalles del Vale</h3>
+            <button class="p-2 hover:bg-surface-container rounded-full" onclick="closeDrawer()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-4 sm:p-6 flex-1 overflow-y-auto custom-scrollbar space-y-stack-lg" id="drawer-content">
+            <!-- Contenido dinámico -->
+        </div>
+        <div class="p-4 sm:p-6 border-t border-outline-variant grid grid-cols-2 gap-4 bg-surface" id="drawer-actions">
+            <!-- Botones dinámicos según el estado del vale -->
+        </div>
+    </div>
+
+    <!-- ============================================================ CHAT DRAWER -->
+    <div class="fixed inset-0 z-[70] hidden overflow-hidden" id="chat-drawer">
+        <div class="absolute inset-0 bg-on-background/20" onclick="closeChat()"></div>
+        <div
+            class="absolute right-0 top-0 h-screen w-full sm:w-96 bg-surface-container-lowest shadow-2xl flex flex-col border-l border-outline-variant transform transition-transform duration-300 translate-x-full">
+            <!-- Chat Header -->
+            <div class="p-4 md:p-5 border-b border-outline-variant bg-surface flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary">chat_bubble</span>
+                    <div>
+                        <h3 class="font-title-sm text-on-background text-base md:text-lg" id="chat-title">Mensajes del
+                            Vale</h3>
+                        <p class="font-label-bold text-label-bold text-on-surface-variant text-xs" id="chat-subtitle">
+                            Proveedor: —</p>
+                    </div>
+                </div>
+                <button class="p-2 hover:bg-surface-container rounded-full" onclick="closeChat()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <!-- Read-only banner (shown when voucher is not pending) -->
+            <div id="chat-readonly-banner"
+                class="hidden px-4 py-2.5 bg-surface-container border-b border-outline-variant flex items-center gap-2 text-on-surface-variant">
+                <span class="material-symbols-outlined text-sm">lock</span>
+                <span class="font-label-bold text-label-bold text-xs">Conversación cerrada — solo lectura</span>
+            </div>
+
+            <!-- Message Area -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-5 space-y-4 custom-scrollbar bg-background"
+                id="message-container">
+                <p id="chat-loading" class="text-center text-on-surface-variant font-body-sm text-body-sm pt-6">Cargando
+                    mensajes...</p>
+            </div>
+
+            <!-- Quick Suggestions (solo pendiente) -->
+            <div id="chat-quick-suggestions"
+                class="p-3 bg-surface border-t border-outline-variant flex flex-wrap gap-2">
+                <button
+                    class="text-[11px] font-bold px-3 py-1 border border-outline-variant rounded-full hover:bg-secondary-container transition-colors"
+                    onclick="appendQuickNote('¿Cuándo será aprobado el vale?')">¿Cuándo aprueban?</button>
+                <button
+                    class="text-[11px] font-bold px-3 py-1 border border-outline-variant rounded-full hover:bg-secondary-container transition-colors"
+                    onclick="appendQuickNote('Adjunto documentación adicional.')">Doc. adicional</button>
+                <button
+                    class="text-[11px] font-bold px-3 py-1 border border-outline-variant rounded-full hover:bg-secondary-container transition-colors"
+                    onclick="appendQuickNote('Por favor revisar los datos del cliente.')">Revisar datos</button>
+            </div>
+
+            <!-- Input Area (solo pendiente) -->
+            <div id="chat-input-area" class="p-3 md:p-4 border-t border-outline-variant bg-surface">
+                <div class="flex gap-2">
+                    <textarea id="chat-input"
+                        class="flex-1 bg-surface-container-low border border-outline-variant rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all font-body-sm text-body-sm resize-none"
+                        placeholder="Escribir mensaje al proveedor..." rows="2"></textarea>
+                    <button id="send-btn"
+                        class="bg-primary text-on-primary w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center hover:bg-primary/90 transition-all self-end active:scale-90"
+                        onclick="sendMessage()">
+                        <span class="material-symbols-outlined text-xl">send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ BOTTOM NAV MÓVIL -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant z-50 flex items-center justify-around h-16 px-2">
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="home-managers.html">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+            <span class="text-[10px] font-bold">Panel</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="vouche.html">
+            <span class="material-symbols-outlined">add_notes</span>
+            <span class="text-[10px]">Vale</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-primary relative" href="histori-vouche.html">
+            <span class="material-symbols-outlined">history</span>
+            <span class="nav-badge-messages-dot hidden absolute top-0 right-3 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface"></span>
+            <span class="text-[10px]">Historial</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="supplier-managers.html">
+            <span class="material-symbols-outlined">handshake</span>
+            <span class="text-[10px]">Proveedor</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="financial-books.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">menu_book</span>
+            <span class="text-[10px] font-bold">Libros</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="settings.html">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="text-[10px]">Ajustes</span>
+        </a>
+    </nav>
+
+    <script src="loading-overlay.js" data-message="Cargando..." data-icon="autorenew" data-min-time="300"></script>
+
+    <!-- ============================================================ SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <!-- <script src="db-manager.js"></script> -->
+    <script src="register-sw.js"></script>
+    <script src="install-pwa.js"></script>
+
+    <script src="subscription.js"></script>
+
+    <script>
+        // ================================================================
+        // histori-vouche.js — Historial de vales + Chat con proveedor
+        // ================================================================
+
+        // ========== CONFIGURACIÓN ==========
+        const PAGE_SIZE = 15;
+
+        const STATUS_CONFIG = {
+            draft: { label: 'Borrador', bg: 'bg-surface-container', text: 'text-on-surface-variant', icon: 'draft' },
+            pending: { label: 'Pendiente', bg: 'bg-secondary-container', text: 'text-secondary', icon: 'pending_actions' },
+            approved: { label: 'Aprobado', bg: 'bg-green-100', text: 'text-green-700', icon: 'check_circle' },
+            rejected: { label: 'Rechazado', bg: 'bg-error-container', text: 'text-error', icon: 'cancel' },
+            cancelled: { label: 'Cancelado', bg: 'bg-surface-container-high', text: 'text-on-surface-variant', icon: 'block' }
+        };
+
+        // ========== ESTADO ==========
+        let allVouchers = [];
+        let filteredVouchers = [];
+        let currentPage = 1;
+        let activeStatus = 'all';
+        let activeDateDays = 30;
+        let activeSource = 'all';
+        let sortField = 'created_at';
+        let sortDir = 'desc';
+        let searchTerm = '';
+        let dataSource = 'none';
+        let currentProfile = null;
+
+        // Chat state
+        let chatVoucherId = null;
+        let chatIsReadOnly = false;
+        let realtimeChannel = null;
+
+        // Unread messages badge state
+        let unreadCounts = {}; // { [voucherSupabaseId]: count }
+        let globalBadgeChannel = null;
+
+        // ========== DOM REFS ==========
+        const tableBody = document.getElementById('vouchers-table-body');
+        const cardsContainer = document.getElementById('vouchers-cards-container');
+        const showingRange = document.getElementById('showing-range');
+        const totalCount = document.getElementById('total-count');
+        const paginationCtrl = document.getElementById('pagination-controls');
+        const searchInput = document.getElementById('search-input');
+        const dateFilter = document.getElementById('date-filter');
+        const sourceFilter = document.getElementById('source-filter');
+        const sourceIndicator = document.getElementById('source-indicator');
+        const sourceIndicatorText = document.getElementById('source-indicator-text');
+        const drawer = document.getElementById('details-drawer');
+        const drawerContent = document.getElementById('drawer-content');
+        const drawerActions = document.getElementById('drawer-actions');
+
+        // ========== INICIALIZACIÓN ==========
+        document.addEventListener('DOMContentLoaded', async () => {
+            setupFilterListeners();
+            setupSortListeners();
+            setupSearchListener();
+            setupChatEnterKey();
+            await loadCurrentProfile();
+            await loadManagerAvatar();
+            await loadAllVouchers();
+            await loadUnreadCounts();
+            subscribeToGlobalMessageBadges();
+            SUBSCRIPTION.renderPremiumIndicator();
+            updateSyncIndicator();
+            subscribeToPushNotifications();
+
+        });
+
+        window.addEventListener('online', () => { updateSyncIndicator(); loadAllVouchers(); });
+        window.addEventListener('offline', () => updateSyncIndicator());
+        window.addEventListener('connectivity-change', () => updateSyncIndicator());
+
+        // ========== PERFIL ACTUAL ==========
+        async function loadCurrentProfile() {
+            if (!window.suitSupabase) return;
+            try {
+                const { data: { session } } = await window.suitSupabase.auth.getSession();
+                if (!session) return;
+                const { data } = await window.suitSupabase
+                    .from('profiles')
+                    .select('id, full_name, role, avatar_url')
+                    .eq('id', session.user.id)
+                    .single();
+                currentProfile = data;
+            } catch (err) {
+                console.warn('[Historial] No se pudo cargar el perfil:', err.message);
+            }
+        }
+
+        // ========== CARGA DE DATOS ==========
+        async function loadAllVouchers() {
+            showSkeleton();
+            if (!window.suitSupabase) {
+                allVouchers = [];
+                dataSource = 'none';
+                updateSourceIndicator();
+                applyFiltersAndRender();
+                return;
+            }
+            try {
+                const { data, error } = await window.suitSupabase.rpc('get_my_vouchers');
+                if (error) throw error;
+                allVouchers = (data || []).map(normalizeOnlineVoucher);
+                dataSource = 'online';
+            } catch (err) {
+                console.error('[Historial] Error cargando vales:', err);
+                allVouchers = [];
+                dataSource = 'error';
+                showToast('Error al cargar los vales', 'error');
+            }
+            updateSourceIndicator();
+            applyFiltersAndRender();
+        }
+
+        /*         async function loadFromLocalDB() {
+                    try {
+                        if (!window.suitDB || !window.suitDB.db) await waitForDB();
+                        const vouchers = await window.suitDB.getAllVouchers();
+                        return vouchers.map(normalizeLocalVoucher);
+                    } catch (err) {
+                        console.error('[Historial] Error leyendo IndexedDB:', err);
+                        return [];
+                    }
+                } */
+
+        /*         function waitForDB() {
+                    return new Promise((resolve) => {
+                        let attempts = 0;
+                        const iv = setInterval(() => {
+                            if (window.suitDB?.db || attempts > 40) { clearInterval(iv); resolve(); }
+                            attempts++;
+                        }, 100);
+                    });
+                } */
+
+        /*         async function syncToLocalDB(vouchers) {
+                    if (!window.suitDB?.db) return;
+                    try {
+                        for (const v of vouchers) {
+                            const localFormat = {
+                                id: v.id, supabaseId: v.supabaseId, voucherNumber: v.voucherNumber,
+                                status: v.status, syncStatus: 'synced', reference: v.providerCode,
+                                managerName: v.managerName,
+                                client: { name: v.clientName, phone: v.clientPhone, address: v.clientAddress, email: v.clientEmail },
+                                product: { name: v.productName, basePrice: v.basePrice, commissionPercent: v.commissionPct },
+                                totalAmount: v.totalAmount, notes: v.notes,
+                                createdAt: new Date(v.createdAt).getTime(),
+                                updatedAt: new Date(v.updatedAt).getTime(),
+                                sentAt: v.sentAt ? new Date(v.sentAt).getTime() : null
+                            };
+                            try { await window.suitDB.updateVoucher(v.id, localFormat); }
+                            catch { try { await window.suitDB.createVoucher(localFormat); } catch { } }
+                        }
+                    } catch (err) {
+                        console.warn('[Historial] Error sincronizando en IndexedDB:', err);
+                    }
+                } */
+
+
+        // ========== NORMALIZACIÓN ==========
+        function normalizeOnlineVoucher(v) {
+            return {
+                id: v.id, supabaseId: v.id, voucherNumber: v.voucher_number,
+                providerCode: v.provider_code, managerName: v.manager_name,
+                clientName: v.client_name, clientPhone: v.client_phone,
+                clientAddress: v.client_address, clientEmail: v.client_email,
+                productName: v.product_name,
+                basePrice: parseFloat(v.base_price || 0),
+                commissionPct: parseFloat(v.commission_pct || 0),
+                totalAmount: parseFloat(v.total_amount || 0),
+                status: v.status, notes: v.notes,
+                createdAt: v.created_at, updatedAt: v.updated_at,
+                sentAt: v.sent_at, resolvedAt: v.resolved_at,
+                source: 'online'
+            };
+        }
+
+        /*         function normalizeLocalVoucher(v) {
+                    return {
+                        id: v.id, supabaseId: v.supabaseId || null, voucherNumber: v.voucherNumber,
+                        providerCode: v.reference || '', managerName: v.managerName || '',
+                        clientName: v.client?.name || '', clientPhone: v.client?.phone || '',
+                        clientAddress: v.client?.address || '', clientEmail: v.client?.email || '',
+                        productName: v.product?.name || '',
+                        basePrice: parseFloat(v.product?.basePrice || 0),
+                        commissionPct: parseFloat(v.product?.commissionPercent || 0),
+                        totalAmount: parseFloat(v.totalAmount || 0),
+                        status: v.status || 'draft', notes: v.notes || '',
+                        createdAt: v.createdAt ? new Date(v.createdAt).toISOString() : new Date().toISOString(),
+                        updatedAt: v.updatedAt ? new Date(v.updatedAt).toISOString() : new Date().toISOString(),
+                        sentAt: v.sentAt ? new Date(v.sentAt).toISOString() : null,
+                        resolvedAt: null,
+                        source: v.syncStatus === 'synced' ? 'online' : 'local'
+                    };
+                } */
+
+        // ========== FILTROS Y BÚSQUEDA ==========
+        function applyFiltersAndRender() {
+            let result = [...allVouchers];
+            if (activeStatus !== 'all') result = result.filter(v => v.status === activeStatus);
+            if (activeDateDays > 0) {
+                const cutoff = Date.now() - activeDateDays * 24 * 60 * 60 * 1000;
+                result = result.filter(v => new Date(v.createdAt).getTime() >= cutoff);
+            }
+            if (activeSource === 'online') result = result.filter(v => v.source === 'online');
+            if (activeSource === 'local') result = result.filter(v => v.source === 'local');
+            if (searchTerm) {
+                const q = searchTerm.toLowerCase();
+                result = result.filter(v =>
+                    v.voucherNumber?.toLowerCase().includes(q) ||
+                    v.clientName?.toLowerCase().includes(q) ||
+                    v.productName?.toLowerCase().includes(q) ||
+                    v.providerCode?.toLowerCase().includes(q)
+                );
+            }
+            result.sort((a, b) => {
+                let va, vb;
+                if (sortField === 'created_at' || sortField === 'createdAt') {
+                    va = new Date(a.createdAt).getTime(); vb = new Date(b.createdAt).getTime();
+                } else if (sortField === 'total_amount' || sortField === 'totalAmount') {
+                    va = a.totalAmount; vb = b.totalAmount;
+                } else if (sortField === 'client_name' || sortField === 'clientName') {
+                    va = a.clientName?.toLowerCase() || ''; vb = b.clientName?.toLowerCase() || '';
+                } else {
+                    va = a[sortField] ?? ''; vb = b[sortField] ?? '';
+                }
+                if (va < vb) return sortDir === 'asc' ? -1 : 1;
+                if (va > vb) return sortDir === 'asc' ? 1 : -1;
+                return 0;
+            });
+            filteredVouchers = result;
+            currentPage = 1;
+            updateStats();
+            renderPage();
+        }
+
+        function setupFilterListeners() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.classList.add('text-on-surface-variant');
+                    });
+                    btn.classList.add('active');
+                    btn.classList.remove('text-on-surface-variant');
+                    activeStatus = btn.dataset.status;
+                    applyFiltersAndRender();
+                });
+            });
+            dateFilter.addEventListener('change', () => {
+                activeDateDays = parseInt(dateFilter.value);
+                applyFiltersAndRender();
+            });
+            sourceFilter.addEventListener('change', () => {
+                activeSource = sourceFilter.value;
+                applyFiltersAndRender();
+            });
+        }
+
+        function setupSortListeners() {
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.addEventListener('click', () => {
+                    const field = th.dataset.sort;
+                    if (sortField === field) {
+                        sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortField = field; sortDir = 'desc';
+                    }
+                    updateSortIcons();
+                    applyFiltersAndRender();
+                });
+            });
+        }
+
+        function updateSortIcons() {
+            const map = { 'created_at': 'sort-icon-date', 'client_name': 'sort-icon-client', 'total_amount': 'sort-icon-total' };
+            Object.entries(map).forEach(([field, id]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.textContent = sortField === field ? (sortDir === 'asc' ? 'arrow_upward' : 'arrow_downward') : 'unfold_more';
+            });
+        }
+
+        let searchTimeout;
+        function setupSearchListener() {
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    searchTerm = searchInput.value.trim();
+                    applyFiltersAndRender();
+                }, 250);
+            });
+        }
+
+        // ========== ESTADÍSTICAS ==========
+        function updateStats() {
+            let base = [...allVouchers];
+            if (activeDateDays > 0) {
+                const cutoff = Date.now() - activeDateDays * 24 * 60 * 60 * 1000;
+                base = base.filter(v => new Date(v.createdAt).getTime() >= cutoff);
+            }
+            const total = base.length;
+            const pending = base.filter(v => v.status === 'pending').length;
+            const rejected = base.filter(v => v.status === 'rejected').length;
+            const volume = base.reduce((s, v) => s + (v.totalAmount || 0), 0);
+            const rejectedPct = total > 0 ? ((rejected / total) * 100).toFixed(1) + '%' : '0%';
+
+            document.getElementById('stat-total').textContent = total.toLocaleString('es');
+            document.getElementById('stat-pending').textContent = pending.toLocaleString('es');
+            document.getElementById('stat-volume').textContent = '$' + volume.toLocaleString('es', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            document.getElementById('stat-rejected').textContent = rejected.toLocaleString('es');
+            document.getElementById('stat-rejected-pct').textContent = rejectedPct;
+
+            if (activeDateDays > 0) {
+                const cutoff = Date.now() - activeDateDays * 24 * 60 * 60 * 1000;
+                const prevCut = cutoff - activeDateDays * 24 * 60 * 60 * 1000;
+                const prev = allVouchers.filter(v => {
+                    const t = new Date(v.createdAt).getTime();
+                    return t >= prevCut && t < cutoff;
+                }).length;
+                if (prev > 0) {
+                    const diff = ((total - prev) / prev * 100).toFixed(1);
+                    document.getElementById('stat-growth').textContent = (diff >= 0 ? '+' : '') + diff + '%';
+                } else {
+                    document.getElementById('stat-growth').textContent = total > 0 ? 'Nuevo' : '—';
+                }
+            } else {
+                document.getElementById('stat-growth').textContent = '—';
+            }
+        }
+
+        // ========== RENDER ==========
+        function renderPage() {
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const end = start + PAGE_SIZE;
+            const page = filteredVouchers.slice(start, end);
+            renderTable(page);
+            renderCards(page);
+            renderPagination();
+        }
+
+        function statusBadge(status) {
+            const cfg = STATUS_CONFIG[status] || STATUS_CONFIG.draft;
+            return `<span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-bold ${cfg.bg} ${cfg.text}">
+        <span class="material-symbols-outlined text-[14px]">${cfg.icon}</span>${cfg.label}
+    </span>`;
+        }
+
+        function formatDate(iso) {
+            if (!iso) return '—';
+            return new Date(iso).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+
+        function formatCurrency(amount) {
+            return '$' + (parseFloat(amount) || 0).toLocaleString('es', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Botón de chat — visible en pending (activo) o en otros estados (solo historial)
+        function chatButtonHtml(v) {
+            const isPending = v.status === 'pending';
+            // Solo mostrar si el vale tiene supabaseId (necesitamos el ID para buscar mensajes)
+            if (!v.supabaseId) return '';
+
+            const unread = unreadCounts[v.supabaseId] || 0;
+            const badgeHtml = unread > 0
+                ? `<span class="absolute -top-1 -right-1 bg-error text-white text-[9px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1 leading-none">${unread > 9 ? '9+' : unread}</span>`
+                : '';
+
+            if (isPending) {
+                return `<button data-premium="sms_messaging"
+            onclick="event.stopPropagation(); openChat('${v.id}', '${escHtml(v.providerCode || '')}', true)"
+            class="relative p-1.5 hover:bg-secondary-container rounded-lg text-on-surface-variant hover:text-primary transition-colors"
+            title="Mensajes con proveedor">
+            <span class="material-symbols-outlined text-[20px]">forum</span>${badgeHtml}
+        </button>`;
+            } else {
+                // Estados cerrados: solo ver historial
+                return `<button
+            onclick="event.stopPropagation(); openChat('${v.id}', '${escHtml(v.providerCode || '')}', false)"
+            class="relative p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant hover:text-on-surface transition-colors"
+            title="Ver conversación">
+            <span class="material-symbols-outlined text-[20px]">chat_bubble_outline</span>${badgeHtml}
+        </button>`;
+            }
+        }
+
+        // Botón de eliminar permanente — solo visible en estados terminales (aprobado, rechazado, cancelado)
+        const DELETABLE_STATUSES = ['approved', 'rejected', 'cancelled'];
+
+        function deleteButtonHtml(v) {
+            if (!v.supabaseId || !DELETABLE_STATUSES.includes(v.status)) return '';
+            return `<button onclick="event.stopPropagation(); deleteVoucherPermanently('${v.id}','${v.supabaseId}','${escHtml(v.voucherNumber || '')}')"
+            class="p-1.5 hover:bg-error-container rounded-lg text-on-surface-variant hover:text-error transition-colors"
+            title="Eliminar permanentemente">
+            <span class="material-symbols-outlined text-[20px]">delete_forever</span>
+        </button>`;
+        }
+
+        function deleteButtonCardHtml(v) {
+            if (!v.supabaseId || !DELETABLE_STATUSES.includes(v.status)) return '';
+            return `<button onclick="event.stopPropagation(); deleteVoucherPermanently('${v.id}','${v.supabaseId}','${escHtml(v.voucherNumber || '')}')"
+            class="p-1 rounded text-error text-xs flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">delete_forever</span>Eliminar
+        </button>`;
+        }
+
+        function renderTable(vouchers) {
+            if (vouchers.length === 0) {
+                tableBody.innerHTML = `
+            <tr class="fade-in">
+                <td colspan="7" class="px-6 py-12 text-center text-on-surface-variant">
+                    <span class="material-symbols-outlined text-5xl block mb-3 opacity-20">receipt_long</span>
+                    <p class="font-title-sm text-title-sm opacity-50">No se encontraron vales</p>
+                    <p class="font-body-sm text-body-sm opacity-40 mt-1">Intenta cambiar los filtros o crear un nuevo vale.</p>
+                </td>
+            </tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = vouchers.map(v => `
+        <tr class="hover:bg-surface-container-low transition-colors cursor-pointer fade-in" onclick="openDrawer('${v.id}')">
+            <td class="px-6 py-4 font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">${formatDate(v.createdAt)}</td>
+            <td class="px-6 py-4 font-data-mono text-data-mono text-primary">${v.voucherNumber || '—'}</td>
+            <td class="px-6 py-4">
+                <p class="font-body-md text-body-md font-semibold">${escHtml(v.clientName || '—')}</p>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">${escHtml(v.providerCode || '')}</p>
+            </td>
+            <td class="px-6 py-4 font-body-sm text-body-sm max-w-[180px] truncate">${escHtml(v.productName || '—')}</td>
+            <td class="px-6 py-4 font-data-mono text-data-mono font-bold">${formatCurrency(v.totalAmount)}</td>
+            <td class="px-6 py-4 text-center">${statusBadge(v.status)}</td>
+            <td class="px-6 py-4 text-right">
+                <div class="flex items-center justify-end gap-1">
+                    ${chatButtonHtml(v)}
+                    <button onclick="event.stopPropagation(); openDrawer('${v.id}')" class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant hover:text-primary transition-colors" title="Ver detalles">
+                        <span class="material-symbols-outlined text-[20px]">open_in_new</span>
+                    </button>
+<button onclick="event.stopPropagation(); handleEditVoucher('${v.id}', '${v.status}')" class="p-1.5 hover:bg-surface-container rounded-lg text-on-surface-variant hover:text-primary transition-colors" title="Editar">
+    <span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+                    ${v.status === 'draft' || v.status === 'pending'
+                    ? `<button onclick="event.stopPropagation(); cancelVoucher('${v.id}','${v.supabaseId || ''}')" class="p-1.5 hover:bg-error-container rounded-lg text-on-surface-variant hover:text-error transition-colors" title="Cancelar">
+                               <span class="material-symbols-outlined text-[20px]">cancel</span>
+                           </button>`
+                    : ''}
+                    ${deleteButtonHtml(v)}
+                </div>
+            </td>
+        </tr>`
+            ).join('');
+        }
+
+        function renderCards(vouchers) {
+            if (vouchers.length === 0) {
+                cardsContainer.innerHTML = `
+            <div class="px-4 py-12 text-center text-on-surface-variant fade-in">
+                <span class="material-symbols-outlined text-5xl block mb-3 opacity-20">receipt_long</span>
+                <p class="font-title-sm text-title-sm opacity-50">No se encontraron vales</p>
+                <p class="font-body-sm text-body-sm opacity-40 mt-1">Intenta cambiar los filtros.</p>
+            </div>`;
+                return;
+            }
+
+            cardsContainer.innerHTML = vouchers.map(v => `
+        <div class="p-4 hover:bg-surface-container-low transition-colors cursor-pointer fade-in" onclick="openDrawer('${v.id}')">
+            <div class="flex justify-between items-start mb-2">
+                <div>
+                    <span class="font-data-mono text-data-mono text-primary text-xs">${v.voucherNumber || '—'}</span>
+                    <p class="font-body-md text-body-md font-semibold">${escHtml(v.clientName || '—')}</p>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">${escHtml(v.productName || '—')}</p>
+                </div>
+                <div class="text-right flex-shrink-0 ml-2">
+                    ${statusBadge(v.status)}
+                    <p class="font-data-mono text-data-mono font-bold text-primary mt-1">${formatCurrency(v.totalAmount)}</p>
+                </div>
+            </div>
+            <div class="flex justify-between items-center mt-2">
+                <span class="font-body-sm text-body-sm text-on-surface-variant">${formatDate(v.createdAt)}</span>
+                <div class="flex gap-1 items-center">
+                    ${v.supabaseId ? `
+                    <button onclick="event.stopPropagation(); openChat('${v.id}', '${escHtml(v.providerCode || '')}', ${v.status === 'pending'})"
+                        class="relative p-1 rounded text-${v.status === 'pending' ? 'primary' : 'on-surface-variant'} text-xs flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">${v.status === 'pending' ? 'forum' : 'chat_bubble_outline'}</span>
+                        ${v.status === 'pending' ? 'Chat' : 'Ver'}
+                        ${(unreadCounts[v.supabaseId] || 0) > 0 ? `<span class="absolute -top-1 -right-1 bg-error text-white text-[9px] font-bold rounded-full min-w-[14px] h-3.5 flex items-center justify-center px-1 leading-none">${unreadCounts[v.supabaseId] > 9 ? '9+' : unreadCounts[v.supabaseId]}</span>` : ''}
+                    </button>` : ''}
+                    ${v.status === 'draft' || v.status === 'pending'
+                    ? `<button onclick="event.stopPropagation(); cancelVoucher('${v.id}','${v.supabaseId || ''}')" class="p-1 rounded text-error text-xs flex items-center gap-1">
+                               <span class="material-symbols-outlined text-[16px]">cancel</span>Cancelar
+                           </button>`
+                    : ''}
+                    ${deleteButtonCardHtml(v)}
+                    <button class="p-1 rounded text-primary text-xs flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">open_in_new</span>Ver
+                    </button>
+                </div>
+            </div>
+        </div>`
+            ).join('');
+        }
+
+        // ========== PAGINACIÓN ==========
+        function renderPagination() {
+            const total = filteredVouchers.length;
+            const totalPages = Math.ceil(total / PAGE_SIZE);
+            const start = total === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
+            const end = Math.min(currentPage * PAGE_SIZE, total);
+
+            showingRange.textContent = `${start} - ${end}`;
+            totalCount.textContent = total.toLocaleString('es');
+
+            if (totalPages <= 1) { paginationCtrl.innerHTML = ''; return; }
+
+            const pages = buildPageRange(currentPage, totalPages);
+            paginationCtrl.innerHTML = `
+        <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}
+            class="p-2 border border-outline rounded hover:bg-surface-container-lowest disabled:opacity-30 transition-colors">
+            <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        ${pages.map(p => p === '…'
+                ? `<span class="px-1 text-on-surface-variant hidden sm:inline">…</span>`
+                : `<button onclick="goToPage(${p})"
+                class="h-8 w-8 flex items-center justify-center rounded text-xs transition-colors
+                    ${p === currentPage ? 'bg-primary text-on-primary font-bold' : 'border border-outline hover:bg-surface-container-lowest'}">
+                    ${p}
+               </button>`
+            ).join('')}
+        <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}
+            class="p-2 border border-outline rounded hover:bg-surface-container-lowest disabled:opacity-30 transition-colors">
+            <span class="material-symbols-outlined">chevron_right</span>
+        </button>`;
+        }
+
+        function buildPageRange(current, total) {
+            if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+            const pages = [1];
+            if (current > 3) pages.push('…');
+            for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) pages.push(i);
+            if (current < total - 2) pages.push('…');
+            pages.push(total);
+            return pages;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredVouchers.length / PAGE_SIZE);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderPage();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========== DRAWER DE DETALLES ==========
+        function openDrawer(voucherId) {
+            const v = allVouchers.find(x => x.id === voucherId);
+            if (!v) return;
+
+            const cfg = STATUS_CONFIG[v.status] || STATUS_CONFIG.draft;
+            const isPending = v.status === 'pending';
+
+            drawerContent.innerHTML = `
+        <div class="p-4 ${cfg.bg} border border-opacity-20 rounded-xl">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="material-symbols-outlined ${cfg.text}">${cfg.icon}</span>
+                <p class="font-label-bold text-label-bold ${cfg.text} uppercase">Estado: ${cfg.label}</p>
+            </div>
+            <div class="space-y-1.5 text-body-sm">
+                <div class="flex justify-between">
+                    <span class="text-on-surface-variant">Número:</span>
+                    <span class="font-data-mono font-bold text-primary">${v.voucherNumber || '—'}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-on-surface-variant">Creado:</span>
+                    <span>${formatDate(v.createdAt)}</span>
+                </div>
+                ${v.sentAt ? `<div class="flex justify-between">
+                    <span class="text-on-surface-variant">Enviado:</span>
+                    <span>${formatDate(v.sentAt)}</span>
+                </div>` : ''}
+                ${v.resolvedAt ? `<div class="flex justify-between">
+                    <span class="text-on-surface-variant">Resuelto:</span>
+                    <span>${formatDate(v.resolvedAt)}</span>
+                </div>` : ''}
+                <div class="flex justify-between">
+                    <span class="text-on-surface-variant">Proveedor:</span>
+                    <span class="font-mono font-bold">${escHtml(v.providerCode || '—')}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-on-surface-variant">Origen:</span>
+                    <span>${v.source === 'online' ? '☁ Online' : '📱 Local'}</span>
+                </div>
+            </div>
+        </div>
+        <section>
+            <h4 class="font-label-bold text-label-bold uppercase text-on-surface-variant mb-3">Información del Cliente</h4>
+            <div class="space-y-1">
+                <p class="font-title-sm text-title-sm">${escHtml(v.clientName || '—')}</p>
+                ${v.clientPhone ? `<p class="text-body-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-sm">phone</span>${escHtml(v.clientPhone)}</p>` : ''}
+                ${v.clientAddress ? `<p class="text-body-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span>${escHtml(v.clientAddress)}</p>` : ''}
+                ${v.clientEmail ? `<p class="text-body-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-sm">mail</span>${escHtml(v.clientEmail)}</p>` : ''}
+            </div>
+        </section>
+        <section>
+            <h4 class="font-label-bold text-label-bold uppercase text-on-surface-variant mb-3">Producto y Finanzas</h4>
+            <div class="border rounded-lg border-outline-variant overflow-hidden">
+                <div class="p-3 bg-surface-container-low flex justify-between font-label-bold text-[11px] uppercase">
+                    <span>Concepto</span><span>Importe</span>
+                </div>
+                <div class="p-3 flex justify-between border-b border-outline-variant text-body-sm">
+                    <span class="text-on-surface-variant">Precio base</span>
+                    <span class="font-data-mono">${formatCurrency(v.basePrice)}</span>
+                </div>
+                <div class="p-3 flex justify-between border-b border-outline-variant text-body-sm">
+                    <span class="text-on-surface-variant">Comisión (${v.commissionPct}%)</span>
+                    <span class="font-data-mono">${formatCurrency(v.basePrice * v.commissionPct / 100)}</span>
+                </div>
+                <div class="p-3 flex justify-between font-bold text-primary">
+                    <span>${escHtml(v.productName || 'Producto')}</span>
+                    <span class="font-data-mono">${formatCurrency(v.totalAmount)}</span>
+                </div>
+            </div>
+        </section>
+        ${v.notes ? `<section>
+            <h4 class="font-label-bold text-label-bold uppercase text-on-surface-variant mb-2">Notas</h4>
+            <p class="text-body-sm text-on-surface-variant bg-surface-container p-3 rounded-lg">${escHtml(v.notes)}</p>
+        </section>` : ''}
+        <section>
+            <h4 class="font-label-bold text-label-bold uppercase text-on-surface-variant mb-3">Historial de Eventos</h4>
+            <div class="space-y-4 relative before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant">
+                ${buildTimeline(v)}
+            </div>
+        </section>`;
+
+            const canCancel = v.status === 'draft' || v.status === 'pending';
+            const canSend = v.status === 'draft' && v.providerCode;
+            const canDelete = !!v.supabaseId && DELETABLE_STATUSES.includes(v.status);
+
+            const drawerUnread = unreadCounts[v.supabaseId] || 0;
+            const drawerBadgeHtml = drawerUnread > 0
+                ? `<span class="ml-1 bg-error text-white text-[10px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1 leading-none">${drawerUnread > 9 ? '9+' : drawerUnread}</span>`
+                : '';
+
+            drawerActions.innerHTML = `
+        ${v.supabaseId ? `
+        <button data-premium="sms_messaging" onclick="openChat('${v.id}', '${escHtml(v.providerCode || '')}', ${isPending})"
+            class="py-3 ${isPending ? 'bg-secondary-container text-on-secondary-container hover:brightness-95' : 'border border-outline text-on-surface-variant hover:bg-surface-container'} rounded-lg font-label-bold text-xs uppercase transition-all flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-sm">${isPending ? 'forum' : 'chat_bubble_outline'}</span>
+            ${isPending ? 'Mensajes' : 'Ver conversación'}${drawerBadgeHtml}
+        </button>` : '<div></div>'}
+        ${canSend
+                    ? `<button onclick="sendVoucherFromDrawer('${v.id}')"
+                class="py-3 bg-primary text-on-primary rounded-lg font-label-bold text-xs uppercase hover:brightness-110 transition-all shadow-md flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-sm">send</span>Enviar al Proveedor
+               </button>`
+                    : canCancel
+                        ? `<button onclick="cancelVoucher('${v.id}','${v.supabaseId || ''}')"
+                    class="py-3 border border-error text-error rounded-lg font-label-bold text-xs uppercase hover:bg-error-container transition-colors flex items-center justify-center gap-1">
+                    <span class="material-symbols-outlined text-sm">cancel</span>Cancelar Vale
+                   </button>`
+                        : `<button onclick="closeDrawer()"
+                    class="py-3 border border-outline rounded-lg font-label-bold text-xs uppercase hover:bg-surface-container transition-colors">
+                    Cerrar
+                   </button>`}
+        ${canDelete ? `<button onclick="deleteVoucherPermanently('${v.id}','${v.supabaseId}','${escHtml(v.voucherNumber || '')}')"
+            class="col-span-2 py-3 bg-error text-on-error rounded-lg font-label-bold text-xs uppercase hover:brightness-110 transition-all shadow-md flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-sm">delete_forever</span>Eliminar Permanentemente
+        </button>` : ''}`;
+
+            drawer.classList.remove('translate-x-full');
+        }
+
+        function buildTimeline(v) {
+            const events = [];
+            if (v.resolvedAt) {
+                events.push({ date: v.resolvedAt, label: v.status === 'approved' ? 'Vale aprobado' : 'Vale rechazado', primary: true });
+            }
+            if (v.sentAt) events.push({ date: v.sentAt, label: 'Enviado al proveedor', primary: !!v.resolvedAt });
+            events.push({ date: v.createdAt, label: 'Vale creado', primary: false });
+
+            return events.map((e, i) => `
+        <div class="pl-8 relative">
+            <div class="absolute left-0 top-1 h-4 w-4 rounded-full ${i === 0 ? 'bg-primary' : 'bg-outline'} border-4 border-surface"></div>
+            <p class="text-body-sm font-bold">${e.label}</p>
+            <p class="text-[11px] text-on-surface-variant">${formatDate(e.date)}</p>
+        </div>`
+            ).join('');
+        }
+
+        function closeDrawer() {
+            drawer.classList.add('translate-x-full');
+        }
+
+        // ========== CANCELAR VALE ==========
+        async function cancelVoucher(localId, supabaseId) {
+            if (!confirm('¿Cancelar este vale? Esta acción no se puede deshacer.')) return;
+            try {
+                if (!window.suitSupabase) throw new Error('Sin conexión a Supabase');
+                const { error } = await window.suitSupabase.rpc('cancel_voucher', { p_id: supabaseId || localId });
+                if (error) throw error;
+                // Actualizar en memoria
+                const v = allVouchers.find(x => x.id === localId || x.supabaseId === supabaseId);
+                if (v) v.status = 'cancelled';
+                closeDrawer();
+                applyFiltersAndRender();
+                showToast('Vale cancelado correctamente', 'success');
+            } catch (err) {
+                console.error('[Historial] Error cancelando vale:', err);
+                showToast('Error al cancelar: ' + err.message, 'error');
+            }
+        }
+
+
+        // ========== ELIMINAR VALE PERMANENTEMENTE ==========
+        // Solo disponible para vales en estado terminal (aprobado, rechazado, cancelado).
+        // Elimina el vale, sus mensajes y las imágenes de identificación asociadas en Storage.
+        async function deleteVoucherPermanently(localId, supabaseId, voucherNumber) {
+            if (!supabaseId) {
+                showToast('Este vale no se puede eliminar (sin ID remoto)', 'warning');
+                return;
+            }
+
+            const confirmed = confirm(
+                `¿Eliminar PERMANENTEMENTE el vale ${voucherNumber || ''}?\n\n` +
+                `Esto borrará el vale, la conversación asociada y las imágenes de identificación. ` +
+                `Esta acción no se puede deshacer.`
+            );
+            if (!confirmed) return;
+
+            try {
+                if (!window.suitSupabase) throw new Error('Sin conexión a Supabase');
+
+                const { data, error } = await window.suitSupabase.rpc('delete_voucher_full', { p_id: supabaseId });
+                if (error) throw error;
+                if (data?.error) {
+                    const messages = {
+                        voucher_not_found_or_not_authorized: 'Vale no encontrado o sin permisos para eliminarlo.',
+                        only_terminal_status_vouchers_can_be_deleted: 'Solo se pueden eliminar vales aprobados, rechazados o cancelados.'
+                    };
+                    throw new Error(messages[data.error] || data.error);
+                }
+
+                // Limpiar imágenes del vale en Storage (bucket 'vouches').
+                // Esto se hace desde el cliente porque Supabase bloquea el DELETE
+                // directo sobre storage.objects vía SQL; hay que usar la Storage API.
+                // No es bloqueante: si falla, el vale ya se eliminó igual.
+                if (data?.voucher_number) {
+                    try {
+                        const { data: files, error: listErr } = await window.suitSupabase
+                            .storage.from('vouches').list(data.voucher_number);
+                        if (!listErr && files?.length) {
+                            const paths = files.map(f => `${data.voucher_number}/${f.name}`);
+                            const { error: removeErr } = await window.suitSupabase.storage.from('vouches').remove(paths);
+                            if (removeErr) console.warn('[Historial] No se pudieron borrar todas las imágenes:', removeErr);
+                        }
+                    } catch (storageErr) {
+                        console.warn('[Historial] Error limpiando Storage:', storageErr);
+                    }
+                }
+
+                // Actualizar estado local
+                allVouchers = allVouchers.filter(x => x.id !== localId);
+                delete unreadCounts[supabaseId];
+
+                closeDrawer();
+                if (chatVoucherId === localId) closeChat();
+
+                applyFiltersAndRender();
+                renderGlobalBadge();
+                showToast('Vale eliminado permanentemente', 'success');
+            } catch (err) {
+                console.error('[Historial] Error eliminando vale:', err);
+                showToast('Error al eliminar: ' + err.message, 'error');
+            }
+        }
+
+        async function sendVoucherFromDrawer(localId) {
+            const v = allVouchers.find(x => x.id === localId);
+            if (!v || !v.providerCode) { showToast('El vale no tiene código de proveedor asignado', 'warning'); return; }
+            try {
+                if (!window.suitSupabase) throw new Error('Sin conexión a Supabase');
+                const { error } = await window.suitSupabase.rpc('update_voucher', {
+                    p_id: v.supabaseId || v.id,
+                    p_provider_code: v.providerCode,
+                    p_status: 'pending'
+                });
+                if (error) throw error;
+                v.status = 'pending';
+                v.sentAt = new Date().toISOString();
+                closeDrawer();
+                applyFiltersAndRender();
+                showToast('Vale enviado al proveedor', 'success');
+            } catch (err) {
+                console.error('[Historial] Error enviando vale:', err);
+                showToast('Error al enviar el vale: ' + err.message, 'error');
+            }
+        }
+
+        // ================================================================
+        // BADGES DE MENSAJES NO LEÍDOS
+        // ================================================================
+
+        async function loadUnreadCounts() {
+            if (!window.suitSupabase) return;
+            const { data, error } = await window.suitSupabase.rpc('get_unread_message_counts');
+            if (error) { console.warn('[Unread] Error cargando conteos:', error); return; }
+            unreadCounts = {};
+            (data || []).forEach(r => { unreadCounts[r.voucher_id] = Number(r.unread_count); });
+            renderGlobalBadge();
+        }
+
+        function totalUnread() {
+            return Object.values(unreadCounts).reduce((a, b) => a + b, 0);
+        }
+
+        function renderGlobalBadge() {
+            const total = totalUnread();
+            document.querySelectorAll('.nav-badge-messages-count').forEach(el => {
+                el.textContent = total > 9 ? '9+' : String(total);
+                el.classList.toggle('hidden', total === 0);
+            });
+            document.querySelectorAll('.nav-badge-messages-dot').forEach(el => {
+                el.classList.toggle('hidden', total === 0);
+            });
+        }
+
+        function subscribeToGlobalMessageBadges() {
+            if (!window.suitSupabase) return;
+            if (globalBadgeChannel) window.suitSupabase.removeChannel(globalBadgeChannel);
+
+            globalBadgeChannel = window.suitSupabase
+                .channel('global-msg-badges-manager')
+                .on(
+                    'postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'voucher_messages' },
+                    (payload) => {
+                        const msg = payload.new;
+                        if (!msg || msg.sender_id === currentProfile?.id) return;
+                        // Solo nos interesan vales que pertenecen a este gestor y ya están cargados
+                        const belongsToMe = allVouchers.some(v => v.supabaseId === msg.voucher_id);
+                        if (!belongsToMe) return;
+                        // Si el chat de ese vale está abierto, se marca leído al instante (no sumar)
+                        if (chatVoucherId && allVouchers.find(v => v.id === chatVoucherId)?.supabaseId === msg.voucher_id) return;
+
+                        unreadCounts[msg.voucher_id] = (unreadCounts[msg.voucher_id] || 0) + 1;
+                        renderGlobalBadge();
+                        renderPage();
+                    }
+                )
+                .subscribe();
+        }
+
+        // ================================================================
+        // CHAT CON PROVEEDOR
+        // ================================================================
+
+        /**
+         * @param {string} voucherId  - ID local del vale
+         * @param {string} providerCode - Código del proveedor (para el subtítulo)
+         * @param {boolean} canWrite  - true = pendiente (puede escribir), false = solo lectura
+         */
+        async function openChat(voucherId, providerCode, canWrite) {
+
+            if (canWrite) {
+                const hasAccess = await SUBSCRIPTION.checkFeature('sms_messaging');
+                if (!hasAccess) {
+                    showToast('El chat con proveedores es una función premium. Suscríbete para desbloquearla.', 'warning');
+                    return;
+                }
+            }
+
+            chatVoucherId = voucherId;
+            chatIsReadOnly = !canWrite;
+
+            const v = allVouchers.find(x => x.id === voucherId);
+
+            // Header
+            document.getElementById('chat-title').textContent = `Mensajes · ${v?.voucherNumber ?? ''}`;
+            document.getElementById('chat-subtitle').textContent = `Proveedor: ${providerCode || v?.providerCode || '—'}`;
+
+            // UI según modo lectura/escritura
+            const banner = document.getElementById('chat-readonly-banner');
+            const suggestions = document.getElementById('chat-quick-suggestions');
+            const inputArea = document.getElementById('chat-input-area');
+
+            if (chatIsReadOnly) {
+                banner.classList.remove('hidden');
+                suggestions.classList.add('hidden');
+                inputArea.classList.add('hidden');
+            } else {
+                banner.classList.add('hidden');
+                suggestions.classList.remove('hidden');
+                inputArea.classList.remove('hidden');
+            }
+
+            // Mostrar drawer con animación
+            const chatDrawer = document.getElementById('chat-drawer');
+            const panel = chatDrawer.querySelector('.transform');
+            chatDrawer.classList.remove('hidden');
+            requestAnimationFrame(() => panel.classList.remove('translate-x-full'));
+
+            // Cargar mensajes
+            await fetchAndRenderMessages(voucherId);
+
+            // Marcar como leídos y refrescar badges
+            if (v?.supabaseId && window.suitSupabase) {
+                try {
+                    await window.suitSupabase.rpc('mark_voucher_messages_read', { p_voucher_id: v.supabaseId });
+                } catch (err) {
+                    console.warn('[Chat] No se pudo marcar como leído:', err);
+                }
+                delete unreadCounts[v.supabaseId];
+                renderGlobalBadge();
+                renderPage();
+            }
+
+            // Suscripción realtime solo si está activo
+            if (!chatIsReadOnly) {
+                subscribeToMessages(voucherId);
+            } else {
+                // Para solo-lectura también nos suscribimos para ver si llegan nuevos
+                subscribeToMessages(voucherId);
+            }
+        }
+
+        function closeChat() {
+            const chatDrawer = document.getElementById('chat-drawer');
+            const panel = chatDrawer.querySelector('.transform');
+            panel.classList.add('translate-x-full');
+            setTimeout(() => chatDrawer.classList.add('hidden'), 300);
+
+            if (realtimeChannel) {
+                window.suitSupabase?.removeChannel(realtimeChannel);
+                realtimeChannel = null;
+            }
+            chatVoucherId = null;
+        }
+
+        async function fetchAndRenderMessages(voucherId) {
+            const container = document.getElementById('message-container');
+            container.innerHTML = `<p class="text-center text-on-surface-variant font-body-sm text-body-sm pt-6">Cargando mensajes...</p>`;
+
+            if (!window.suitSupabase) {
+                container.innerHTML = `<p class="text-center text-on-surface-variant font-body-sm text-body-sm pt-6">Sin conexión a Supabase</p>`;
+                return;
+            }
+
+            const { data, error } = await window.suitSupabase.rpc('get_voucher_messages', { p_voucher_id: voucherId });
+            if (error) {
+                container.innerHTML = `<p class="text-center text-error font-body-sm pt-6">Error al cargar mensajes</p>`;
+                console.error('[Chat]', error);
+                return;
+            }
+            renderMessages(data ?? [], container);
+        }
+
+        function renderMessages(messages, container) {
+            if (!messages.length) {
+                container.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-full text-center pt-12">
+                <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">chat_bubble_outline</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Sin mensajes aún.<br>${chatIsReadOnly ? 'No hubo conversación en este vale.' : 'Inicia la conversación con el proveedor.'}</p>
+            </div>`;
+                return;
+            }
+            container.innerHTML = messages.map(m => buildBubble(m)).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function buildBubble(m) {
+            const isMe = m.sender_id === currentProfile?.id;
+            const label = isMe ? 'Tú' : (m.sender_name || 'Proveedor');
+            const time = m.created_at
+                ? new Date(m.created_at).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })
+                : '';
+
+            if (isMe) {
+                return `
+        <div class="flex flex-col gap-1 items-end bubble-in">
+            <div class="bg-primary p-3 rounded-tl-xl rounded-bl-xl rounded-br-xl max-w-[85%] text-on-primary">
+                <p class="font-body-sm text-body-sm">${escHtml(m.body)}</p>
+            </div>
+            <span class="text-[10px] text-on-surface-variant mr-2 uppercase font-bold">${label} · ${time}</span>
+        </div>`;
+            } else {
+                return `
+        <div class="flex flex-col gap-1 items-start bubble-in">
+            <div class="bg-surface-container-highest p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl max-w-[85%]">
+                <p class="font-body-sm text-body-sm text-on-surface">${escHtml(m.body)}</p>
+            </div>
+            <span class="text-[10px] text-on-surface-variant ml-2 uppercase font-bold">${label} · ${time}</span>
+        </div>`;
+            }
+        }
+
+        function subscribeToMessages(voucherId) {
+            if (realtimeChannel) window.suitSupabase?.removeChannel(realtimeChannel);
+            if (!window.suitSupabase) return;
+
+            realtimeChannel = window.suitSupabase
+                .channel(`voucher-messages-manager-${voucherId}`)
+                .on(
+                    'postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'voucher_messages', filter: `voucher_id=eq.${voucherId}` },
+                    async (payload) => {
+                        const { data } = await window.suitSupabase.rpc('get_voucher_messages', { p_voucher_id: voucherId });
+                        if (!data) return;
+                        const container = document.getElementById('message-container');
+                        renderMessages(data, container);
+
+                        // Si el mensaje entrante es del otro participante y el chat sigue abierto, marcarlo leído
+                        if (payload?.new && payload.new.sender_id !== currentProfile?.id) {
+                            try {
+                                await window.suitSupabase.rpc('mark_voucher_messages_read', { p_voucher_id: voucherId });
+                            } catch (err) { /* silencioso */ }
+                            delete unreadCounts[voucherId];
+                            renderGlobalBadge();
+                        }
+                    }
+                )
+                .subscribe();
+        }
+
+        async function sendMessage() {
+            if (chatIsReadOnly) return;
+            const input = document.getElementById('chat-input');
+            const body = input.value.trim();
+            if (!body || !chatVoucherId) return;
+
+            if (!window.suitSupabase) { showToast('Sin conexión a Supabase', 'error'); return; }
+
+            input.value = '';
+            const { error } = await window.suitSupabase.rpc('send_voucher_message', {
+                p_voucher_id: chatVoucherId,
+                p_body: body
+            });
+            if (error) {
+                showToast('Error al enviar mensaje', 'error');
+                input.value = body; // restaurar
+                console.error('[Chat] sendMessage:', error);
+            }
+            // Realtime actualiza la UI automáticamente
+        }
+
+        function appendQuickNote(note) {
+            if (chatIsReadOnly) return;
+            const input = document.getElementById('chat-input');
+            input.value = note;
+            input.focus();
+        }
+
+        function setupChatEnterKey() {
+            document.getElementById('chat-input').addEventListener('keydown', e => {
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+            });
+        }
+
+        // ========== AVATAR DEL GESTOR ==========
+        async function loadManagerAvatar() {
+            if (!window.suitSupabase) return;
+            try {
+                const { data } = await window.suitSupabase.rpc('get_my_profile');
+                const profile = Array.isArray(data) ? data[0] : data;
+                if (profile?.avatar_url) {
+                    document.getElementById('manager-avatar').src = profile.avatar_url;
+                }
+            } catch { }
+        }
+
+        // ========== INDICADORES ==========
+        function updateSyncIndicator() {
+            const icon = document.getElementById('sync-icon');
+            const label = document.getElementById('sync-label');
+            if (!icon || !label) return;
+            if (navigator.onLine) {
+                icon.textContent = 'cloud_done';
+                icon.classList.remove('text-amber-500');
+                icon.classList.add('text-primary');
+                label.textContent = 'Sincronizado';
+            } else {
+                icon.textContent = 'cloud_off';
+                icon.classList.remove('text-primary');
+                icon.classList.add('text-amber-500');
+                label.textContent = 'Offline';
+            }
+        }
+
+        function updateSourceIndicator() {
+            if (dataSource === 'local') {
+                sourceIndicator.classList.remove('hidden');
+                sourceIndicatorText.textContent = 'Mostrando datos locales (sin conexión a Supabase)';
+            } else {
+                sourceIndicator.classList.add('hidden');
+            }
+        }
+
+        // ========== SKELETON ==========
+        function showSkeleton() {
+            const skRow = `<tr>${[...Array(7)].map(() =>
+                `<td class="px-6 py-4"><div class="h-4 bg-surface-container rounded animate-pulse"></div></td>`
+            ).join('')}</tr>`;
+            tableBody.innerHTML = skRow.repeat(6);
+            cardsContainer.innerHTML = [...Array(4)].map(() => `
+        <div class="p-4 space-y-2">
+            <div class="h-4 bg-surface-container rounded animate-pulse w-2/3"></div>
+            <div class="h-3 bg-surface-container rounded animate-pulse w-1/2"></div>
+            <div class="h-3 bg-surface-container rounded animate-pulse w-1/3"></div>
+        </div>`
+            ).join('');
+        }
+
+        // ========== TOAST ==========
+        function showToast(message, type = 'info') {
+            const existing = document.getElementById('hist-toast');
+            if (existing) existing.remove();
+            const colors = { success: 'bg-green-600', error: 'bg-error', warning: 'bg-amber-500', info: 'bg-primary' };
+            const icons = { success: 'check_circle', error: 'error', warning: 'warning', info: 'info' };
+            const toast = document.createElement('div');
+            toast.id = 'hist-toast';
+            toast.className = `fixed bottom-24 left-4 right-4 md:left-auto md:right-6 md:w-auto
+        ${colors[type]} text-white px-4 py-3 rounded-xl shadow-lg z-[80]
+        flex items-center gap-3 fade-in`;
+            toast.innerHTML = `<span class="material-symbols-outlined">${icons[type]}</span>
+        <span class="text-sm font-medium">${escHtml(message)}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+
+        // ========== MANEJO DE EDICIÓN PREMIUM ==========
+        async function handleEditVoucher(voucherId, status) {
+            if (status === 'pending') {
+                const hasAccess = await SUBSCRIPTION.checkFeature('edit_pending_voucher');
+                if (!hasAccess) {
+                    showToast('La edición de vales pendientes es una función premium. Suscríbete para desbloquearla.', 'warning');
+                    return;
+                }
+            }
+            sessionStorage.setItem('loadVoucherId', voucherId);
+            window.location.href = 'vouche.html';
+        }
+
+
+        // ========== UTILIDADES ==========
+        function escHtml(str) {
+            return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // Cerrar drawer al tocar el fondo en móvil
+        drawer.addEventListener('click', e => { if (e.target === drawer) closeDrawer(); });
+    </script>
+
+</body>
+
+</html>

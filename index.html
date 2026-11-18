@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+
+    <!-- Agregar después de las etiquetas meta existentes, antes de cerrar </head> -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Suit">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="theme-color" content="#004ac6">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .bento-grid {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e6e8ea",
+                        "primary-container": "#2563eb",
+                        "background": "#f7f9fb",
+                        "primary-fixed": "#dbe1ff",
+                        "outline": "#737686",
+                        "inverse-primary": "#b4c5ff",
+                        "tertiary-container": "#bc4800",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "inverse-on-surface": "#eff1f3",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#ffede6",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed": "#d5e3fd",
+                        "on-primary-container": "#eeefff",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-container": "#d5e3fd",
+                        "on-surface-variant": "#434655",
+                        "outline-variant": "#c3c6d7",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-secondary-container": "#57657b",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-error-container": "#93000a",
+                        "on-background": "#191c1e",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container": "#eceef0",
+                        "surface-tint": "#0053db",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-surface": "#191c1e",
+                        "inverse-surface": "#2d3133",
+                        "secondary": "#515f74",
+                        "surface": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-bright": "#f7f9fb",
+                        "primary": "#004ac6",
+                        "tertiary": "#943700",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "base": "4px",
+                        "gutter": "16px",
+                        "container-padding": "24px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "title-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-surface text-on-surface flex flex-col min-h-screen">
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-16 bg-surface border-b border-outline-variant">
+        <div class="flex items-center gap-gutter">
+            <span class="font-headline-md text-headline-md font-black text-primary tracking-tight">Suit</span>
+        </div>
+        <div class="flex items-center gap-stack-md">
+            <button
+                class="bg-primary text-on-primary px-container-padding py-2 rounded font-label-bold text-label-bold hover:opacity-90 transition-opacity active:opacity-80">
+                Iniciar Sesión
+            </button>
+        </div>
+    </header>
+     <main class="pt-24 pb-stack-lg">
+        <!-- Hero Section -->
+        <section
+            class="max-w-[1440px] mx-auto px-container-padding grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center">
+            <div class="space-y-stack-md">
+                <h1 class="font-display-lg text-display-lg text-on-background lg:text-5xl lg:leading-tight">
+                    El ecosistema definitivo <span class="text-primary">para las ventas B2B, P2P, P2B.</span>
+                </h1>
+                <p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+                    Digitaliza tu canal de ventas. Conectamos a proveedores de alto volumen con gestores independientes
+                    para acelerar el cierre de acuerdos, automatizar comisiones y eliminar la fricción administrativa de
+                    WhatsApp.
+                </p>
+                <div class="flex flex-wrap gap-stack-sm pt-base">
+                    <button onclick="window.location.href='/lobby.html'"
+                        class="bg-primary text-on-primary px-6 py-3 rounded-xl font-title-sm shadow-sm hover:brightness-110 transition-all">Acceso
+                        Proveedor</button>
+                    <button onclick="window.location.href='/lobby.html'"
+                        class="border border-outline text-primary px-6 py-3 rounded-xl font-title-sm hover:bg-surface-container-low transition-all">Acceso
+                        Gestor</button>
+                </div>
+            </div>
+            <div
+                class="relative rounded-xl overflow-hidden border border-outline-variant shadow-xl bg-surface-container-lowest p-2">
+                <img alt="Manager Dashboard Interface" class="rounded-lg w-full h-auto"
+                    src="img/img-index.webp" />
+                <div class="absolute inset-0 pointer-events-none border border-white/20 rounded-lg"></div>
+            </div>
+        </section>
+        <!-- Trust Metrics -->
+        <section class="bg-surface-container-low mt-stack-lg py-stack-lg border-y border-outline-variant" id="trust">
+            <div class="max-w-[1440px] mx-auto px-container-padding grid grid-cols-2 md:grid-cols-4 gap-stack-lg">
+                <div class="text-center">
+                    <div class="font-display-lg text-display-lg text-primary">+$615K</div>
+                    <div class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-widest">
+                        Volumen procesado</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display-lg text-display-lg text-primary">Cero</div>
+                    <div class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-widest">
+                        Fricción Manual</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display-lg text-display-lg text-primary">24H</div>
+                    <div class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-widest">Total
+                        Trazabilidad</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display-lg text-display-lg text-primary">100%</div>
+                    <div class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-widest">
+                        Digitalizado</div>
+                </div>
+            </div>
+        </section>
+        <!-- Segmentation Value Props -->
+        <section class="max-w-[1440px] mx-auto px-container-padding py-stack-lg" id="segmentation">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+                <!-- Supplier Card -->
+                <div
+                    class="p-stack-lg bg-surface border border-outline-variant rounded-xl flex flex-col gap-stack-md hover:border-primary transition-colors group">
+                    <div class="w-12 h-12 rounded-lg bg-primary-container flex items-center justify-center">
+                        <span class="material-symbols-outlined text-on-primary-container">storefront</span>
+                    </div>
+                    <h3 class="font-headline-md text-headline-md">Para Proveedores</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Centraliza tus operaciones con
+                        controles de nivel institucional. Gestiona grandes equipos de ventas sin distracciones.</p>
+                    <ul class="space-y-base font-body-sm text-body-sm text-on-surface-variant">
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Gestión de
+                            colas de aprobación de vales entrantes</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Gestión y
+                            seguimiento de transacciones de vales y filtrados.</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Gestión y
+                            seguimiento de gestores asociados.</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Protocolos de
+                            admisión estandarizados</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Registros de
+                            auditoría inmutables, apoyadas en una amplia variedad de métodos y formatos para la descarga y exportación de los vales</li>
+                    </ul>
+                </div>
+                <!-- Manager Card -->
+                <div
+                    class="p-stack-lg bg-surface border border-outline-variant rounded-xl flex flex-col gap-stack-md hover:border-primary transition-colors group">
+                    <div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center">
+                        <span class="material-symbols-outlined text-on-secondary-container">groups</span>
+                    </div>
+                    <h3 class="font-headline-md text-headline-md">Para Gestores</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Cierra tratos más rápido. Elimina el
+                        papeleo y concéntrate en vender.</p>
+                    <ul class="space-y-base font-body-sm text-body-sm text-on-surface-variant">
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Panel de
+                            resumen de rendimiento, resumen de estados y actividad reciente</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Creación de
+                            cupones sin complicaciones</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Captura y
+                            verificación de identificación rápida</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Enlace
+                            directo con los proveedores</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Panel para la
+                            administración y
+                            seguimiento de todos los vales generados.</li>
+                        <li class="flex items-center gap-2"><span
+                                class="material-symbols-outlined text-primary text-sm">check_circle</span> Gestión y
+                            seguimiento de proveedores asociados.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- Bento Grid Features -->
+        <section
+            class="max-w-[1440px] mx-auto px-container-padding py-stack-lg bg-surface-bright rounded-3xl mb-stack-lg"
+            id="features">
+            <div class="text-center mb-stack-lg">
+                <h2 class="font-display-lg text-display-lg text-on-background">Diseñado para la velocidad operativa</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant mt-2">Cada función está diseñada para
+                    reducir un punto de fricción específico en el ciclo de vida de las ventas B2B.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter auto-rows-[280px]">
+                <!-- Box 1: Dynamic Voucher Creation -->
+                <div
+                    class="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl bento-card p-stack-md flex flex-col md:flex-row gap-stack-md overflow-hidden">
+                    <div class="flex-1 flex flex-col justify-center">
+                        <h4 class="font-title-sm text-title-sm">Creación dinámica de vales</h4>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Olvídese de las plantillas
+                            manuales. Formularios digitales que calculan comisiones y verifican la identidad al
+                            instante.</p>
+                    </div>
+                    <div
+                        class="flex-1 rounded-lg border border-outline-variant bg-surface overflow-hidden shadow-inner translate-y-4">
+                        <img alt="Voucher Form Interface" class="w-full h-auto object-top"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1vlVSd8RShxf5o14ADhtGe8IWm5bAFMUaMxQzEH95Bv5pomvSPoLgYCX_SJA-_HbWfKmb-BHUYUkrcUhq1wa5CpGJqS6jjXJZnoo3_j6qMr3IF0O1XoQEaB1LbZc7d-TbI3FB1A8EukPfArZHtwDM2GiUsu7x6RreDVKsKYBC19F3wGxN5tULPNuHmkJ-moubjfy7VmmSlMFoH4EHTaUf16EhWJJL7C0ejIDm4Zudy8moWw0uLbJSUHjf7zIS_mCDHSslEEBvsCk" />
+                    </div>
+                </div>
+                <!-- Box 2: Contextual Communication -->
+                <div
+                    class="md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl bento-card p-stack-md flex flex-col justify-between">
+                    <div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center">
+                        <span class="material-symbols-outlined text-on-primary-container">chat_bubble_outline</span>
+                    </div>
+                    <div>
+                        <h4 class="font-title-sm text-title-sm">Comunicación contextual</h4>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Mensajería integrada para cada
+                            cupón. Resuelva sus dudas directamente donde se encuentra la información.</p>
+                    </div>
+                    <div class="mt-stack-sm flex flex-col gap-base">
+                        <div class="bg-surface-container-low p-2 rounded-lg text-[10px] w-3/4 self-start">El documento
+                            de identidad no es lo suficientemente claro</div>
+                        <div class="bg-primary text-on-primary p-2 rounded-lg text-[10px] w-3/4 self-end">Entendido. Voy a fotografiar nuevamente</div>
+                    </div>
+                </div>
+                <!-- Box 3: Real-Time Tracking -->
+                <div
+                    class="md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl bento-card p-stack-md overflow-hidden flex flex-col">
+                    <h4 class="font-title-sm text-title-sm">Seguimiento en tiempo real</h4>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Supervise el volumen, el estado de
+                        las cuentas y las comisiones con total visibilidad.</p>
+                    <div class="mt-4 flex-1 border border-outline-variant rounded-lg bg-surface overflow-hidden">
+                        <img alt="Real-time performance metrics graph" class="w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3foPmLT9t4XzEsguxfYo8qq11gAVcDzJqplYh2PsNydmsMW9kC9Ztr-AKYZD9tMScFjBtxn81v6_avHaU9vFI4fKwm3VKPcHzU89KBL5w6cxjF12IieEWkOfyWbtZK6lgF-Xgvf9D8Vgnh4m-7nrVdHR6vXRzAxoaQlaxj97lC-Wc9i7Z7l6T6JefqBaZDm72e-BlTXfKaMIbPoAy3UPPFkuFh0r-UrMDsjultM8kYYQi3tw9M2QHY-QwKRJPdpSN_2-7yw5gsKQ" />
+                    </div>
+                </div>
+                <!-- Box 3.1: Real-Time Tracking -->
+                <div
+                    class="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl bento-card p-stack-md flex flex-col md:flex-row gap-stack-md overflow-hidden">
+                    <div class="flex-1 flex flex-col justify-center">
+                        <h4 class="font-title-sm text-title-sm">Gestión de
+                            colas de aprobación de vales entrantes</h4>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Olvídese del desorden en whatsApp
+                            buscando e identificando gestores y asociando sus vales. Centraliza tus operaciones. Gestiona grandes equipos de ventas sin distracciones.</p>
+                    </div>
+                    <div
+                        class="flex-1 rounded-lg border border-outline-variant bg-surface overflow-hidden shadow-inner translate-y-4">
+                        <img alt="Voucher Form Interface" class="w-full h-auto object-top"
+                            src="img/img-aprov-vale.webp">
+                    </div>
+                </div>
+                <!-- Box 4: Transparent Auditing -->
+                <div
+                    class="md:col-span-8 bg-surface-container-highest border border-outline-variant rounded-xl bento-card p-stack-md flex items-center justify-between group overflow-hidden relative">
+                    <div class="z-10 relative">
+                        <h4 class="font-title-sm text-title-sm">Auditoría transparente</h4>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm mt-1">Exporte informes
+                            inmutables para una liquidación precisa. Cada acción queda registrada con fecha y hora y se
+                            le atribuye su origen.</p>
+                        <button
+                            class="mt-stack-md flex items-center gap-2 text-primary font-label-bold group-hover:gap-3 transition-all">
+                            Explore<span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                    </div>
+                    <div class="opacity-10 scale-150 absolute -right-4 -bottom-4">
+                        <span class="material-symbols-outlined text-[180px]">history_edu</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Final CTA -->
+        <section class="max-w-[1440px] mx-auto px-container-padding py-stack-lg text-center">
+            <div class="bg-primary rounded-3xl p-stack-lg text-on-primary shadow-2xl relative overflow-hidden">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 opacity-10 pointer-events-none">
+                    <div class="absolute inset-0"
+                        style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;">
+                    </div>
+                </div>
+                <h2 class="font-display-lg text-display-lg mb-stack-md relative z-10">¿Listo para digitalizar tus
+                    ventas?</h2>
+                <p class="font-body-md text-body-md max-w-2xl mx-auto mb-stack-lg relative z-10">Únete ahora y forma
+                    parte de la comunidad</p>
+                <div class="flex flex-wrap justify-center gap-stack-md relative z-10">
+                    <button onclick="window.location.href='/signup.html'"
+                        class="bg-primary-container text-on-primary-container px-8 py-4 rounded-xl font-title-sm hover:brightness-110 transition-all border border-white/20">
+                        Registrate gratis
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="w-full py-stack-lg px-container-padding flex flex-col md:flex-row justify-between items-center mt-auto bg-surface border-t border-outline-variant gap-stack-md">
+        <div class="flex flex-col items-center md:items-start gap-base">
+            <span class="text-label-bold font-label-bold text-on-surface-variant">Suit</span>
+            <p class="text-body-sm font-body-sm text-on-surface-variant opacity-75">© 2026 Pixel Logic Solutions.
+            </p>
+        </div>
+        <nav class="flex flex-wrap justify-center gap-stack-md">
+            <a class="text-on-surface-variant text-body-sm font-body-sm hover:text-primary underline transition-opacity"
+                href="terms-policy.html">Terms of Service</a>
+        </nav>
+
+    </footer>
+    
+    <script>
+        // ========== INDEX.HTML - SCRIPT COMPLETO CON DETECCIÓN DE ROL Y PWA ==========
+
+        // ========== ESTADO GLOBAL ==========
+        let db = null;
+        let currentUser = null;
+        let isOnline = navigator.onLine;
+
+        // ========== INICIALIZACIÓN ==========
+        async function initIndexPage() {
+            console.log('[Index] Inicializando página principal...');
+
+            try {
+                // Esperar a que DB Manager esté disponible
+                if (window.suitDB) {
+                    db = window.suitDB;
+                    await db.init();
+                    await db.loadInitialData();
+
+                    // Verificar si hay un usuario guardado
+                    await checkSavedSession();
+                }
+
+                // Configurar eventos de los botones
+                setupButtonEvents();
+
+                // Actualizar UI según conectividad
+                updateConnectivityUI();
+
+                // Escuchar cambios de conectividad
+                window.addEventListener('online', handleOnline);
+                window.addEventListener('offline', handleOffline);
+
+                // Registrar Service Worker para PWA
+                registerServiceWorker();
+
+                // Verificar si la app ya está instalada
+                checkIfInstalled();
+
+            } catch (error) {
+                console.error('[Index] Error en inicialización:', error);
+            }
+        }
+
+        // ========== DETECCIÓN DE SESIÓN ==========
+        async function checkSavedSession() {
+            try {
+                // Verificar en IndexedDB si hay sesión guardada
+                const savedRole = await db?.getSetting('userRole', null);
+                const savedUserId = await db?.getSetting('userId', null);
+                const sessionExpiry = await db?.getSetting('sessionExpiry', 0);
+
+                // Verificar si la sesión ha expirado (7 días por defecto)
+                const isSessionValid = sessionExpiry && Date.now() < sessionExpiry;
+
+                if (savedRole && savedUserId && isSessionValid) {
+                    currentUser = {
+                        id: savedUserId,
+                        role: savedRole
+                    };
+
+                    console.log('[Index] Sesión encontrada para rol:', savedRole);
+
+                    // Mostrar opción de continuar automáticamente después de 2 segundos
+                    showAutoRedirect(savedRole);
+                } else if (savedRole && !isSessionValid) {
+                    // Sesión expirada, limpiar
+                    await db?.setSetting('userRole', null);
+                    await db?.setSetting('userId', null);
+                    await db?.setSetting('sessionExpiry', 0);
+                    console.log('[Index] Sesión expirada, limpiando...');
+                }
+
+            } catch (error) {
+                console.error('[Index] Error verificando sesión:', error);
+            }
+        }
+
+        function showAutoRedirect(role) {
+            const heroSection = document.querySelector('section.relative.overflow-hidden');
+            if (!heroSection) return;
+
+            // Crear banner de bienvenida
+            const banner = document.createElement('div');
+            banner.className = 'fixed top-20 left-4 right-4 md:left-auto md:right-4 md:top-20 md:w-96 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl z-50 animate-in slide-in-from-top-4';
+            banner.innerHTML = `
+        <div class="p-4">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-primary">verified_user</span>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-title-sm text-title-sm text-on-surface">Bienvenido de nuevo</h4>
+                    <p class="text-body-sm text-on-surface-variant mt-1">
+                        Continuarás como <strong>${role === 'manager' ? 'Gestor' : 'Proveedor'}</strong>
+                    </p>
+                    <div class="flex gap-3 mt-3">
+                        <button id="continue-session-btn" class="px-4 py-2 bg-primary text-on-primary rounded-lg font-label-bold text-label-bold">
+                            Continuar
+                        </button>
+                        <button id="logout-session-btn" class="px-4 py-2 border border-outline text-on-surface-variant rounded-lg font-label-bold text-label-bold">
+                            Cerrar sesión
+                        </button>
+                    </div>
+                </div>
+                <button id="close-banner-btn" class="p-1 text-on-surface-variant hover:text-primary">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+            document.body.appendChild(banner);
+
+            // Eventos del banner
+            document.getElementById('continue-session-btn')?.addEventListener('click', () => {
+                banner.remove();
+                redirectToDashboard(currentUser.role);
+            });
+
+            document.getElementById('logout-session-btn')?.addEventListener('click', async () => {
+                await logout();
+                banner.remove();
+                showToast('Sesión cerrada correctamente', 'info');
+            });
+
+            document.getElementById('close-banner-btn')?.addEventListener('click', () => {
+                banner.remove();
+            });
+
+            // Auto-redirección después de 5 segundos si no se interactúa
+            const timeoutId = setTimeout(() => {
+                if (document.body.contains(banner)) {
+                    banner.remove();
+                    redirectToDashboard(currentUser.role);
+                }
+            }, 5000);
+
+            banner.addEventListener('click', () => clearTimeout(timeoutId), { once: true });
+        }
+
+        async function logout() {
+            try {
+                await suitLogout();
+                currentUser = null;
+                showToast('Sesión cerrada', 'success');
+            } catch (error) {
+                console.error('[Index] Error cerrando sesión:', error);
+            }
+        }
+
+        // ========== REDIRECCIÓN ==========
+        function redirectToDashboard(role) {
+            if (role === 'manager') {
+                window.location.href = 'home-managers.html';
+            } else if (role === 'provider') {
+                window.location.href = 'home-supplier.html';
+            } else {
+                // Si no hay rol válido, ir a login
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ========== CONFIGURACIÓN DE EVENTOS DE BOTONES ==========
+        function setupButtonEvents() {
+            // Botón "Acceso Proveedores"
+            const supplierBtn = document.querySelector('button:first-child');
+            if (supplierBtn && supplierBtn.textContent.includes('Acceso Proveedores')) {
+                supplierBtn.addEventListener('click', () => {
+                    handleRoleSelection('provider');
+                });
+            }
+
+            // Botón "Acceso Gestores"
+            const managerBtn = document.querySelectorAll('button')[1];
+            if (managerBtn && managerBtn.textContent.includes('Acceso Gestores')) {
+                managerBtn.addEventListener('click', () => {
+                    handleRoleSelection('manager');
+                });
+            }
+
+            // Botón "Panel de Proveedor" en la tarjeta
+            const supplierPanelBtn = document.querySelector('.group .bg-primary');
+            if (supplierPanelBtn && supplierPanelBtn.textContent.includes('Panel de Proveedor')) {
+                supplierPanelBtn.addEventListener('click', () => {
+                    handleRoleSelection('provider');
+                });
+            }
+
+            // Botón "Panel de Gestor" en la tarjeta
+            const managerPanelBtn = document.querySelectorAll('.group .bg-tertiary')[0];
+            if (managerPanelBtn && managerPanelBtn.textContent.includes('Panel de Gestor')) {
+                managerPanelBtn.addEventListener('click', () => {
+                    handleRoleSelection('manager');
+                });
+            }
+
+            // Botón "Iniciar Sesión"
+            const loginBtn = document.querySelector('header .bg-primary');
+            if (loginBtn && loginBtn.textContent.includes('Iniciar Sesión')) {
+                loginBtn.addEventListener('click', () => {
+                    window.location.href = 'login.html';
+                });
+            }
+        }
+
+        async function handleRoleSelection(role) {
+            console.log('[Index] Rol seleccionado:', role);
+
+            // Guardar el rol seleccionado temporalmente
+            await db?.setSetting('userRole', role);
+
+            // Redirigir al login para autenticación
+            // En una implementación real, aquí iría a login con parámetro de rol
+            window.location.href = `login.html?role=${role}`;
+        }
+
+        // ========== UI DE CONECTIVIDAD ==========
+        function updateConnectivityUI() {
+            // Crear indicador de conectividad si no existe
+            let statusIndicator = document.getElementById('connection-status');
+
+            if (!statusIndicator) {
+                statusIndicator = document.createElement('div');
+                statusIndicator.id = 'connection-status';
+                statusIndicator.className = 'fixed bottom-4 right-4 z-50 flex items-center gap-2 px-3 py-2 rounded-full shadow-lg transition-all duration-300';
+                document.body.appendChild(statusIndicator);
+            }
+
+            if (isOnline) {
+                statusIndicator.className = 'fixed bottom-4 right-4 z-50 flex items-center gap-2 px-3 py-2 rounded-full shadow-lg bg-green-500 text-white';
+                statusIndicator.innerHTML = `
+            <span class="material-symbols-outlined text-sm">cloud_done</span>
+            <span class="text-xs font-medium">Online</span>
+        `;
+            } else {
+                statusIndicator.className = 'fixed bottom-4 right-4 z-50 flex items-center gap-2 px-3 py-2 rounded-full shadow-lg bg-amber-500 text-white';
+                statusIndicator.innerHTML = `
+            <span class="material-symbols-outlined text-sm">cloud_off</span>
+            <span class="text-xs font-medium">Offline</span>
+        `;
+            }
+
+            // Auto-ocultar después de 3 segundos
+            setTimeout(() => {
+                if (statusIndicator) {
+                    statusIndicator.style.opacity = '0';
+                    setTimeout(() => {
+                        if (statusIndicator && statusIndicator.parentNode) {
+                            statusIndicator.style.opacity = '1';
+                        }
+                    }, 3000);
+                }
+            }, 3000);
+        }
+
+        function handleOnline() {
+            isOnline = true;
+            updateConnectivityUI();
+            showToast('Conexión restablecida', 'success', 2000);
+        }
+
+        function handleOffline() {
+            isOnline = false;
+            updateConnectivityUI();
+            showToast('Sin conexión. Algunas funciones pueden no estar disponibles.', 'warning', 3000);
+        }
+
+        // ========== PWA - SERVICE WORKER ==========
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('[PWA] Service Worker registrado con éxito:', registration.scope);
+
+                        // Verificar actualizaciones
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            console.log('[PWA] Nueva versión del Service Worker encontrada');
+
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    showUpdateNotification();
+                                }
+                            });
+                        });
+                    })
+                    .catch(error => {
+                        console.error('[PWA] Error registrando Service Worker:', error);
+                    });
+            }
+        }
+
+        function showUpdateNotification() {
+            const banner = document.createElement('div');
+            banner.className = 'fixed bottom-20 left-4 right-4 md:left-auto md:right-4 md:bottom-4 md:w-96 bg-primary text-on-primary rounded-xl shadow-xl z-50 animate-in slide-in-from-bottom-4';
+            banner.innerHTML = `
+        <div class="p-4 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined">system_update</span>
+                <div>
+                    <p class="font-bold text-sm">Actualización disponible</p>
+                    <p class="text-xs opacity-90">Nueva versión lista para instalar</p>
+                </div>
+            </div>
+            <button id="update-app-btn" class="px-3 py-1 bg-white text-primary rounded-lg text-sm font-bold">Actualizar</button>
+        </div>
+    `;
+
+            document.body.appendChild(banner);
+
+            document.getElementById('update-app-btn')?.addEventListener('click', () => {
+                banner.remove();
+                window.location.reload();
+            });
+
+            setTimeout(() => {
+                if (banner.parentNode) banner.remove();
+            }, 10000);
+        }
+
+        // ========== PWA - DETECCIÓN DE INSTALACIÓN ==========
+        let deferredPrompt = null;
+
+        function checkIfInstalled() {
+            // Verificar si la app está en modo standalone (instalada)
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                console.log('[PWA] App ejecutándose en modo instalado');
+                showInstalledBadge();
+            }
+
+            // Escuchar evento de instalación
+            window.addEventListener('beforeinstallprompt', (e) => {
+                console.log('[PWA] beforeinstallprompt disparado');
+                e.preventDefault();
+                deferredPrompt = e;
+                showInstallButton();
+            });
+
+            // Escuchar evento de instalación completada
+            window.addEventListener('appinstalled', () => {
+                console.log('[PWA] App instalada correctamente');
+                deferredPrompt = null;
+                showInstalledBadge();
+                showToast('¡Suit instalada correctamente!', 'success', 3000);
+            });
+        }
+
+        function showInstallButton() {
+            // Verificar si ya se mostró antes y fue rechazado
+            const dismissed = localStorage.getItem('pwa-install-dismissed');
+            const dismissedTime = localStorage.getItem('pwa-install-dismissed-time');
+
+            if (dismissed === 'true' && dismissedTime && (Date.now() - parseInt(dismissedTime)) < 7 * 24 * 60 * 60 * 1000) {
+                return;
+            }
+
+            // Verificar si ya hay un banner
+            if (document.getElementById('pwa-install-banner')) return;
+
+            const banner = document.createElement('div');
+            banner.id = 'pwa-install-banner';
+            banner.className = 'fixed bottom-20 left-4 right-4 md:left-auto md:right-4 md:bottom-4 md:w-96 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-xl z-50 animate-in slide-in-from-bottom-4';
+            banner.innerHTML = `
+        <div class="p-4">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-primary">install_mobile</span>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-title-sm text-title-sm text-on-surface">Instalar Suit</h4>
+                    <p class="text-body-sm text-on-surface-variant mt-1">
+                        Instala la aplicación para trabajar sin conexión y acceder más rápido.
+                    </p>
+                    <div class="flex gap-3 mt-3">
+                        <button id="install-pwa-btn" class="px-4 py-2 bg-primary text-on-primary rounded-lg font-label-bold text-label-bold">
+                            Instalar
+                        </button>
+                        <button id="dismiss-pwa-btn" class="px-4 py-2 border border-outline text-on-surface-variant rounded-lg font-label-bold text-label-bold">
+                            Ahora no
+                        </button>
+                    </div>
+                </div>
+                <button id="close-pwa-banner" class="p-1 text-on-surface-variant hover:text-primary">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+            document.body.appendChild(banner);
+
+            document.getElementById('install-pwa-btn')?.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        console.log('[PWA] Usuario aceptó la instalación');
+                    } else {
+                        console.log('[PWA] Usuario rechazó la instalación');
+                        localStorage.setItem('pwa-install-dismissed', 'true');
+                        localStorage.setItem('pwa-install-dismissed-time', Date.now().toString());
+                    }
+                    deferredPrompt = null;
+                }
+                banner.remove();
+            });
+
+            document.getElementById('dismiss-pwa-btn')?.addEventListener('click', () => {
+                localStorage.setItem('pwa-install-dismissed', 'true');
+                localStorage.setItem('pwa-install-dismissed-time', Date.now().toString());
+                banner.remove();
+            });
+
+            document.getElementById('close-pwa-banner')?.addEventListener('click', () => {
+                banner.remove();
+            });
+        }
+
+        function showInstalledBadge() {
+            const badge = document.createElement('div');
+            badge.className = 'fixed top-16 right-4 z-50 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg animate-in slide-in-from-top-4';
+            badge.innerHTML = '✓ App Instalada';
+            document.body.appendChild(badge);
+
+            setTimeout(() => badge.remove(), 3000);
+        }
+
+        // ========== UTILIDADES ==========
+        function showToast(message, type = 'info', duration = 3000) {
+            const existingToast = document.getElementById('index-toast');
+            if (existingToast) existingToast.remove();
+
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-error',
+                warning: 'bg-amber-500',
+                info: 'bg-primary'
+            };
+
+            const icons = {
+                success: 'check_circle',
+                error: 'error',
+                warning: 'warning',
+                info: 'info'
+            };
+
+            const toast = document.createElement('div');
+            toast.id = 'index-toast';
+            toast.className = `fixed bottom-24 left-4 right-4 md:left-auto md:right-4 md:bottom-24 md:w-auto ${colors[type]} text-white px-4 py-3 rounded-xl shadow-lg z-50 flex items-center gap-3 animate-in slide-in-from-bottom-4`;
+            toast.innerHTML = `
+        <span class="material-symbols-outlined">${icons[type]}</span>
+        <span class="text-sm font-medium">${message}</span>
+    `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('animate-out', 'fade-out', 'slide-out-to-bottom');
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        // ========== INICIALIZACIÓN ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            // Agregar los scripts necesarios al head si no existen
+            const scripts = [
+                '/db-manager.js',
+                '/register-sw.js',
+                '/install-pwa.js',
+                'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
+                '/supabase-client.js'
+            ];
+
+            let scriptsLoaded = 0;
+
+            scripts.forEach(src => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = () => {
+                    scriptsLoaded++;
+                    if (scriptsLoaded === scripts.length) {
+                        // Pequeño delay para asegurar inicialización
+                        setTimeout(() => initIndexPage(), 100);
+                    }
+                };
+                document.head.appendChild(script);
+            });
+
+            // Si los scripts ya existen en el DOM, inicializar directamente
+            if (window.suitDB) {
+                initIndexPage();
+            }
+        });
+    </script>
+</body>
+
+</html>

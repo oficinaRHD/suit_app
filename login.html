@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Suit - Iniciar Sesión</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#dbe1ff",
+                    "primary": "#004ac6",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-container": "#d5e3fd",
+                    "secondary-fixed": "#d5e3fd",
+                    "on-secondary-fixed-variant": "#3a485c",
+                    "outline": "#737686",
+                    "inverse-primary": "#b4c5ff",
+                    "tertiary-fixed": "#ffdbcd",
+                    "surface-container-low": "#f2f4f6",
+                    "surface": "#f7f9fb",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "secondary-fixed-dim": "#b9c7e0",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "outline-variant": "#c3c6d7",
+                    "surface-bright": "#f7f9fb",
+                    "inverse-surface": "#2d3133",
+                    "secondary": "#515f74",
+                    "surface-container": "#eceef0",
+                    "on-primary-container": "#eeefff",
+                    "tertiary": "#943700",
+                    "error-container": "#ffdad6",
+                    "surface-container-high": "#e6e8ea",
+                    "on-secondary-fixed": "#0d1c2f",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e0e3e5",
+                    "tertiary-container": "#bc4800",
+                    "surface-dim": "#d8dadc",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "on-background": "#191c1e",
+                    "surface-tint": "#0053db",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "on-tertiary-fixed": "#360f00",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#00174b",
+                    "on-surface": "#191c1e",
+                    "primary-container": "#2563eb",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#57657b",
+                    "background": "#f7f9fb",
+                    "on-surface-variant": "#434655",
+                    "on-tertiary-container": "#ffede6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "base": "4px",
+                    "gutter": "16px",
+                    "container-padding": "24px",
+                    "stack-sm": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "title-sm": ["Inter"],
+                    "label-bold": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "label-bold": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .login-card-shadow {
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface min-h-screen flex items-center justify-center p-gutter">
+<!-- Auth Container -->
+<main class="w-full max-w-[480px] flex flex-col gap-stack-lg">
+<!-- Header / Logo -->
+<div class="text-center space-y-base">
+<h1 class="font-headline-md text-headline-md text-primary font-black tracking-tight">Suit</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Accede a tu panel de gestión de ventas</p>
+</div>
+<!-- Login Form Card -->
+<section class="bg-surface-container-lowest border border-outline-variant p-stack-lg rounded-lg login-card-shadow">
+<form class="flex flex-col gap-stack-md" id="loginForm">
+<!-- Mensaje de error o aviso -->
+<div class="hidden p-3 rounded-lg bg-error-container text-on-error-container text-body-sm font-body-sm" id="login-error"></div>
+<div class="hidden p-3 rounded-lg bg-secondary-container text-on-secondary-container text-body-sm font-body-sm" id="login-info"></div>
+<!-- Email Field -->
+<div class="flex flex-col gap-base">
+<label class="font-label-bold text-label-bold text-on-surface-variant uppercase" for="email">Correo Electrónico</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">mail</span>
+<input class="w-full pl-10 pr-3 py-3 bg-transparent border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary font-body-md text-body-md transition-all outline-none" id="email" name="email" placeholder="nombre@empresa.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-base">
+<div class="flex justify-between items-center">
+<label class="font-label-bold text-label-bold text-on-surface-variant uppercase" for="password">Contraseña</label>
+<a class="font-label-bold text-label-bold text-primary hover:underline" href="reset-psw.html" >¿Olvidaste tu contraseña?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">lock</span>
+<input class="w-full pl-10 pr-12 py-3 bg-transparent border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary font-body-md text-body-md transition-all outline-none" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface p-1" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined" id="eyeIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center gap-2 py-1">
+<input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" id="remember" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-on-surface-variant" for="remember">Recordar mi sesión</label>
+</div>
+<!-- Login Button -->
+<button class="w-full bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-sm text-title-sm py-3 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed" id="login-submit-btn" type="submit">
+<span>Iniciar Sesión</span>
+<span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="flex items-center gap-stack-md my-stack-lg">
+<div class="h-[1px] flex-1 bg-outline-variant"></div>
+<span class="font-label-bold text-label-bold text-outline uppercase">O continúa con</span>
+<div class="h-[1px] flex-1 bg-outline-variant"></div>
+</div>
+<!-- Social Login Buttons -->
+<div class="flex flex-col sm:flex-row gap-stack-md">
+<button
+  class="relative flex-1 border border-outline-variant hover:bg-surface-container rounded-lg py-2.5 flex items-center justify-center gap-2 transition-colors font-body-sm text-body-sm disabled:opacity-60 disabled:cursor-not-allowed"
+  id="google-login-btn"
+  type="button"
+>
+  <!-- Badge NUEVO -->
+  <span
+    id="google-new-badge"
+    class="absolute -top-2 -right-2 z-10 inline-flex items-center gap-1 rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white shadow-md ring-2 ring-white animate-pulse"
+  >
+    Nuevo
+  </span>
+
+  <svg class="w-5 h-5" viewBox="0 0 24 24">
+    <!-- tus paths tal cual -->
+    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+  </svg>
+  <span>Google</span>
+</button>
+</div>
+</section>
+<!-- Register Link -->
+<p class="text-center font-body-md text-body-md text-on-surface-variant">
+            ¿No tienes una cuenta? 
+            <a class="text-primary font-bold hover:underline" href="signup.html">Regístrate ahora</a>
+</p>
+<!-- Footer Info -->
+<footer class="mt-auto py-stack-md flex flex-col items-center gap-base">
+<div class="flex gap-stack-md">
+<a class="font-body-sm text-body-sm text-outline hover:text-primary transition-colors" href="terms-policy.html">Términos y Privacidad</a>
+</div>
+</footer>
+</main>
+<!-- Visual Element (Hidden on small mobile) -->
+<div class="hidden lg:block fixed -bottom-24 -right-24 w-96 h-96 bg-primary-fixed opacity-20 blur-[100px] rounded-full pointer-events-none"></div>
+<div class="hidden lg:block fixed -top-24 -left-24 w-64 h-64 bg-tertiary-fixed opacity-20 blur-[80px] rounded-full pointer-events-none"></div>
+<script src="/db-manager.js"></script>
+<script src="supabase-client.js"></script>
+<script>
+
+              // Autocompletar email desde URL (para cuando venimos del lobby)
+        const params = new URLSearchParams(window.location.search);
+        const emailParam = params.get('email');
+        if (emailParam) {
+            document.getElementById('email').value = emailParam;
+        }
+      
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.textContent = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.textContent = 'visibility';
+            }
+        }
+
+        // Add a slight tilt effect to the card on mouse move for desktop
+        const card = document.querySelector('section');
+        if (window.innerWidth > 1024) {
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+        }
+
+        // ========== LOGIN ==========
+        const loginForm = document.getElementById('loginForm');
+        const loginErrorEl = document.getElementById('login-error');
+        const loginInfoEl = document.getElementById('login-info');
+        const loginSubmitBtn = document.getElementById('login-submit-btn');
+
+        function showLoginError(message) {
+            loginErrorEl.textContent = message;
+            loginErrorEl.classList.remove('hidden');
+        }
+
+        function hideLoginError() {
+            loginErrorEl.classList.add('hidden');
+        }
+
+        function showLoginInfo(message) {
+            loginInfoEl.textContent = message;
+            loginInfoEl.classList.remove('hidden');
+        }
+
+        // Si venimos de un registro con confirmación de correo pendiente
+        (function checkUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('registered') === '1') {
+                showLoginInfo('Cuenta creada. Revisa tu correo para confirmar tu cuenta antes de iniciar sesión (si tu proyecto lo requiere).');
+            }
+        })();
+
+        loginForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            hideLoginError();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showLoginError('Ingresa tu correo y contraseña.');
+                return;
+            }
+
+            loginSubmitBtn.disabled = true;
+
+            try {
+                const { error: signInError } = await window.suitSupabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                   // Dentro del bloque try después de signInWithPassword
+                const { data: { session } } = await window.suitSupabase.auth.getSession();               
+
+                if (signInError) throw signInError;
+
+                // Obtener el perfil (incluye el rol) vía RPC
+                const { data: profileRows, error: profileError } = await window.suitSupabase.rpc('get_my_profile');
+                if (profileError) throw profileError;
+
+                const profile = Array.isArray(profileRows) ? profileRows[0] : profileRows;
+                if (!profile) {
+                    throw new Error('No se encontró un perfil asociado a esta cuenta.');
+                }
+
+                // Persistir sesión local para la lógica offline-first (index.html)
+                await suitPersistSession(profile, session);
+
+                suitRedirectToDashboard(profile.role);
+
+            } catch (error) {
+                console.error('[Login] Error:', error);
+
+                let message = error.message || 'No se pudo iniciar sesión. Intenta nuevamente.';
+                if (message.includes('Invalid login credentials')) {
+                    message = 'Correo o contraseña incorrectos.';
+                } else if (message.includes('Email not confirmed')) {
+                    message = 'Debes confirmar tu correo antes de iniciar sesión.';
+                }
+
+                showLoginError(message);
+                loginSubmitBtn.disabled = false;
+            }
+        });
+
+        // ========== LOGIN CON GOOGLE (OAuth) ==========
+        const googleBtn = document.getElementById('google-login-btn');
+        const OAUTH_FLAG = 'suit_oauth_pending';
+
+        function setAuthBusy(busy) {
+            googleBtn.disabled = busy;
+            loginSubmitBtn.disabled = busy;
+        }
+
+        // Completa el login (perfil + sesión local + redirección) con la sesión ya activa
+        async function completeLoginFromSession() {
+            const { data: { session }, error: sessionError } = await window.suitSupabase.auth.getSession();
+            if (sessionError) throw sessionError;
+            if (!session) return false;
+
+            const { data: profileRows, error: profileError } = await window.suitSupabase.rpc('get_my_profile');
+            if (profileError) throw profileError;
+
+            const profile = Array.isArray(profileRows) ? profileRows[0] : profileRows;
+            if (!profile) {
+                // Sesión de Google válida pero sin perfil en Suit: no dejar sesión huérfana
+                await window.suitSupabase.auth.signOut();
+                throw new Error('Esta cuenta de Google no tiene un perfil en Suit. Regístrate primero o usa otro método.');
+            }
+
+            await suitPersistSession(profile, session);
+            suitRedirectToDashboard(profile.role);
+            return true;
+        }
+
+        googleBtn.addEventListener('click', async function () {
+            hideLoginError();
+
+            if (!navigator.onLine) {
+                showLoginError('Sin conexión. Necesitas internet para iniciar sesión con Google.');
+                return;
+            }
+
+            setAuthBusy(true);
+            try {
+                try { sessionStorage.setItem(OAUTH_FLAG, '1'); } catch (_) {}
+
+                // Debe estar registrada en Supabase → Authentication → URL Configuration → Redirect URLs
+                const redirectTo = window.location.origin + window.location.pathname;
+
+                const { error } = await window.suitSupabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo,
+                        queryParams: { prompt: 'select_account' }
+                    }
+                });
+                if (error) throw error;
+                // En éxito el navegador redirige a Google; no se reactivan los botones.
+            } catch (error) {
+                console.error('[Login Google] Error:', error);
+                try { sessionStorage.removeItem(OAUTH_FLAG); } catch (_) {}
+                showLoginError(error.message || 'No se pudo iniciar sesión con Google. Intenta nuevamente.');
+                setAuthBusy(false);
+            }
+        });
+
+        // Al volver de Google: procesar errores o completar el login
+        (async function handleOAuthReturn() {
+            let pending = false;
+            try { pending = sessionStorage.getItem(OAUTH_FLAG) === '1'; } catch (_) {}
+            if (!pending) return;
+
+            try { sessionStorage.removeItem(OAUTH_FLAG); } catch (_) {}
+
+            const query = new URLSearchParams(window.location.search);
+            const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+            const oauthError = query.get('error_description') || hash.get('error_description') || query.get('error') || hash.get('error');
+
+            if (oauthError) {
+                showLoginError(
+                    oauthError.toLowerCase().includes('access_denied')
+                        ? 'Cancelaste el inicio de sesión con Google.'
+                        : 'Error con Google: ' + oauthError.replace(/\+/g, ' ')
+                );
+                history.replaceState(null, '', window.location.pathname);
+                return;
+            }
+
+            setAuthBusy(true);
+            try {
+                // getSession espera a que supabase-js procese el code/token de la URL
+                const ok = await completeLoginFromSession();
+                if (!ok) {
+                    showLoginError('No se pudo completar el inicio de sesión con Google. Intenta nuevamente.');
+                    setAuthBusy(false);
+                }
+            } catch (error) {
+                console.error('[Login Google] Error al completar sesión:', error);
+                showLoginError(error.message || 'No se pudo completar el inicio de sesión con Google.');
+                setAuthBusy(false);
+            } finally {
+                history.replaceState(null, '', window.location.pathname);
+            }
+        })();
+
+        // Si el usuario vuelve con "atrás" desde Google (bfcache), reactivar los botones
+        window.addEventListener('pageshow', function (e) {
+            if (e.persisted) setAuthBusy(false);
+        });
+    </script>
+</body></html>

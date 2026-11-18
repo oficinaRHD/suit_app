@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Biblioteca Financiera · Suit</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Suit">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="theme-color" content="#004ac6">
+    <!-- PDF.js: motor de renderizado de PDF en canvas. Se usa en vez de <iframe> porque
+         Safari/iOS y muchos navegadores móviles no soportan el visor nativo de PDF dentro
+         de un iframe (por eso antes solo funcionaba la descarga en móvil). -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline-variant": "#c3c6d7", "surface-container-lowest": "#ffffff", "primary-container": "#2563eb",
+                        "secondary-fixed-dim": "#b9c7e0", "on-surface": "#191c1e", "on-primary-fixed-variant": "#003ea8",
+                        "surface-tint": "#0053db", "on-primary": "#ffffff", "primary-fixed-dim": "#b4c5ff", "secondary": "#515f74",
+                        "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#7d2d00", "tertiary-container": "#bc4800",
+                        "surface-variant": "#e0e3e5", "surface-bright": "#f7f9fb", "inverse-primary": "#b4c5ff",
+                        "tertiary-fixed": "#ffdbcd", "secondary-fixed": "#d5e3fd", "surface-container-highest": "#e0e3e5",
+                        "on-secondary-fixed-variant": "#3a485c", "on-tertiary-container": "#ffede6", "inverse-on-surface": "#eff1f3",
+                        "error": "#ba1a1a", "outline": "#737686", "on-surface-variant": "#434655", "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff", "secondary-container": "#d5e3fd", "primary": "#004ac6", "on-error": "#ffffff",
+                        "inverse-surface": "#2d3133", "on-tertiary-fixed": "#360f00", "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb596", "on-background": "#191c1e", "surface-container-high": "#e6e8ea",
+                        "tertiary": "#943700", "on-secondary-container": "#57657b", "on-primary-container": "#eeefff",
+                        "surface-container-low": "#f2f4f6", "surface-container": "#eceef0", "surface-dim": "#d8dadc",
+                        "primary-fixed": "#dbe1ff", "on-secondary-fixed": "#0d1c2f", "on-primary-fixed": "#00174b",
+                        "background": "#f7f9fb", "surface": "#f7f9fb"
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                    spacing: { "gutter": "16px", "container-padding": "24px", "stack-md": "16px", "stack-sm": "8px", "base": "4px", "stack-lg": "32px" },
+                    fontFamily: { "title-sm": ["Inter"], "label-bold": ["Inter"], "body-md": ["Inter"], "data-mono": ["Inter"], "headline-md": ["Inter"], "display-lg": ["Inter"], "body-sm": ["Inter"] },
+                    fontSize: {
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos base */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .bento-grid {
+                gap: 24px;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn .25s ease both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .book-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Skeleton de carga */
+        .skeleton {
+            background: linear-gradient(90deg, #e6e8ea 25%, #f2f4f6 37%, #e6e8ea 63%);
+            background-size: 400% 100%;
+            animation: skeleton-loading 1.4s ease infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 100% 50%; }
+            100% { background-position: 0 50%; }
+        }
+
+        /* Chips de tags */
+        .tag-chip {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+
+        .tag-chip.active {
+            background-color: #004ac6;
+            color: #ffffff;
+        }
+
+        /* Estrellas de valoración */
+        .star-rating {
+            display: inline-flex;
+            gap: 2px;
+            cursor: pointer;
+        }
+
+        .star-rating .star {
+            font-size: 24px;
+            color: #d1d5db;
+            transition: color 0.15s;
+            user-select: none;
+        }
+
+        .star-rating .star.active {
+            color: #f59e0b;
+        }
+
+        .star-rating .star.hover {
+            color: #fbbf24;
+        }
+
+        .star-rating .star:focus-visible {
+            outline: 2px solid #004ac6;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* Modal de lectura */
+        #reading-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #reading-modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 16px;
+            max-width: 1100px;
+            width: 100%;
+            height: 90vh;
+            max-height: 800px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            background: #ffffff;
+        }
+
+        /* Contenedor de lectura basado en PDF.js (reemplaza al iframe) */
+        .pdf-render-container {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            box-sizing: border-box;
+            transition: filter 0.2s ease;
+        }
+
+        .pdf-page-wrap {
+            display: flex;
+            justify-content: center;
+            background: #f2f4f6;
+        }
+
+        .pdf-page-wrap canvas {
+            max-width: 100%;
+            height: auto !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            display: block;
+        }
+
+        .pdf-status {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center;
+            padding: 24px;
+            color: #434655;
+            font-size: 14px;
+        }
+
+        .pdf-status .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid #c3c6d7;
+            border-top-color: #004ac6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .modal-footer {
+            padding: 12px 24px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+            background: #f9fafb;
+        }
+
+        .modal-footer .controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .modal-footer .controls label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4b5563;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .modal-footer .controls input[type="range"] {
+            width: 100px;
+            accent-color: #004ac6;
+        }
+
+        .bg-option {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .bg-option.active {
+            border-color: #004ac6;
+        }
+
+        .bg-option.light {
+            background: #ffffff;
+            box-shadow: inset 0 0 0 1px #e5e7eb;
+        }
+
+        .bg-option.dark {
+            background: #1f2937;
+        }
+
+        .bg-option.sepia {
+            background: #fef3c7;
+        }
+
+        .temp-option {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .temp-option.active {
+            border-color: #004ac6;
+        }
+
+        .temp-option.neutral {
+            background: #9ca3af;
+        }
+
+        .temp-option.warm {
+            background: #f59e0b;
+        }
+
+        .temp-option.cool {
+            background: #3b82f6;
+        }
+
+        @media (max-width: 640px) {
+            .modal-content {
+                height: 95vh;
+                max-height: none;
+                border-radius: 0;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── BARRA SUPERIOR (única, mobile + desktop) ── -->
+    <header
+        class="flex justify-between items-center px-4 md:px-container-padding h-16 bg-surface-bright border-b border-outline-variant sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <button id="close-view-btn" aria-label="Cerrar y volver"
+                class="p-2 -ml-2 rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <h1 class="font-headline-md text-xl md:text-headline-md font-black text-primary tracking-tight">Suit</h1>
+        </div>
+        <div class="relative w-40 sm:w-56 md:w-80">
+            <span
+                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+            <input
+                class="pl-10 pr-4 py-2 bg-surface-container border-none rounded text-body-sm focus:ring-2 focus:ring-primary w-full outline-none"
+                placeholder="Buscar libros, autores..." type="text" id="book-search" aria-label="Buscar libros" />
+        </div>
+    </header>
+
+    <!-- ── MAIN ── -->
+    <div class="flex flex-col flex-1 min-h-screen">
+        <main class="flex-1 p-4 md:p-container-padding max-w-[1440px] w-full mx-auto">
+
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-stack-md gap-4">
+                <div>
+                    <h2 class="font-display-lg text-2xl md:text-display-lg text-on-surface">Biblioteca Financiera</h2>
+                    <p class="font-body-md text-body-sm md:text-body-md text-on-surface-variant">
+                        Libros y recursos para fortalecer tus conocimientos en finanzas personales e inversión.
+                    </p>
+                </div>
+                <div class="flex gap-3">
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant px-3 py-1.5 md:px-4 md:py-2 rounded flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="font-label-bold text-[10px] md:text-label-bold uppercase">SISTEMA EN LÍNEA</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros por tag -->
+            <div id="tag-filters" class="flex flex-wrap gap-2 mb-stack-md"></div>
+
+            <!-- Continuar leyendo -->
+            <div id="continue-reading-section" class="mb-stack-lg hidden">
+                <h3 class="font-title-sm text-title-sm text-on-surface mb-stack-sm flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">auto_stories</span>
+                    Continuar leyendo
+                </h3>
+                <div class="bento-grid" id="continue-reading-grid"></div>
+            </div>
+
+            <!-- Orden -->
+            <div class="flex justify-between items-center mb-stack-sm">
+                <h3 class="font-title-sm text-title-sm text-on-surface">Todos los libros</h3>
+                <div class="flex items-center gap-2">
+                    <label for="sort-select" class="text-body-sm text-on-surface-variant hidden sm:inline">Ordenar
+                        por:</label>
+                    <select id="sort-select"
+                        class="bg-surface-container-lowest border border-outline-variant rounded text-body-sm px-3 py-1.5 outline-none focus:ring-2 focus:ring-primary">
+                        <option value="default">Predeterminado</option>
+                        <option value="rating">Mejor valorados</option>
+                        <option value="title">Título (A-Z)</option>
+                        <option value="author">Autor (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Grid de libros -->
+            <div class="bento-grid" id="books-grid"></div>
+
+            <footer
+                class="mt-8 pt-6 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center text-on-surface-variant gap-4">
+                <p class="text-[11px] md:text-body-sm">© 2026 Pixel Logic Solutions. todos los derechos reservados.</p>
+                <div class="flex gap-6 text-[11px] md:text-body-sm">
+                    <a class="hover:text-primary transition-colors" href="#">Privacidad</a>
+                    <a class="hover:text-primary transition-colors" href="#">Soporte</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- ── MODAL DE LECTURA ── -->
+    <div id="reading-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="font-title-sm text-lg" id="modal-title">Título del Libro</h3>
+                <button id="close-modal" class="p-2 text-on-surface-variant hover:text-primary" aria-label="Cerrar lector">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <div class="pdf-render-container" id="pdf-render-container"></div>
+                <div class="pdf-status" id="pdf-status">
+                    <div class="spinner"></div>
+                    <p>Cargando libro…</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="controls">
+                    <!-- Fondo -->
+                    <label>Fondo:
+                        <span class="bg-option light active" data-bg="light" title="Claro"></span>
+                        <span class="bg-option sepia" data-bg="sepia" title="Sepia"></span>
+                        <span class="bg-option dark" data-bg="dark" title="Oscuro"></span>
+                    </label>
+                    <!-- Temperatura -->
+                    <label>Temperatura:
+                        <span class="temp-option neutral active" data-temp="neutral" title="Neutro"></span>
+                        <span class="temp-option warm" data-temp="warm" title="Cálido"></span>
+                        <span class="temp-option cool" data-temp="cool" title="Frío"></span>
+                    </label>
+                    <!-- Progreso -->
+                    <label>Progreso:
+                        <input type="range" id="progress-slider" min="0" max="100" value="0" aria-label="Progreso de lectura" />
+                        <span id="progress-label" class="font-data-mono text-sm">0%</span>
+                    </label>
+                    <!-- Valoración en modal -->
+                    <label>Valorar:
+                        <span class="star-rating" id="modal-stars" data-book-id="0" role="radiogroup" aria-label="Valorar libro">
+                            <span class="star" data-value="1" role="radio" aria-label="1 estrella" tabindex="0">★</span>
+                            <span class="star" data-value="2" role="radio" aria-label="2 estrellas" tabindex="0">★</span>
+                            <span class="star" data-value="3" role="radio" aria-label="3 estrellas" tabindex="0">★</span>
+                            <span class="star" data-value="4" role="radio" aria-label="4 estrellas" tabindex="0">★</span>
+                            <span class="star" data-value="5" role="radio" aria-label="5 estrellas" tabindex="0">★</span>
+                        </span>
+                    </label>
+                </div>
+                <button id="download-modal-btn"
+                    class="bg-primary text-on-primary px-4 py-1.5 rounded font-label-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all">
+                    Descargar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── SCRIPTS ── -->
+    <script>
+        (function () {
+            'use strict';
+
+            // ================================================================
+            // 1. DATOS DE LIBROS
+            // ================================================================
+            let books = [];
+            let allTags = [];
+            let activeTags = new Set();
+            let currentSort = 'default';
+
+            async function loadBooks() {
+                showSkeleton();
+                try {
+                    const response = await fetch('data/books.json');
+                    if (!response.ok) throw new Error('Error al cargar books.json');
+                    books = await response.json();
+                    allTags = [...new Set(books.flatMap(b => b.tags))].sort();
+                    renderTagFilters();
+                    await renderBooks();
+                } catch (error) {
+                    console.error('No se pudieron cargar los libros:', error);
+                    grid.innerHTML = `<div class="col-span-12 text-center py-12 text-error">Error al cargar la biblioteca. Intenta de nuevo más tarde.</div>`;
+                }
+            }
+
+            function showSkeleton() {
+                grid.innerHTML = Array.from({ length: 4 }).map(() => `
+                    <div class="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+                        <div class="aspect-[2/3] skeleton"></div>
+                        <div class="p-4 flex flex-col gap-2">
+                            <div class="h-4 w-3/4 rounded skeleton"></div>
+                            <div class="h-3 w-1/2 rounded skeleton"></div>
+                            <div class="h-3 w-full rounded skeleton"></div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // ================================================================
+            // 2. IDENTIFICADOR ÚNICO DE DISPOSITIVO
+            // ================================================================
+            function getDeviceId() {
+                let id = localStorage.getItem('suit_device_id');
+                if (!id) {
+                    id = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+                    localStorage.setItem('suit_device_id', id);
+                }
+                return id;
+            }
+            const deviceId = getDeviceId();
+
+            // ================================================================
+            // 3. BASE DE DATOS LOCAL (IndexedDB)
+            // ================================================================
+            class LocalDB {
+                constructor() {
+                    this.dbName = 'SuitLibraryDB';
+                    this.storeName = 'book_interactions';
+                    this.db = null;
+                }
+
+                open() {
+                    return new Promise((resolve, reject) => {
+                        const request = indexedDB.open(this.dbName, 1);
+                        request.onupgradeneeded = (e) => {
+                            const db = e.target.result;
+                            if (!db.objectStoreNames.contains(this.storeName)) {
+                                const store = db.createObjectStore(this.storeName, { keyPath: ['deviceId', 'bookId'] });
+                                store.createIndex('bookId', 'bookId', { unique: false });
+                                store.createIndex('deviceId', 'deviceId', { unique: false });
+                            }
+                        };
+                        request.onsuccess = (e) => {
+                            this.db = e.target.result;
+                            resolve();
+                        };
+                        request.onerror = (e) => reject(e.target.error);
+                    });
+                }
+
+                getInteraction(bookId) {
+                    return new Promise((resolve, reject) => {
+                        const tx = this.db.transaction(this.storeName, 'readonly');
+                        const store = tx.objectStore(this.storeName);
+                        const req = store.get([deviceId, bookId]);
+                        req.onsuccess = () => resolve(req.result || null);
+                        req.onerror = () => reject(req.error);
+                    });
+                }
+
+                saveInteraction(bookId, data) {
+                    return new Promise((resolve, reject) => {
+                        const tx = this.db.transaction(this.storeName, 'readwrite');
+                        const store = tx.objectStore(this.storeName);
+                        const entry = { deviceId, bookId, ...data, lastRead: Date.now() };
+                        const req = store.put(entry);
+                        req.onsuccess = () => resolve();
+                        req.onerror = () => reject(req.error);
+                    });
+                }
+
+                getAllInteractions() {
+                    return new Promise((resolve, reject) => {
+                        const tx = this.db.transaction(this.storeName, 'readonly');
+                        const store = tx.objectStore(this.storeName);
+                        const index = store.index('deviceId');
+                        const req = index.getAll(deviceId);
+                        req.onsuccess = () => resolve(req.result || []);
+                        req.onerror = () => reject(req.error);
+                    });
+                }
+            }
+
+            let dbInstance = null;
+
+            async function initDB() {
+                if (!dbInstance) {
+                    dbInstance = new LocalDB();
+                    await dbInstance.open();
+                }
+                return dbInstance;
+            }
+
+            // ================================================================
+            // 4. LÓGICA DE RENDERIZADO Y VALORACIONES
+            // ================================================================
+
+            const grid = document.getElementById('books-grid');
+            const continueSection = document.getElementById('continue-reading-section');
+            const continueGrid = document.getElementById('continue-reading-grid');
+            const tagFiltersEl = document.getElementById('tag-filters');
+            const sortSelect = document.getElementById('sort-select');
+            const searchInput = document.getElementById('book-search');
+
+            // Modal
+            const modal = document.getElementById('reading-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const closeModalBtn = document.getElementById('close-modal');
+            const progressSlider = document.getElementById('progress-slider');
+            const progressLabel = document.getElementById('progress-label');
+            const modalStars = document.getElementById('modal-stars');
+            const downloadModalBtn = document.getElementById('download-modal-btn');
+            const pdfContainer = document.getElementById('pdf-render-container');
+            const pdfStatus = document.getElementById('pdf-status');
+
+            const bgOptions = document.querySelectorAll('.bg-option');
+            const tempOptions = document.querySelectorAll('.temp-option');
+
+            let currentBookId = null;
+
+            // Cache de interacciones (rating/progreso) por bookId, precargada una sola vez
+            // y reutilizada en cada render para evitar golpear IndexedDB innecesariamente.
+            let interactionsCache = {};
+
+            async function refreshInteractionsCache() {
+                const db = await initDB();
+                const all = await db.getAllInteractions();
+                interactionsCache = {};
+                all.forEach(item => {
+                    interactionsCache[item.bookId] = {
+                        rating: item.rating ?? null,
+                        progress: item.progress || 0
+                    };
+                });
+            }
+
+            function getCachedRating(bookId) {
+                return interactionsCache[bookId]?.rating ?? null;
+            }
+
+            function getCachedProgress(bookId) {
+                return interactionsCache[bookId]?.progress ?? 0;
+            }
+
+            async function saveRating(bookId, rating) {
+                const db = await initDB();
+                const existing = interactionsCache[bookId] || {};
+                await db.saveInteraction(bookId, {
+                    rating: rating,
+                    progress: existing.progress || 0
+                });
+                interactionsCache[bookId] = { rating, progress: existing.progress || 0 };
+                renderBooks(searchInput.value.trim());
+            }
+
+            async function saveProgress(bookId, progress) {
+                const db = await initDB();
+                const existing = interactionsCache[bookId] || {};
+                await db.saveInteraction(bookId, {
+                    rating: existing.rating ?? null,
+                    progress: progress
+                });
+                interactionsCache[bookId] = { rating: existing.rating ?? null, progress };
+            }
+
+            // Normaliza texto quitando acentos, para que "educacion" encuentre "Educación"
+            function normalize(str) {
+                return (str || '')
+                    .toString()
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .toLowerCase();
+            }
+
+            function renderTagFilters() {
+                tagFiltersEl.innerHTML = allTags.map(tag => `
+                    <button type="button" class="tag-chip px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wide bg-surface-container-high text-on-surface-variant" data-tag="${tag}">
+                        ${tag}
+                    </button>
+                `).join('');
+
+                tagFiltersEl.querySelectorAll('.tag-chip').forEach(chip => {
+                    chip.addEventListener('click', () => {
+                        const tag = chip.dataset.tag;
+                        if (activeTags.has(tag)) {
+                            activeTags.delete(tag);
+                            chip.classList.remove('active');
+                        } else {
+                            activeTags.add(tag);
+                            chip.classList.add('active');
+                        }
+                        renderBooks(searchInput.value.trim());
+                    });
+                });
+            }
+
+            function filterBooks(filter) {
+                const nFilter = normalize(filter);
+                return books.filter(b => {
+                    const matchesText = !nFilter ||
+                        normalize(b.title).includes(nFilter) ||
+                        normalize(b.author).includes(nFilter) ||
+                        b.tags.some(t => normalize(t).includes(nFilter));
+                    const matchesTags = activeTags.size === 0 ||
+                        b.tags.some(t => activeTags.has(t));
+                    return matchesText && matchesTags;
+                });
+            }
+
+            function sortBooks(list) {
+                const sorted = [...list];
+                if (currentSort === 'title') {
+                    sorted.sort((a, b) => a.title.localeCompare(b.title, 'es'));
+                } else if (currentSort === 'author') {
+                    sorted.sort((a, b) => a.author.localeCompare(b.author, 'es'));
+                } else if (currentSort === 'rating') {
+                    sorted.sort((a, b) => (getCachedRating(b.id) || 0) - (getCachedRating(a.id) || 0));
+                }
+                return sorted;
+            }
+
+            function bookCardHtml(book) {
+                const avgRating = getCachedRating(book.id);
+                const progress = getCachedProgress(book.id);
+                const ratingDisplay = avgRating !== null ? avgRating.toFixed(1) : '—';
+
+                return `
+                    <div class="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden book-card fade-in" data-book-id="${book.id}">
+                        <div class="aspect-[2/3] bg-surface-container overflow-hidden relative">
+                            <img src="${book.cover}" alt="${book.title}" class="w-full h-full object-cover" loading="lazy" />
+                            ${progress > 0 ? `<div class="absolute bottom-0 left-0 right-0 h-1 bg-primary" style="width:${progress}%"></div>` : ''}
+                        </div>
+                        <div class="p-4 flex flex-col gap-2">
+                            <h3 class="font-title-sm text-base text-on-surface line-clamp-1">${book.title}</h3>
+                            <p class="text-sm text-on-surface-variant font-medium">${book.author}</p>
+                            <div class="flex items-center gap-1 text-sm text-amber-500">
+                                <span class="material-symbols-outlined text-[18px]">star</span>
+                                <span class="font-bold">${ratingDisplay}</span>
+                                <span class="text-on-surface-variant text-xs ml-1">(valoración)</span>
+                            </div>
+                            <p class="text-body-sm text-on-surface-variant line-clamp-2 mt-1">${book.description}</p>
+                            <div class="flex flex-wrap gap-1 mt-2">
+                                ${book.tags.map(tag => `<span class="bg-surface-container-high text-on-surface-variant text-[10px] font-bold px-2 py-0.5 rounded-full">${tag}</span>`).join('')}
+                            </div>
+                            <div class="flex gap-2 mt-2">
+                                <button class="flex-1 bg-primary text-on-primary py-2 rounded font-label-bold text-xs uppercase tracking-widest hover:brightness-110 transition-all view-btn" data-id="${book.id}">
+                                    ${progress > 0 && progress < 100 ? 'Continuar' : 'Ver más'}
+                                </button>
+                                <a href="${book.pdf}" download class="flex-1 bg-surface-container-high text-on-surface-variant py-2 rounded font-label-bold text-xs uppercase tracking-widest hover:bg-surface-container transition-all text-center download-btn" data-id="${book.id}">
+                                    Descargar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            async function renderBooks(filter = '') {
+                const filtered = sortBooks(filterBooks(filter));
+
+                // Sección "Continuar leyendo": libros con progreso entre 1% y 99%
+                const inProgress = books.filter(b => {
+                    const p = getCachedProgress(b.id);
+                    return p > 0 && p < 100;
+                });
+                if (inProgress.length > 0) {
+                    continueSection.classList.remove('hidden');
+                    continueGrid.innerHTML = inProgress.map(bookCardHtml).join('');
+                } else {
+                    continueSection.classList.add('hidden');
+                    continueGrid.innerHTML = '';
+                }
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = `
+                    <div class="col-span-12 text-center py-12">
+                        <span class="material-symbols-outlined text-6xl opacity-20">search_off</span>
+                        <p class="text-on-surface-variant mt-4">No se encontraron libros para "<strong>${filter}</strong>"</p>
+                    </div>
+                `;
+                    bindCardEvents();
+                    return;
+                }
+
+                grid.innerHTML = filtered.map(bookCardHtml).join('');
+                bindCardEvents();
+            }
+
+            function bindCardEvents() {
+                document.querySelectorAll('.view-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const bookId = parseInt(btn.dataset.id);
+                        openModal(bookId);
+                    });
+                });
+                // Los enlaces de descarga ya tienen el atributo download, no requieren evento extra
+            }
+
+            sortSelect.addEventListener('change', () => {
+                currentSort = sortSelect.value;
+                renderBooks(searchInput.value.trim());
+            });
+
+            // ================================================================
+            // 5. LECTOR DE PDF (PDF.js) — funciona igual en escritorio y móvil
+            // ================================================================
+
+            if (window['pdfjsLib']) {
+                pdfjsLib.GlobalWorkerOptions.workerSrc =
+                    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            }
+
+            let pdfDoc = null;
+            let pageObserver = null;
+            let scrollRestoreHandled = false;
+            let suppressScrollSave = false;
+
+            function resetReader() {
+                if (pageObserver) {
+                    pageObserver.disconnect();
+                    pageObserver = null;
+                }
+                pdfContainer.innerHTML = '';
+                pdfDoc = null;
+                scrollRestoreHandled = false;
+            }
+
+            async function renderPdfInReader(url, initialProgress) {
+                resetReader();
+                pdfStatus.style.display = 'flex';
+                pdfStatus.innerHTML = `<div class="spinner"></div><p>Cargando libro…</p>`;
+
+                try {
+                    const loadingTask = pdfjsLib.getDocument(url);
+                    pdfDoc = await loadingTask.promise;
+                    const numPages = pdfDoc.numPages;
+
+                    const firstPage = await pdfDoc.getPage(1);
+                    const baseViewport = firstPage.getViewport({ scale: 1 });
+                    const containerWidth = Math.max(pdfContainer.clientWidth - 32, 240);
+                    const scale = containerWidth / baseViewport.width;
+
+                    for (let n = 1; n <= numPages; n++) {
+                        const wrap = document.createElement('div');
+                        wrap.className = 'pdf-page-wrap';
+                        wrap.dataset.page = String(n);
+                        wrap.style.width = containerWidth + 'px';
+                        wrap.style.aspectRatio = `${baseViewport.width} / ${baseViewport.height}`;
+                        pdfContainer.appendChild(wrap);
+                    }
+
+                    pdfStatus.style.display = 'none';
+
+                    pageObserver = new IntersectionObserver(onPageIntersect, {
+                        root: pdfContainer,
+                        rootMargin: '1000px 0px',
+                        threshold: 0.01
+                    });
+                    pdfContainer.querySelectorAll('.pdf-page-wrap').forEach(el => pageObserver.observe(el));
+
+                    async function onPageIntersect(entries) {
+                        for (const entry of entries) {
+                            if (!entry.isIntersecting) continue;
+                            const wrap = entry.target;
+                            if (wrap.dataset.rendered) continue;
+                            wrap.dataset.rendered = 'true';
+                            pageObserver.unobserve(wrap);
+                            renderSinglePage(wrap, parseInt(wrap.dataset.page, 10), scale);
+                        }
+                    }
+
+                    // Restaurar posición de scroll según el progreso guardado
+                    requestAnimationFrame(() => {
+                        if (initialProgress > 0) {
+                            suppressScrollSave = true;
+                            const maxScroll = pdfContainer.scrollHeight - pdfContainer.clientHeight;
+                            pdfContainer.scrollTop = (initialProgress / 100) * Math.max(maxScroll, 0);
+                            setTimeout(() => { suppressScrollSave = false; }, 300);
+                        }
+                        scrollRestoreHandled = true;
+                    });
+                } catch (err) {
+                    console.error('Error al renderizar el PDF:', err);
+                    pdfStatus.style.display = 'flex';
+                    pdfStatus.innerHTML = `
+                        <span class="material-symbols-outlined text-4xl text-error">error</span>
+                        <p>No se pudo cargar la lectura en línea.<br>Puedes descargar el PDF con el botón de abajo.</p>
+                    `;
+                }
+            }
+
+            async function renderSinglePage(wrap, pageNum, scale) {
+                try {
+                    const page = await pdfDoc.getPage(pageNum);
+                    const dpr = window.devicePixelRatio || 1;
+                    const viewport = page.getViewport({ scale });
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width * dpr;
+                    canvas.height = viewport.height * dpr;
+                    canvas.style.width = viewport.width + 'px';
+                    canvas.style.height = viewport.height + 'px';
+                    const ctx = canvas.getContext('2d');
+                    ctx.scale(dpr, dpr);
+                    wrap.style.aspectRatio = '';
+                    wrap.appendChild(canvas);
+                    await page.render({ canvasContext: ctx, viewport }).promise;
+                } catch (err) {
+                    console.error('Error al renderizar página', pageNum, err);
+                }
+            }
+
+            // Progreso automático por scroll (con guardado diferido)
+            let scrollSaveTimeout;
+            pdfContainer.addEventListener('scroll', () => {
+                if (suppressScrollSave || !scrollRestoreHandled || currentBookId === null) return;
+                const maxScroll = pdfContainer.scrollHeight - pdfContainer.clientHeight;
+                const pct = maxScroll > 0 ? Math.round((pdfContainer.scrollTop / maxScroll) * 100) : 0;
+                const clamped = Math.min(100, Math.max(0, pct));
+                progressSlider.value = clamped;
+                progressLabel.textContent = clamped + '%';
+                clearTimeout(scrollSaveTimeout);
+                scrollSaveTimeout = setTimeout(() => saveProgress(currentBookId, clamped), 400);
+            });
+
+            // ================================================================
+            // 6. MODAL DE LECTURA
+            // ================================================================
+
+            async function openModal(bookId) {
+                const book = books.find(b => b.id === bookId);
+                if (!book) return;
+
+                currentBookId = bookId;
+                modalTitle.textContent = book.title;
+                downloadModalBtn.onclick = () => {
+                    window.open(book.pdf, '_blank');
+                };
+
+                const progress = getCachedProgress(bookId);
+                const rating = getCachedRating(bookId);
+
+                progressSlider.value = progress;
+                progressLabel.textContent = progress + '%';
+                updateModalStars(rating);
+                modalStars.dataset.bookId = bookId;
+
+                applyBg('light');
+                applyTemp('neutral');
+
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+
+                await renderPdfInReader(book.pdf, progress);
+            }
+
+            function closeModal() {
+                if (currentBookId !== null) {
+                    const progress = parseInt(progressSlider.value, 10);
+                    saveProgress(currentBookId, progress).then(() => {
+                        renderBooks(searchInput.value.trim());
+                    });
+                }
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+                resetReader();
+                currentBookId = null;
+            }
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            // Slider de progreso: mueve la posición de lectura al soltar
+            progressSlider.addEventListener('input', (e) => {
+                const val = e.target.value;
+                progressLabel.textContent = val + '%';
+            });
+            progressSlider.addEventListener('change', (e) => {
+                const val = parseInt(e.target.value, 10);
+                const maxScroll = pdfContainer.scrollHeight - pdfContainer.clientHeight;
+                suppressScrollSave = true;
+                pdfContainer.scrollTop = (val / 100) * Math.max(maxScroll, 0);
+                setTimeout(() => { suppressScrollSave = false; }, 300);
+                if (currentBookId !== null) saveProgress(currentBookId, val);
+            });
+
+            // Estrellas en modal (click + teclado)
+            modalStars.addEventListener('click', async (e) => {
+                const star = e.target.closest('.star');
+                if (!star) return;
+                await rateFromStar(star);
+            });
+            modalStars.addEventListener('keydown', async (e) => {
+                if (e.key !== 'Enter' && e.key !== ' ') return;
+                const star = e.target.closest('.star');
+                if (!star) return;
+                e.preventDefault();
+                await rateFromStar(star);
+            });
+            async function rateFromStar(star) {
+                const bookId = parseInt(modalStars.dataset.bookId, 10);
+                const value = parseInt(star.dataset.value, 10);
+                if (isNaN(value)) return;
+                await saveRating(bookId, value);
+                updateModalStars(value);
+            }
+
+            modalStars.addEventListener('mouseover', (e) => {
+                const star = e.target.closest('.star');
+                if (!star) return;
+                const val = parseInt(star.dataset.value, 10);
+                highlightStars(modalStars, val, true);
+            });
+            modalStars.addEventListener('mouseout', () => {
+                const bookId = parseInt(modalStars.dataset.bookId, 10);
+                const rating = getCachedRating(bookId);
+                highlightStars(modalStars, rating, false);
+            });
+
+            function updateModalStars(rating) {
+                const stars = modalStars.querySelectorAll('.star');
+                stars.forEach(star => {
+                    const val = parseInt(star.dataset.value, 10);
+                    const isActive = rating !== null && val <= rating;
+                    star.classList.toggle('active', isActive);
+                    star.setAttribute('aria-checked', String(isActive));
+                });
+            }
+
+            function highlightStars(container, rating, hover) {
+                const stars = container.querySelectorAll('.star');
+                stars.forEach(star => {
+                    const val = parseInt(star.dataset.value, 10);
+                    if (hover) {
+                        star.classList.toggle('hover', val <= rating);
+                    } else {
+                        star.classList.remove('hover');
+                        const active = rating !== null && val <= rating;
+                        star.classList.toggle('active', active);
+                    }
+                });
+            }
+
+            // ================================================================
+            // 7. CONTROLES DE FONDO Y TEMPERATURA
+            // ================================================================
+
+            function applyBg(bg) {
+                pdfContainer.classList.remove('bg-gray-900', 'text-white', 'bg-amber-50');
+                if (bg === 'dark') {
+                    pdfContainer.style.background = '#1f2937';
+                } else if (bg === 'sepia') {
+                    pdfContainer.style.background = '#fef3c7';
+                } else {
+                    pdfContainer.style.background = '#ffffff';
+                }
+                bgOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.bg === bg));
+            }
+
+            function applyTemp(temp) {
+                let filter = 'none';
+                if (temp === 'warm') filter = 'sepia(0.4)';
+                else if (temp === 'cool') filter = 'hue-rotate(180deg) saturate(0.8)';
+                pdfContainer.style.filter = filter;
+                tempOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.temp === temp));
+            }
+
+            bgOptions.forEach(opt => {
+                opt.addEventListener('click', () => applyBg(opt.dataset.bg));
+            });
+
+            tempOptions.forEach(opt => {
+                opt.addEventListener('click', () => applyTemp(opt.dataset.temp));
+            });
+
+            // ================================================================
+            // 8. BÚSQUEDA EN TIEMPO REAL
+            // ================================================================
+
+            let searchTimeout;
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    renderBooks(searchInput.value.trim());
+                }, 200);
+            });
+
+            // ================================================================
+            // 9. BOTÓN CERRAR VISTA (vuelve a la vista/página anterior de la app)
+            // ================================================================
+
+            document.getElementById('close-view-btn').addEventListener('click', () => {
+                if (document.referrer && history.length > 1) {
+                    history.back();
+                } else {
+                    // Fallback si la vista se abrió directamente (sin historial previo).
+                    // Ajusta esta ruta a la página principal real de la app si es distinta.
+                    window.location.href = 'index.html';
+                }
+            });
+
+            // ================================================================
+            // 10. INICIALIZACIÓN
+            // ================================================================
+
+            (async function init() {
+                await initDB();
+                await refreshInteractionsCache();
+                await loadBooks();
+            })();
+
+            window.addEventListener('beforeunload', () => {
+                if (currentBookId !== null && modal.classList.contains('open')) {
+                    const progress = parseInt(progressSlider.value, 10);
+                    saveProgress(currentBookId, progress);
+                }
+            });
+
+        })();
+    </script>
+</body>
+
+</html>

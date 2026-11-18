@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Suit - Panel de Gestión</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Suit">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="theme-color" content="#004ac6">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline-variant": "#c3c6d7", "surface-container-lowest": "#ffffff", "primary-container": "#2563eb",
+                        "secondary-fixed-dim": "#b9c7e0", "on-surface": "#191c1e", "on-primary-fixed-variant": "#003ea8",
+                        "surface-tint": "#0053db", "on-primary": "#ffffff", "primary-fixed-dim": "#b4c5ff", "secondary": "#515f74",
+                        "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#7d2d00", "tertiary-container": "#bc4800",
+                        "surface-variant": "#e0e3e5", "surface-bright": "#f7f9fb", "inverse-primary": "#b4c5ff",
+                        "tertiary-fixed": "#ffdbcd", "secondary-fixed": "#d5e3fd", "surface-container-highest": "#e0e3e5",
+                        "on-secondary-fixed-variant": "#3a485c", "on-tertiary-container": "#ffede6", "inverse-on-surface": "#eff1f3",
+                        "error": "#ba1a1a", "outline": "#737686", "on-surface-variant": "#434655", "on-error-container": "#93000a",
+                        "on-secondary": "#ffffff", "secondary-container": "#d5e3fd", "primary": "#004ac6", "on-error": "#ffffff",
+                        "inverse-surface": "#2d3133", "on-tertiary-fixed": "#360f00", "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb596", "on-background": "#191c1e", "surface-container-high": "#e6e8ea",
+                        "tertiary": "#943700", "on-secondary-container": "#57657b", "on-primary-container": "#eeefff",
+                        "surface-container-low": "#f2f4f6", "surface-container": "#eceef0", "surface-dim": "#d8dadc",
+                        "primary-fixed": "#dbe1ff", "on-secondary-fixed": "#0d1c2f", "on-primary-fixed": "#00174b",
+                        "background": "#f7f9fb", "surface": "#f7f9fb"
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                    spacing: { "gutter": "16px", "container-padding": "24px", "stack-md": "16px", "stack-sm": "8px", "base": "4px", "stack-lg": "32px" },
+                    fontFamily: { "title-sm": ["Inter"], "label-bold": ["Inter"], "body-md": ["Inter"], "data-mono": ["Inter"], "headline-md": ["Inter"], "display-lg": ["Inter"], "body-sm": ["Inter"] },
+                    fontSize: {
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .bento-grid {
+                gap: 24px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn .25s ease both;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .count-animate {
+            animation: countUp .4s cubic-bezier(.34, 1.56, .64, 1) both;
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #eceef0 25%, #f2f4f6 50%, #eceef0 75%);
+            background-size: 200%;
+            animation: shimmer 1.4s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200%
+            }
+
+            100% {
+                background-position: -200%
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background min-h-screen flex flex-col md:flex-row">
+
+    <!-- ── MOBILE HEADER ── -->
+    <header
+        class="md:hidden flex justify-between items-center px-4 h-16 bg-surface-bright border-b border-outline-variant sticky top-0 z-50">
+        <h1 class="font-headline-md text-headline-md font-black text-primary tracking-tight">Suit</h1>
+        <div class="flex items-center gap-2">
+            <button class="p-2 text-on-surface-variant"><span
+                    class="material-symbols-outlined">notifications</span></button>
+            <img id="avatar-mob" alt="Avatar" class="w-8 h-8 rounded-full border border-outline-variant object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl0i3w-38aFsRO4n6NLGFMVIQh4Bn749lJg5Y-Y01jY21M6s167H9U8EUUNpHP1WT7Um3YJ9-2ZGAZNxrvMY9ue06JF-yPBQJglBQH-ItqRThVicLjZ22MlQIQpoPHjoUMPTvhpM6dA2GsAKvvA_BDjdn-Pih2ebt_8AlQY-y55hY0hgooBwY7ex3m5G7s4ix7kNZDt0Y0P3Yue2ygzQ33xaaAlvMHXubN3JWEMNUDsxWDFYdrG1y4EqSc2zMU9kK84dgusrTyiSA" />
+        </div>
+    </header>
+
+    <!-- ── SIDEBAR ── -->
+    <aside
+        class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-surface border-r border-outline-variant flex-col py-stack-lg z-50">
+        <div class="px-6 mb-stack-lg">
+            <h1 class="font-headline-md text-headline-md font-bold text-primary">Suit</h1>
+            <div class="flex items-center mt-4 gap-3">
+                <img id="avatar-side" alt="Avatar" class="w-10 h-10 rounded-full bg-surface-container-high object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGYZ0802L180lMf9vIl957vbiOL7g5CFBDT9vcvUIsULNXgV6dXFqk05NtKLE-iyVxtovk0MTPaRnS00c8TwXoGF4mGpaL9dKaubBxDrfKewd4lO5ovWvShVMQm3LCnG5yMwuXy72IzZqUmfthMxHAzUU2Dighzankj5SV_zqqCS899305mP_Za579TvWStFBvI-HVpo58mDqZBb7S_GZwfpWwUBUC-PsYdEUhZ8BEvIugQJ9dEMSKKo_K_Zk7bIYv6TrKqwhdRTY" />
+                <div>
+                    <p class="font-label-bold text-label-bold text-on-surface" id="sidebar-name">Gestor</p>
+                    <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Perfil de Gerente</p>
+                </div>
+            </div>
+        </div>
+        <nav class="flex-1 px-4 space-y-1">
+            <a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-r-4 border-primary hover:bg-surface-container-high"
+                href="home-managers.html">
+                <span class="material-symbols-outlined"
+                    style="font-variation-settings:'FILL' 1;">dashboard</span><span>Panel</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="vouche.html">
+                <span class="material-symbols-outlined">add_notes</span><span>Crear Vale</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="histori-vouche.html">
+                <span class="material-symbols-outlined">history</span><span>Historial</span>
+                <span
+                    class="nav-badge-messages-count hidden ml-auto bg-error text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">0</span>
+
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="supplier-managers.html">
+                <span class="material-symbols-outlined">handshake</span><span>Proveedores</span>
+            </a>
+             <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="financial-books.html">
+                <span class="material-symbols-outlined"
+                    style="font-variation-settings:'FILL' 1;">menu_book</span><span>Biblioteca</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+                href="settings.html">
+                <span class="material-symbols-outlined">settings</span><span>Ajustes</span>
+            </a>
+        </nav>
+        <div class="px-4 mt-auto">
+            <a href="vouche.html"
+                class="w-full bg-primary text-on-primary py-3 px-4 rounded font-label-bold text-label-bold uppercase tracking-widest hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined">add</span>Nuevo Vale
+            </a>
+            <div class="mt-4 flex items-center gap-2 px-4 py-2 bg-surface-container-low rounded-lg">
+                <span class="material-symbols-outlined text-sm" id="sync-icon-side">cloud_done</span>
+                <span class="font-label-bold text-label-bold text-on-surface-variant"
+                    id="sync-label-side">Sincronizado</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <div class="md:ml-64 flex flex-col flex-1 min-h-screen pb-20 md:pb-0">
+
+        <!-- Desktop TopNav -->
+        <header
+            class="hidden md:flex justify-between items-center w-full px-container-padding h-16 bg-surface-bright border-b border-outline-variant sticky top-0 z-40">
+            <div class="relative">
+                <span
+                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                <input
+                    class="pl-10 pr-4 py-2 bg-surface-container border-none rounded text-body-sm focus:ring-2 focus:ring-primary w-80 outline-none"
+                    placeholder="Buscar vales, clientes..." type="text" id="dash-search" />
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="p-2 text-on-surface-variant hover:text-primary hidden">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button onclick="refreshDashboard()" class="p-2 text-on-surface-variant hover:text-primary"
+                    title="Actualizar datos">
+                    <span class="material-symbols-outlined" id="refresh-icon">sync</span>
+                </button>
+                <!-- Indicador online/offline -->
+                <div id="connectivity-badge"
+                    class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest border border-outline-variant text-xs font-bold">
+                    <span class="w-2 h-2 rounded-full bg-green-500" id="conn-dot"></span>
+                    <span id="conn-label">EN LÍNEA</span>
+                </div>
+                <div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+                <img id="avatar-top" alt="Avatar"
+                    class="w-8 h-8 rounded-full border border-outline-variant object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl0i3w-38aFsRO4n6NLGFMVIQh4Bn749lJg5Y-Y01jY21M6s167H9U8EUUNpHP1WT7Um3YJ9-2ZGAZNxrvMY9ue06JF-yPBQJglBQH-ItqRThVicLjZ22MlQIQpoPHjoUMPTvhpM6dA2GsAKvvA_BDjdn-Pih2ebt_8AlQY-y55hY0hgooBwY7ex3m5G7s4ix7kNZDt0Y0P3Yue2ygzQ33xaaAlvMHXubN3JWEMNUDsxWDFYdrG1y4EqSc2zMU9kK84dgusrTyiSA" />
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <main class="flex-1 p-4 md:p-container-padding max-w-[1440px] w-full mx-auto">
+
+            <!-- Título + estado -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-stack-lg gap-4">
+                <div>
+                    <h2 class="font-display-lg text-2xl md:text-display-lg text-on-surface">Panel de Gestión</h2>
+                    <p class="font-body-md text-body-sm md:text-body-md text-on-surface-variant">
+                        Bienvenido, <span id="welcome-name" class="font-semibold text-on-surface">—</span>. Resumen de
+                        rendimiento.
+                    </p>
+                </div>
+                <div class="flex gap-3">
+                    <!-- Alerta offline -->
+                    <div id="offline-banner"
+                        class="hidden bg-amber-100 border border-amber-300 text-amber-700 px-3 py-1.5 rounded flex items-center gap-2 text-xs font-bold">
+                        <span class="material-symbols-outlined text-sm">cloud_off</span>DATOS LOCALES
+                    </div>
+                    <div
+                        class="bg-surface-container-lowest border border-outline-variant px-3 py-1.5 md:px-4 md:py-2 rounded flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse" id="sys-dot"></span>
+                        <span class="font-label-bold text-[10px] md:text-label-bold uppercase" id="sys-label">SISTEMA EN
+                            LÍNEA</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MÉTRICAS BENTO -->
+            <div class="bento-grid mb-stack-lg">
+
+                <!-- Métrica 1: Vales Totales -->
+                <div
+                    class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant p-4 md:p-6 rounded-lg relative overflow-hidden group hover:-translate-y-0.5 transition-transform">
+                    <div
+                        class="absolute -right-4 -top-4 text-primary opacity-5 group-hover:scale-110 transition-transform duration-500">
+                        <span class="material-symbols-outlined text-[120px]">confirmation_number</span>
+                    </div>
+                    <p class="font-label-bold text-[11px] md:text-label-bold text-on-surface-variant uppercase mb-2">
+                        Vales Totales</p>
+                    <div class="flex items-baseline gap-3">
+                        <span class="font-display-lg text-2xl md:text-display-lg text-on-surface" id="metric-total">
+                            <span class="skeleton inline-block w-16 h-8 rounded"></span>
+                        </span>
+                        <span class="font-label-bold text-label-bold" id="metric-growth"></span>
+                    </div>
+                    <p class="text-[12px] md:text-body-sm text-on-surface-variant mt-2 md:mt-4">
+                        <span id="metric-today" class="font-semibold text-primary">—</span> creados hoy
+                    </p>
+                </div>
+
+                <!-- Métrica 2: Comisión Pendiente -->
+                <div
+                    class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant p-4 md:p-6 rounded-lg relative overflow-hidden group hover:-translate-y-0.5 transition-transform">
+                    <div
+                        class="absolute -right-4 -top-4 text-tertiary opacity-5 group-hover:scale-110 transition-transform duration-500">
+                        <span class="material-symbols-outlined text-[120px]">account_balance_wallet</span>
+                    </div>
+                    <p class="font-label-bold text-[11px] md:text-label-bold text-on-surface-variant uppercase mb-2">
+                        Comisión Pendiente</p>
+                    <div class="flex items-baseline gap-3">
+                        <span class="font-display-lg text-2xl md:text-display-lg text-on-surface"
+                            id="metric-commission">
+                            <span class="skeleton inline-block w-24 h-8 rounded"></span>
+                        </span>
+                        <span class="text-secondary font-label-bold text-[10px] md:text-label-bold uppercase">EN
+                            ESPERA</span>
+                    </div>
+                    <p class="text-[12px] md:text-body-sm text-on-surface-variant mt-2 md:mt-4">
+                        <span id="metric-pending-count" class="font-semibold">—</span> vales por liquidar
+                    </p>
+                </div>
+
+                <!-- Métrica 3: Volumen MTD -->
+                <div
+                    class="col-span-12 md:col-span-4 bg-surface-container-lowest border border-outline-variant p-4 md:p-6 rounded-lg relative overflow-hidden group hover:-translate-y-0.5 transition-transform">
+                    <div
+                        class="absolute -right-4 -top-4 text-green-600 opacity-5 group-hover:scale-110 transition-transform duration-500">
+                        <span class="material-symbols-outlined text-[120px]">verified</span>
+                    </div>
+                    <p class="font-label-bold text-[11px] md:text-label-bold text-on-surface-variant uppercase mb-2">
+                        Volumen del Mes (MTD)</p>
+                    <div class="flex items-baseline gap-3">
+                        <span class="font-display-lg text-2xl md:text-display-lg text-on-surface" id="metric-mtd">
+                            <span class="skeleton inline-block w-28 h-8 rounded"></span>
+                        </span>
+                        <span class="text-green-600 font-label-bold text-xs md:text-label-bold flex items-center"
+                            id="metric-week-badge"></span>
+                    </div>
+                    <p class="text-[12px] md:text-body-sm text-on-surface-variant mt-2 md:mt-4">
+                        <span id="metric-approved" class="font-semibold text-green-600">—</span> aprobados /
+                        <span id="metric-rejected" class="font-semibold text-error">—</span> rechazados
+                    </p>
+                </div>
+
+                <!-- Tabla Actividad Reciente -->
+                <div
+                    class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+                    <div
+                        class="p-4 md:p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+                        <h3 class="font-title-sm text-base md:text-title-sm">Actividad Reciente</h3>
+                        <a href="histori-vouche.html"
+                            class="text-primary font-label-bold text-[11px] md:text-label-bold hover:underline uppercase">Ver
+                            Historial</a>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse min-w-[500px]">
+                            <thead class="bg-surface-container-low">
+                                <tr>
+                                    <th
+                                        class="p-3 md:p-4 font-label-bold text-[11px] text-on-surface-variant border-b border-outline-variant uppercase">
+                                        ID Vale</th>
+                                    <th
+                                        class="p-3 md:p-4 font-label-bold text-[11px] text-on-surface-variant border-b border-outline-variant uppercase">
+                                        Cliente</th>
+                                    <th
+                                        class="p-3 md:p-4 font-label-bold text-[11px] text-on-surface-variant border-b border-outline-variant uppercase">
+                                        Monto</th>
+                                    <th
+                                        class="p-3 md:p-4 font-label-bold text-[11px] text-on-surface-variant border-b border-outline-variant uppercase">
+                                        Estado</th>
+                                    <th
+                                        class="p-3 md:p-4 font-label-bold text-[11px] text-on-surface-variant border-b border-outline-variant uppercase">
+                                        Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-activity-body" class="divide-y divide-outline-variant">
+                                <!-- skeletons -->
+                                <tr>
+                                    <td colspan="5" class="p-6 text-center"><span
+                                            class="material-symbols-outlined text-3xl opacity-20">hourglass_empty</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Panel lateral derecho -->
+                <div class="col-span-12 lg:col-span-4 space-y-6">
+
+                    <!-- Creación rápida -->
+                    <div class="bg-primary text-on-primary p-6 rounded-lg shadow-lg relative overflow-hidden">
+                        <div class="relative z-10">
+                            <h3 class="font-title-sm text-lg mb-2">¿Emitir un nuevo vale?</h3>
+                            <p class="text-on-primary/80 text-sm mb-6">Genera un vale seguro para tu cliente ahora
+                                mismo.</p>
+                            <a href="vouche.html"
+                                class="w-full bg-white text-primary py-3 rounded font-bold uppercase text-[12px] tracking-widest hover:bg-opacity-90 transition-all flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined">bolt</span>Creación Instantánea
+                            </a>
+                        </div>
+                        <div class="absolute right-[-20%] bottom-[-20%] opacity-20 -rotate-12">
+                            <span class="material-symbols-outlined text-[180px]">receipt_long</span>
+                        </div>
+                    </div>
+
+                    <!-- Mini-resumen de estado -->
+                    <div class="bg-surface-container-lowest border border-outline-variant p-6 rounded-lg">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-title-sm text-base">Resumen de Estados</h3>
+                            <a href="histori-vouche.html" class="text-primary text-xs hover:underline">Ver todos</a>
+                        </div>
+                        <div class="space-y-3" id="status-summary">
+                            <!-- generado dinámicamente -->
+                            <div class="skeleton h-4 rounded w-full"></div>
+                            <div class="skeleton h-4 rounded w-4/5"></div>
+                            <div class="skeleton h-4 rounded w-3/5"></div>
+                        </div>
+                    </div>
+
+                    <!-- Alerta de sincronización -->
+                    <div id="sync-alert"
+                        class="hidden bg-amber-50 border border-amber-200 text-amber-700 p-4 rounded-lg flex gap-3 items-start">
+                        <span class="material-symbols-outlined text-xl">sync_problem</span>
+                        <div>
+                            <p class="font-label-bold text-label-bold uppercase mb-1">Vales pendientes de sync</p>
+                            <p class="text-xs" id="sync-alert-text">—</p>
+                            <button onclick="triggerSync()" class="mt-2 text-xs font-bold underline">Sincronizar
+                                ahora</button>
+                        </div>
+                    </div>
+
+                    <!-- Noticias/Alertas -->
+                    <div class="bg-tertiary-container text-on-tertiary-container p-4 md:p-6 rounded-lg flex gap-4">
+                        <span class="material-symbols-outlined text-2xl md:text-3xl">campaign</span>
+                        <div>
+                            <p class="font-label-bold text-[11px] md:text-label-bold uppercase mb-1">Suit</p>
+                            <p class="text-xs md:text-body-sm">Sistema activo y funcionando correctamente. Todos los
+                                datos están protegidos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer
+                class="mt-8 pt-6 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center text-on-surface-variant gap-4">
+                <p class="text-[11px] md:text-body-sm">© 2026 Pixel Logic Solutions. todos los derechos reservados.</p>
+                <div class="flex gap-6 text-[11px] md:text-body-sm">
+                    <a class="hover:text-primary transition-colors" href="terms-policy.html">Privacidad</a>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- ── BOTTOM NAV MÓVIL ── -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant z-50 flex items-center justify-around h-16 px-2">
+        <a class="flex flex-col items-center gap-1 text-primary" href="home-managers.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span>
+            <span class="text-[10px] font-bold">Panel</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="vouche.html">
+            <span class="material-symbols-outlined">add_notes</span><span class="text-[10px]">Vale</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant relative" href="histori-vouche.html">
+            <span class="material-symbols-outlined">history</span>
+            <span
+                class="nav-badge-messages-dot hidden absolute top-0 right-3 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface"></span>
+            <span class="text-[10px]">Historial</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="supplier-managers.html">
+            <span class="material-symbols-outlined">handshake</span><span class="text-[10px]">Proveedor</span>
+        </a>
+         <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="financial-books.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">menu_book</span>
+            <span class="text-[10px] font-bold">Libros</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="settings.html">
+            <span class="material-symbols-outlined">settings</span><span class="text-[10px]">Ajustes</span>
+        </a>
+    </nav>
+
+    <script src="loading-overlay.js" data-message="Cargando..." data-icon="autorenew" data-min-time="300"></script>
+
+    <!-- ── SCRIPTS ── -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="db-manager.js"></script>
+    <script src="register-sw.js"></script>
+    <script src="install-pwa.js"></script>
+
+    <script>
+        // ================================================================
+        // home-managers.js — Panel de gestión conectado a Supabase
+        // ================================================================
+        // Unread messages badge state
+        let unreadCounts = {};              // { [voucherId]: count }
+        let globalBadgeChannel = null;
+        let allVouchers = [];
+        let chatVoucherId = null;
+        let currentProfile = null;
+
+
+        const STATUS_CFG = {
+            draft: { label: 'Borrador', color: 'bg-surface-container text-on-surface-variant' },
+            pending: { label: 'Pendiente', color: 'bg-secondary-container text-secondary' },
+            approved: { label: 'Aprobado', color: 'bg-green-100 text-green-700' },
+            rejected: { label: 'Rechazado', color: 'bg-error-container text-error' },
+            cancelled: { label: 'Cancelado', color: 'bg-surface-container-high text-on-surface-variant' }
+        };
+
+        // ── INICIALIZACIÓN ──────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', async () => {
+            await waitForDeps();
+            // Si el perfil no corresponde a un gestor (sin rol, proveedor o sin sesión),
+            // loadProfile redirige y devuelve false: no se inicializa el resto del panel.
+            if (!(await loadProfile())) return;
+            await loadDashboard();
+            setupConnectivityListeners();
+            setupSearch();
+            subscribeToPushNotifications();
+            await loadUnreadCounts();
+            subscribeToGlobalMessageBadges();
+
+            // Auto-refresh cada 5 minutos si hay conexión
+            setInterval(() => { if (navigator.onLine) loadDashboard(true); }, 5 * 60 * 1000);
+        });
+
+        function waitForDeps() {
+            return new Promise(resolve => {
+                let attempts = 0;
+                const iv = setInterval(() => {
+                    if ((window.suitSupabase && window.suitDB?.db) || attempts > 50) {
+                        clearInterval(iv); resolve();
+                    }
+                    attempts++;
+                }, 100);
+            });
+        }
+
+        // ── PERFIL DEL GESTOR ───────────────────────────────────────────
+        // Devuelve true si el usuario puede permanecer en esta vista; false si se redirigió.
+        async function loadProfile() {
+            try {
+                if (!window.suitSupabase) return true;
+                const { data } = await window.suitSupabase.rpc('get_my_profile');
+                const profile = Array.isArray(data) ? data[0] : data;
+
+                // Guard de rol (UX): sin perfil -> login, sin rol -> select-role,
+                // proveedor -> su panel. La seguridad real la impone el servidor.
+                if (!suitEnforceRole(profile, 'manager')) return false;
+
+                currentProfile = profile;
+
+                const name = profile.full_name || 'Gestor';
+                document.getElementById('welcome-name').textContent = name;
+                document.getElementById('sidebar-name').textContent = name;
+
+                const avatarUrl = profile.avatar_url || null;
+                if (avatarUrl) {
+                    ['avatar-mob', 'avatar-side', 'avatar-top'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.src = avatarUrl;
+                    });
+                }
+                return true;
+            } catch (err) {
+                console.warn('[Dashboard] No se pudo cargar el perfil:', err.message);
+                return true;
+            }
+        }
+
+        // ── CARGA DE DATOS DEL DASHBOARD ───────────────────────────────
+        async function loadDashboard(silent = false) {
+            if (!silent) showSkeletons();
+
+            if (silent) animateRefreshIcon(true);
+
+            let summary = null;
+            let source = 'local';
+
+            if (navigator.onLine && window.suitSupabase) {
+                try {
+                    const { data, error } = await window.suitSupabase.rpc('get_dashboard_summary');
+                    if (error) throw error;
+                    summary = typeof data === 'string' ? JSON.parse(data) : data;
+                    source = 'online';
+                } catch (err) {
+                    console.warn('[Dashboard] Supabase no disponible, usando IndexedDB:', err.message);
+                }
+            }
+
+            if (!summary) {
+                summary = await buildSummaryFromLocalDB();
+                source = 'local';
+            }
+
+            if (summary) {
+                renderMetrics(summary);
+                renderRecentActivity(summary.recent_vouchers || []);
+                renderStatusSummary(summary);
+                checkPendingSync();
+            }
+
+            updateOfflineBadge(source === 'local');
+            if (silent) animateRefreshIcon(false);
+        }
+
+        // ── FALLBACK: métricas desde IndexedDB ─────────────────────────
+        async function buildSummaryFromLocalDB() {
+            try {
+                if (!window.suitDB?.db) return null;
+                const vouchers = await window.suitDB.getAllVouchers();
+
+                const now = Date.now();
+                const monthCut = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
+                const dayCut = new Date().setHours(0, 0, 0, 0);
+                const weekCut = now - 7 * 24 * 60 * 60 * 1000;
+                const prevWeekCut = now - 14 * 24 * 60 * 60 * 1000;
+
+                const pending = vouchers.filter(v => v.status === 'pending');
+                const approved = vouchers.filter(v => v.status === 'approved');
+                const rejected = vouchers.filter(v => v.status === 'rejected');
+                const thisWeek = vouchers.filter(v => (v.createdAt || 0) >= weekCut).length;
+                const lastWeek = vouchers.filter(v => (v.createdAt || 0) >= prevWeekCut && (v.createdAt || 0) < weekCut).length;
+
+                const recent = [...vouchers]
+                    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+                    .slice(0, 8)
+                    .map(v => ({
+                        id: v.id,
+                        voucher_number: v.voucherNumber,
+                        client_name: v.client?.name || '',
+                        product_name: v.product?.name || '',
+                        total_amount: v.totalAmount || 0,
+                        status: v.status,
+                        provider_code: v.reference || '',
+                        created_at: v.createdAt ? new Date(v.createdAt).toISOString() : null
+                    }));
+
+                return {
+                    total_vouchers: vouchers.length,
+                    pending_vouchers: pending.length,
+                    approved_vouchers: approved.length,
+                    rejected_vouchers: rejected.length,
+                    pending_commission: pending.reduce((s, v) => s + (v.totalAmount || 0), 0),
+                    mtd_volume: vouchers.filter(v => (v.createdAt || 0) >= monthCut && ['pending', 'approved'].includes(v.status))
+                        .reduce((s, v) => s + (v.totalAmount || 0), 0),
+                    week_vouchers: thisWeek,
+                    today_vouchers: vouchers.filter(v => (v.createdAt || 0) >= dayCut).length,
+                    week_growth_pct: lastWeek > 0 ? +(((thisWeek - lastWeek) / lastWeek) * 100).toFixed(1) : null,
+                    recent_vouchers: recent
+                };
+            } catch (err) {
+                console.error('[Dashboard] Error leyendo IndexedDB:', err);
+                return null;
+            }
+        }
+
+        // ── RENDER: MÉTRICAS ───────────────────────────────────────────
+        function renderMetrics(s) {
+            // Total
+            animateCount('metric-total', s.total_vouchers ?? 0, '', 0);
+            document.getElementById('metric-today').textContent = (s.today_vouchers ?? 0).toLocaleString('es');
+
+            // Crecimiento semanal
+            const growthEl = document.getElementById('metric-growth');
+            if (s.week_growth_pct != null) {
+                const sign = s.week_growth_pct >= 0 ? '+' : '';
+                const color = s.week_growth_pct >= 0 ? 'text-green-600' : 'text-error';
+                growthEl.innerHTML = `<span class="${color} flex items-center gap-0.5 font-label-bold text-label-bold">
+            <span class="material-symbols-outlined text-sm">${s.week_growth_pct >= 0 ? 'trending_up' : 'trending_down'}</span>
+            ${sign}${s.week_growth_pct}%
+        </span>`;
+            } else {
+                growthEl.textContent = '';
+            }
+
+            // Comisión pendiente
+            animateCount('metric-commission', s.pending_commission ?? 0, '$', 0);
+            document.getElementById('metric-pending-count').textContent = (s.pending_vouchers ?? 0).toLocaleString('es');
+
+            // MTD
+            animateCount('metric-mtd', s.mtd_volume ?? 0, '$', 0);
+            document.getElementById('metric-approved').textContent = (s.approved_vouchers ?? 0).toLocaleString('es');
+            document.getElementById('metric-rejected').textContent = (s.rejected_vouchers ?? 0).toLocaleString('es');
+
+            // Badge semana
+            const weekEl = document.getElementById('metric-week-badge');
+            if ((s.week_vouchers ?? 0) > 0) {
+                weekEl.innerHTML = `<span class="material-symbols-outlined text-sm">calendar_today</span>${s.week_vouchers} esta semana`;
+            }
+        }
+
+        // Animación de contador
+        function animateCount(id, value, prefix, decimals) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const formatted = prefix + (parseFloat(value) || 0).toLocaleString('es', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+            el.classList.add('count-animate');
+            el.textContent = formatted;
+            setTimeout(() => el.classList.remove('count-animate'), 400);
+        }
+
+        // ── RENDER: TABLA ACTIVIDAD RECIENTE ──────────────────────────
+        function renderRecentActivity(vouchers) {
+            const tbody = document.getElementById('recent-activity-body');
+
+            if (!vouchers || vouchers.length === 0) {
+                tbody.innerHTML = `
+            <tr class="fade-in">
+                <td colspan="5" class="p-8 text-center text-on-surface-variant">
+                    <span class="material-symbols-outlined text-4xl block mb-2 opacity-20">receipt_long</span>
+                    <p class="text-sm opacity-50">Sin actividad reciente. <a href="vouche.html" class="text-primary underline">Crea tu primer vale</a>.</p>
+                </td>
+            </tr>`;
+                return;
+            }
+
+            tbody.innerHTML = vouchers.map(v => {
+                const cfg = STATUS_CFG[v.status] || STATUS_CFG.draft;
+                const date = v.created_at ? new Date(v.created_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) : '—';
+                const amount = '$' + (parseFloat(v.total_amount) || 0).toLocaleString('es', { minimumFractionDigits: 0 });
+                return `
+            <tr class="hover:bg-surface-container-low transition-colors cursor-pointer fade-in"
+                onclick="window.location.href='histori-vouche.html'">
+                <td class="p-3 md:p-4 font-data-mono text-primary text-xs">${escHtml(v.voucher_number || '—')}</td>
+                <td class="p-3 md:p-4">
+                    <p class="font-semibold text-sm">${escHtml(v.client_name || '—')}</p>
+                    <p class="text-xs text-on-surface-variant">${escHtml(v.product_name || '')}</p>
+                </td>
+                <td class="p-3 md:p-4 font-data-mono font-bold text-sm">${amount}</td>
+                <td class="p-3 md:p-4">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${cfg.color}">
+                        ${cfg.label}
+                    </span>
+                </td>
+                <td class="p-3 md:p-4 text-xs text-on-surface-variant whitespace-nowrap">${date}</td>
+            </tr>`;
+            }).join('');
+        }
+
+        // ── RENDER: RESUMEN DE ESTADOS ────────────────────────────────
+        function renderStatusSummary(s) {
+            const total = s.total_vouchers || 1; // evitar /0
+            const items = [
+                { label: 'Pendientes', value: s.pending_vouchers || 0, color: 'bg-secondary' },
+                { label: 'Aprobados', value: s.approved_vouchers || 0, color: 'bg-green-500' },
+                { label: 'Rechazados', value: s.rejected_vouchers || 0, color: 'bg-error' },
+                { label: 'Borradores', value: (s.total_vouchers || 0) - (s.pending_vouchers || 0) - (s.approved_vouchers || 0) - (s.rejected_vouchers || 0) - (s.cancelled_vouchers || 0), color: 'bg-outline' }
+            ].filter(i => i.value > 0);
+
+            const el = document.getElementById('status-summary');
+            if (items.length === 0) {
+                el.innerHTML = '<p class="text-xs text-on-surface-variant">Sin vales registrados aún.</p>';
+                return;
+            }
+
+            el.innerHTML = items.map(i => {
+                const pct = Math.round((i.value / total) * 100);
+                return `
+            <div class="fade-in">
+                <div class="flex justify-between text-xs mb-1">
+                    <span class="text-on-surface-variant">${i.label}</span>
+                    <span class="font-bold">${i.value.toLocaleString('es')} <span class="font-normal opacity-60">(${pct}%)</span></span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-1.5">
+                    <div class="${i.color} h-1.5 rounded-full transition-all duration-700" style="width:${pct}%"></div>
+                </div>
+            </div>`;
+            }).join('');
+        }
+
+        // ── SYNC PENDIENTE ────────────────────────────────────────────
+        async function checkPendingSync() {
+            if (!window.suitDB?.db) return;
+            try {
+                const pending = await window.suitDB.getPendingSyncOperations();
+                const alertEl = document.getElementById('sync-alert');
+                const textEl = document.getElementById('sync-alert-text');
+                if (pending.length > 0) {
+                    alertEl.classList.remove('hidden');
+                    textEl.textContent = `${pending.length} operación(es) pendiente(s) de sincronizar con Supabase.`;
+                } else {
+                    alertEl.classList.add('hidden');
+                }
+            } catch { }
+        }
+
+        async function triggerSync() {
+            if (!window.suitDB) return;
+            try {
+                await window.suitDB.processSyncQueue();
+                await loadDashboard(true);
+            } catch (err) {
+                console.error('[Dashboard] Error en sync manual:', err);
+            }
+        }
+
+
+        // ── BÚSQUEDA RÁPIDA ──────────────────────────────────────────
+        function setupSearch() {
+            const input = document.getElementById('dash-search');
+            if (!input) return;
+            let timeout;
+            input.addEventListener('input', () => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    const q = input.value.trim().toLowerCase();
+                    document.querySelectorAll('#recent-activity-body tr').forEach(row => {
+                        row.style.display = !q || row.textContent.toLowerCase().includes(q) ? '' : 'none';
+                    });
+                }, 200);
+            });
+        }
+
+        // ── CONECTIVIDAD ─────────────────────────────────────────────
+        function setupConnectivityListeners() {
+            window.addEventListener('online', () => { updateConnUI(true); loadDashboard(true); });
+            window.addEventListener('offline', () => { updateConnUI(false); });
+        }
+
+        function updateConnUI(online) {
+            const dot = document.getElementById('conn-dot');
+            const label = document.getElementById('conn-label');
+            const sysDot = document.getElementById('sys-dot');
+            const sysLbl = document.getElementById('sys-label');
+            const syncIcon = document.getElementById('sync-icon-side');
+            const syncLbl = document.getElementById('sync-label-side');
+
+            if (dot) dot.className = `w-2 h-2 rounded-full ${online ? 'bg-green-500' : 'bg-amber-400'}`;
+            if (label) label.textContent = online ? 'EN LÍNEA' : 'OFFLINE';
+            if (sysDot) sysDot.className = `w-2 h-2 rounded-full animate-pulse ${online ? 'bg-green-500' : 'bg-amber-400'}`;
+            if (sysLbl) sysLbl.textContent = online ? 'SISTEMA EN LÍNEA' : 'MODO OFFLINE';
+            if (syncIcon) syncIcon.textContent = online ? 'cloud_done' : 'cloud_off';
+            if (syncLbl) syncLbl.textContent = online ? 'Sincronizado' : 'Offline';
+        }
+
+        function updateOfflineBadge(isLocal) {
+            document.getElementById('offline-banner')?.classList.toggle('hidden', !isLocal);
+        }
+
+        // ── REFRESH MANUAL ───────────────────────────────────────────
+        function refreshDashboard() {
+            loadDashboard(true);
+        }
+
+        function animateRefreshIcon(spinning) {
+            const el = document.getElementById('refresh-icon');
+            if (!el) return;
+            el.classList.toggle('animate-spin', spinning);
+        }
+
+        // ── SKELETONS ────────────────────────────────────────────────
+        function showSkeletons() {
+            ['metric-total', 'metric-commission', 'metric-mtd'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = '<span class="skeleton inline-block w-20 h-8 rounded"></span>';
+            });
+
+            const tbody = document.getElementById('recent-activity-body');
+            if (tbody) {
+                tbody.innerHTML = [...Array(5)].map(() =>
+                    `<tr>${[...Array(5)].map(() =>
+                        `<td class="p-3 md:p-4"><div class="skeleton h-4 rounded w-full"></div></td>`
+                    ).join('')}</tr>`
+                ).join('');
+            }
+
+            const summary = document.getElementById('status-summary');
+            if (summary) {
+                summary.innerHTML = [...Array(3)].map(() =>
+                    '<div class="skeleton h-4 rounded w-full"></div>'
+                ).join('');
+            }
+        }
+
+
+
+        // ================================================================
+        // BADGES DE MENSAJES NO LEÍDOS
+        // ================================================================
+
+        async function loadUnreadCounts() {
+            if (!window.suitSupabase) return;
+            const { data, error } = await window.suitSupabase.rpc('get_unread_message_counts');
+            if (error) { console.warn('[Unread] Error cargando conteos:', error); return; }
+            unreadCounts = {};
+            (data || []).forEach(r => { unreadCounts[r.voucher_id] = Number(r.unread_count); });
+            renderGlobalBadge();
+        }
+
+        function totalUnread() {
+            return Object.values(unreadCounts).reduce((a, b) => a + b, 0);
+        }
+
+        function renderGlobalBadge() {
+            const total = totalUnread();
+            document.querySelectorAll('.nav-badge-messages-count').forEach(el => {
+                el.textContent = total > 9 ? '9+' : String(total);
+                el.classList.toggle('hidden', total === 0);
+            });
+            document.querySelectorAll('.nav-badge-messages-dot').forEach(el => {
+                el.classList.toggle('hidden', total === 0);
+            });
+        }
+
+        function subscribeToGlobalMessageBadges() {
+            if (!window.suitSupabase) return;
+            if (globalBadgeChannel) window.suitSupabase.removeChannel(globalBadgeChannel);
+
+            globalBadgeChannel = window.suitSupabase
+                .channel('global-msg-badges-manager')
+                .on(
+                    'postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'voucher_messages' },
+                    (payload) => {
+                        const msg = payload.new;
+                        if (!msg || msg.sender_id === currentProfile?.id) return;
+                        // Solo nos interesan vales que pertenecen a este gestor y ya están cargados
+                        const belongsToMe = allVouchers.some(v => v.supabaseId === msg.voucher_id);
+                        if (!belongsToMe) return;
+                        // Si el chat de ese vale está abierto, se marca leído al instante (no sumar)
+                        if (chatVoucherId && allVouchers.find(v => v.id === chatVoucherId)?.supabaseId === msg.voucher_id) return;
+
+                        unreadCounts[msg.voucher_id] = (unreadCounts[msg.voucher_id] || 0) + 1;
+                        renderGlobalBadge();
+                        renderPage();
+                    }
+                )
+                .subscribe();
+        }
+
+        //*************
+
+
+
+
+        // ── UTILIDADES ────────────────────────────────────────────────
+        function escHtml(str) {
+            return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // Micro-interacción hover en tarjetas
+        document.querySelectorAll('.bento-grid > div').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (window.innerWidth > 768) {
+                    card.style.transition = 'transform 0.2s ease-out';
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

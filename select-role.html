@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta name="robots" content="noindex"/>
+<title>Suit - Elige tu perfil</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#dbe1ff",
+                    "primary": "#004ac6",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-container": "#d5e3fd",
+                    "secondary-fixed": "#d5e3fd",
+                    "on-secondary-fixed-variant": "#3a485c",
+                    "outline": "#737686",
+                    "inverse-primary": "#b4c5ff",
+                    "tertiary-fixed": "#ffdbcd",
+                    "surface-container-low": "#f2f4f6",
+                    "surface": "#f7f9fb",
+                    "on-primary": "#ffffff",
+                    "surface-container-highest": "#e0e3e5",
+                    "secondary-fixed-dim": "#b9c7e0",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "outline-variant": "#c3c6d7",
+                    "surface-bright": "#f7f9fb",
+                    "inverse-surface": "#2d3133",
+                    "secondary": "#515f74",
+                    "surface-container": "#eceef0",
+                    "on-primary-container": "#eeefff",
+                    "tertiary": "#943700",
+                    "error-container": "#ffdad6",
+                    "surface-container-high": "#e6e8ea",
+                    "on-secondary-fixed": "#0d1c2f",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e0e3e5",
+                    "tertiary-container": "#bc4800",
+                    "surface-dim": "#d8dadc",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "on-background": "#191c1e",
+                    "surface-tint": "#0053db",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "on-tertiary-fixed": "#360f00",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#00174b",
+                    "on-surface": "#191c1e",
+                    "primary-container": "#2563eb",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#57657b",
+                    "background": "#f7f9fb",
+                    "on-surface-variant": "#434655",
+                    "on-tertiary-container": "#ffede6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "base": "4px",
+                    "gutter": "16px",
+                    "container-padding": "24px",
+                    "stack-sm": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "title-sm": ["Inter"],
+                    "label-bold": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "title-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "label-bold": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: max(884px, 100dvh);
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+        }
+        /* Tarjetas de rol */
+        .role-card {
+            transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+        }
+        .role-card .role-check {
+            opacity: 0;
+            transition: opacity .2s ease;
+        }
+        .role-card[aria-checked="true"] {
+            border-color: #004ac6;
+            background-color: #d5e3fd;
+            box-shadow: 0 0 0 3px rgba(0, 74, 198, 0.15);
+        }
+        .role-card[aria-checked="true"] .role-check {
+            opacity: 1;
+        }
+        .role-card:focus-visible {
+            outline: 2px solid #004ac6;
+            outline-offset: 2px;
+        }
+        @keyframes suit-spin { to { transform: rotate(360deg); } }
+        .spinning { display: inline-block; animation: suit-spin .8s linear infinite; }
+    </style>
+</head>
+<body class="bg-surface min-h-screen flex items-center justify-center p-gutter">
+
+<main class="w-full max-w-[640px] flex flex-col gap-stack-lg">
+
+<!-- Logo -->
+<div class="text-center space-y-base">
+<h1 class="font-headline-md text-headline-md text-primary font-black tracking-tight">Suit</h1>
+</div>
+
+<!-- ── Estado: verificando cuenta ── -->
+<section id="loading-view" class="bg-surface-container-lowest border border-outline-variant p-stack-lg rounded-lg card-shadow text-center">
+<div id="loading-spinner" class="space-y-stack-sm">
+<span class="material-symbols-outlined spinning text-primary" style="font-size: 32px;">autorenew</span>
+<p class="font-body-md text-body-md text-on-surface-variant">Verificando tu cuenta...</p>
+</div>
+<div id="loading-error" class="hidden space-y-stack-md">
+<span class="material-symbols-outlined text-error" style="font-size: 32px;">cloud_off</span>
+<p class="font-body-md text-body-md text-on-surface" id="loading-error-text">No se pudo verificar tu cuenta.</p>
+<div class="flex flex-col sm:flex-row gap-stack-sm justify-center">
+<button id="retry-btn" type="button" class="px-6 py-3 bg-primary text-on-primary rounded-lg font-title-sm text-title-sm hover:bg-on-primary-fixed-variant transition-colors">Reintentar</button>
+<button id="loading-logout-btn" type="button" class="px-6 py-3 border border-outline-variant text-on-surface-variant rounded-lg font-body-sm text-body-sm hover:bg-surface-container transition-colors">Cerrar sesión</button>
+</div>
+</div>
+</section>
+
+<!-- ── Estado: selección de rol ── -->
+<section id="role-view" class="hidden bg-surface-container-lowest border border-outline-variant p-stack-lg rounded-lg card-shadow flex flex-col gap-stack-md">
+
+<div class="text-center space-y-base">
+<h2 class="font-headline-md text-headline-md text-on-surface" id="greeting">¡Bienvenido!</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Un último paso: elige cómo vas a usar Suit.</p>
+</div>
+
+<!-- Mensajes -->
+<div class="hidden p-3 rounded-lg bg-error-container text-on-error-container text-body-sm font-body-sm" id="role-error" role="alert"></div>
+<div class="hidden p-3 rounded-lg bg-secondary-container text-on-secondary-container text-body-sm font-body-sm" id="role-info"></div>
+
+<!-- Tarjetas -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md" role="radiogroup" aria-label="Tipo de perfil">
+
+<button type="button" role="radio" aria-checked="false" data-role="provider"
+        class="role-card relative text-left border border-outline-variant rounded-lg p-stack-md flex flex-col gap-stack-sm bg-surface-container-lowest hover:bg-surface-container-low">
+<span class="role-check absolute top-3 right-3 material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="material-symbols-outlined text-primary" style="font-size: 32px;">storefront</span>
+<span class="font-title-sm text-title-sm text-on-surface">Proveedor</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Recibes los vales de los gestores asociados a tu código, los apruebas o rechazas y llevas su historial.</span>
+</button>
+
+<button type="button" role="radio" aria-checked="false" data-role="manager"
+        class="role-card relative text-left border border-outline-variant rounded-lg p-stack-md flex flex-col gap-stack-sm bg-surface-container-lowest hover:bg-surface-container-low">
+<span class="role-check absolute top-3 right-3 material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="material-symbols-outlined text-primary" style="font-size: 32px;">admin_panel_settings</span>
+<span class="font-title-sm text-title-sm text-on-surface">Gestor</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Creas vales para tus clientes, los envías a tus proveedores y das seguimiento a su estado.</span>
+</button>
+
+</div>
+
+<!-- Aviso de elección definitiva -->
+<div class="flex items-start gap-stack-sm p-3 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined" style="font-size: 20px;">lock</span>
+<p class="font-body-sm text-body-sm"><strong>Esta elección es definitiva.</strong> Una vez confirmada no podrás cambiarla por tu cuenta, así que revísala bien antes de continuar.</p>
+</div>
+
+<!-- Confirmar -->
+<button id="confirm-btn" type="button" disabled
+        class="w-full bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-title-sm text-title-sm py-3 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed">
+<span id="confirm-label">Selecciona un perfil</span>
+<span class="material-symbols-outlined transition-transform group-hover:translate-x-1" id="confirm-icon">arrow_forward</span>
+</button>
+
+</section>
+
+<!-- Cuenta actual / salir -->
+<p id="account-footer" class="hidden text-center font-body-sm text-body-sm text-on-surface-variant">
+<span id="account-email"></span>
+<span class="mx-1">·</span>
+<button id="logout-btn" type="button" class="text-primary font-bold hover:underline">Usar otra cuenta</button>
+</p>
+
+</main>
+
+<script src="/db-manager.js"></script>
+<script src="supabase-client.js"></script>
+<script>
+(function () {
+    'use strict';
+
+    const loadingView  = document.getElementById('loading-view');
+    const loadingSpin  = document.getElementById('loading-spinner');
+    const loadingError = document.getElementById('loading-error');
+    const loadingErrorText = document.getElementById('loading-error-text');
+    const roleView     = document.getElementById('role-view');
+    const accountFooter = document.getElementById('account-footer');
+    const errorEl      = document.getElementById('role-error');
+    const infoEl       = document.getElementById('role-info');
+    const confirmBtn   = document.getElementById('confirm-btn');
+    const confirmLabel = document.getElementById('confirm-label');
+    const cards        = Array.from(document.querySelectorAll('.role-card'));
+
+    const ROLE_LABELS = { provider: 'Proveedor', manager: 'Gestor' };
+
+    let selectedRole = null;
+    let busy = false;
+    let currentSession = null;
+
+    // ---------- UI ----------
+    function showError(message) {
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+    }
+    function hideError() { errorEl.classList.add('hidden'); }
+
+    function updateConfirm() {
+        confirmBtn.disabled = busy || !selectedRole || !navigator.onLine;
+        confirmLabel.textContent = busy
+            ? 'Guardando...'
+            : (selectedRole ? 'Confirmar como ' + ROLE_LABELS[selectedRole] : 'Selecciona un perfil');
+
+        if (!navigator.onLine) {
+            infoEl.textContent = 'Sin conexión. Necesitas internet para confirmar tu perfil.';
+            infoEl.classList.remove('hidden');
+        } else {
+            infoEl.classList.add('hidden');
+        }
+    }
+
+    function setBusy(value) {
+        busy = value;
+        cards.forEach(function (c) { c.disabled = value; });
+        updateConfirm();
+    }
+
+    function showLoadError(message) {
+        loadingErrorText.textContent = message;
+        loadingSpin.classList.add('hidden');
+        loadingError.classList.remove('hidden');
+        loadingView.classList.remove('hidden');
+        roleView.classList.add('hidden');
+    }
+
+    // ---------- Selección ----------
+    cards.forEach(function (card) {
+        card.addEventListener('click', function () {
+            if (busy) return;
+            selectedRole = card.dataset.role;
+            cards.forEach(function (c) { c.setAttribute('aria-checked', String(c === card)); });
+            hideError();
+            updateConfirm();
+        });
+    });
+
+    // ---------- Finalizar: guardar sesión local y entrar al panel ----------
+    async function finishWith(profile) {
+        await suitPersistSession(profile, currentSession);
+        suitRedirectToDashboard(profile.role);
+    }
+
+    // ---------- Confirmar rol (RPC de un solo uso en el servidor) ----------
+    confirmBtn.addEventListener('click', async function () {
+        if (!selectedRole || busy) return;
+        hideError();
+
+        if (!navigator.onLine) {
+            updateConfirm();
+            return;
+        }
+
+        setBusy(true);
+        try {
+            const { data, error } = await window.suitSupabase.rpc('set_my_role', { p_role: selectedRole });
+            if (error) throw error;
+
+            // role_already_set: otra pestaña/dispositivo ya lo definió. Se continúa
+            // con el rol que realmente quedó guardado en el servidor.
+            if (data && data.error && data.error !== 'role_already_set') {
+                throw new Error(data.error);
+            }
+
+            const profile = await suitFetchMyProfile();
+            if (!profile || !profile.role) {
+                throw new Error('profile_without_role');
+            }
+            await finishWith(profile);
+        } catch (err) {
+            console.error('[SelectRole] Error confirmando rol:', err);
+            if (err && err.message === 'not_authenticated') {
+                showError('Tu sesión expiró. Inicia sesión nuevamente.');
+                setTimeout(function () { window.location.replace('login.html'); }, 1500);
+                return;
+            }
+            showError('No se pudo guardar tu perfil. Verifica tu conexión e intenta nuevamente.');
+            setBusy(false);
+        }
+    });
+
+    // ---------- Cerrar sesión / usar otra cuenta ----------
+    async function logoutAndLeave() {
+        await suitLogout();
+        window.location.replace('login.html');
+    }
+    document.getElementById('logout-btn').addEventListener('click', logoutAndLeave);
+    document.getElementById('loading-logout-btn').addEventListener('click', logoutAndLeave);
+    document.getElementById('retry-btn').addEventListener('click', function () { window.location.reload(); });
+
+    window.addEventListener('online', updateConfirm);
+    window.addEventListener('offline', updateConfirm);
+
+    // ---------- Inicio ----------
+    async function init() {
+        try {
+            const { data: { session }, error: sessionError } = await window.suitSupabase.auth.getSession();
+            if (sessionError) throw sessionError;
+
+            if (!session) {
+                window.location.replace('login.html');
+                return;
+            }
+            currentSession = session;
+
+            const profile = await suitFetchMyProfile();
+
+            if (!profile) {
+                // Sesión válida pero sin perfil en Suit: no dejar sesión huérfana
+                await window.suitSupabase.auth.signOut();
+                window.location.replace('login.html');
+                return;
+            }
+
+            // Si ya tiene rol, esta vista no aplica: ir directo a su panel
+            if (profile.role) {
+                await finishWith(profile);
+                return;
+            }
+
+            const firstName = (profile.full_name || '').trim().split(/\s+/)[0];
+            document.getElementById('greeting').textContent =
+                firstName ? '¡Bienvenido, ' + firstName + '!' : '¡Bienvenido!';
+            document.getElementById('account-email').textContent =
+                profile.email || (session.user && session.user.email) || '';
+
+            loadingView.classList.add('hidden');
+            roleView.classList.remove('hidden');
+            accountFooter.classList.remove('hidden');
+            updateConfirm();
+        } catch (err) {
+            console.error('[SelectRole] Error iniciando:', err);
+            showLoadError('No se pudo verificar tu cuenta. Revisa tu conexión e intenta nuevamente.');
+        }
+    }
+
+    init();
+})();
+</script>
+</body></html>

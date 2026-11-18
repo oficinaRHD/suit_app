@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+    <title>Configuración - Suit</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- En el head de cada página HTML -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Suit">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="theme-color" content="#004ac6">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Smooth transitions for mobile tabs */
+        .tab-content {
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        /* Mobile bottom nav active indicator */
+        .mobile-nav-item.active {
+            color: #004ac6;
+            background-color: rgba(0, 74, 198, 0.08);
+        }
+
+        .mobile-nav-item.active span {
+            font-variation-settings: 'FILL' 1, 'wght' 500;
+        }
+
+        /* Custom scroll for settings categories on mobile */
+        .settings-scroll-x {
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .settings-scroll-x::-webkit-scrollbar {
+            height: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .animate-in {
+                animation: fadeSlide 0.3s ease-out;
+            }
+
+            @keyframes fadeSlide {
+                from {
+                    opacity: 0;
+                    transform: translateX(8px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-highest": "#e0e3e5",
+                        "inverse-surface": "#2d3133",
+                        "primary-container": "#2563eb",
+                        "primary-fixed": "#dbe1ff",
+                        "background": "#f7f9fb",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#0053db",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d8dadc",
+                        "on-secondary-container": "#57657b",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "inverse-primary": "#b4c5ff",
+                        "on-tertiary-fixed": "#360f00",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-surface": "#191c1e",
+                        "primary": "#004ac6",
+                        "on-surface-variant": "#434655",
+                        "on-primary-fixed": "#00174b",
+                        "tertiary-fixed": "#ffdbcd",
+                        "secondary-container": "#d5e3fd",
+                        "outline": "#737686",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-container": "#eeefff",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#943700",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-bright": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "surface-container": "#eceef0",
+                        "on-tertiary-container": "#ffede6",
+                        "outline-variant": "#c3c6d7",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "secondary-fixed": "#d5e3fd",
+                        "secondary": "#515f74",
+                        "tertiary-container": "#bc4800"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    spacing: {
+                        "stack-md": "16px",
+                        "base": "4px",
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "container-padding": "24px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "title-sm": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script src="/supabase-client.js" defer></script>
+    <script src="/subscription.js" defer></script>
+    <script src="/db-manager.js" defer></script>
+    <script src="/register-sw.js" defer></script>
+    <script src="/install-pwa.js" defer></script>
+
+</head>
+
+<body class="bg-background text-on-surface pb-20 md:pb-0">
+
+    <!-- Mobile Top Header (fixed) -->
+    <header
+        class="fixed top-0 left-0 right-0 z-30 flex justify-between items-center px-4 py-3 bg-surface-bright border-b border-outline-variant shadow-sm md:hidden">
+        <div class="flex items-center gap-2">
+            <h1 class="font-headline-md text-headline-md font-black text-primary tracking-tight">Suit</h1>
+            <span
+                class="text-xs text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded-full hidden">Agente</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <button class="material-symbols-outlined text-on-surface-variant hidden">notifications</button>
+            <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+                <img alt="Profile" class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ_PoS4hgMKSc0WK5RYjXpXnU84CeJ6yWYTwLtR8Juc63hJcO4H8q2MPO1PZnN46T4Sbkx_BbdC-KYjMcYLEywRbASDBMtRH-1LRO-SD_qYW_vrdE0RWYYgJk0Iw_lu9cIOPV_ROUp9mp5x33INjoo_qXOCfhXhfcYTEAbT7QDQXTNctTlr4pM1W3RoxP-DMfVww2CAVcm-nc14DHKsQVNZMXKxt4__MWqz2peMVLPOnvDHSmtst5UPyBByvlAGZH8F_x0dMoKLWo">
+            </div>
+            <button type="button" data-close-view aria-label="Cerrar configuración"
+                class="w-9 h-9 -mr-1 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-high active:bg-surface-container-high transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Desktop Sidebar (hidden on mobile) -->
+    <aside
+        class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-surface border-r border-outline-variant flex-col py-stack-lg z-50">
+        <div class="px-container-padding mb-stack-lg">
+            <h1 class="font-headline-md text-headline-md font-bold text-primary">Suit</h1>
+            <p class="text-body-sm text-on-surface-variant">Independent Agent</p>
+        </div>
+        <div class="px-container-padding mt-auto">
+            <div class="flex items-center gap-2 text-on-surface-variant text-body-sm"><span
+                    class="material-symbols-outlined text-sm">cloud_done</span><span>Sync Status</span></div>
+        </div>
+    </aside>
+
+    <!-- Main Content (mobile adjusted) -->
+    <main class="md:ml-64 mt-14 md:mt-16 p-4 md:p-stack-lg min-h-screen bg-background">
+        <div class="max-w-[1200px] mx-auto">
+            <!-- Desktop: botón cerrar (vuelve a la vista anterior) -->
+            <div class="hidden md:flex justify-end mb-4">
+                <button type="button" data-close-view
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors text-sm font-semibold">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                    Cerrar
+                </button>
+            </div>
+            <!-- Mobile: Horizontal scrollable tabs (settings categories) -->
+            <div class="md:hidden mb-5 overflow-x-auto settings-scroll-x pb-2 -mx-1 px-1">
+                <div class="flex gap-2 min-w-max">
+                    <button
+                        class="tab-btn-mobile active-tab-mob flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-on-primary shadow-sm transition-all"
+                        data-tab="profile">
+                        <span class="material-symbols-outlined text-base">person</span>
+                        <span class="text-sm font-medium">Perfil</span>
+                    </button>
+                    <button
+                        class="tab-btn-mobile flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container transition-all"
+                        data-tab="security">
+                        <span class="material-symbols-outlined text-base">security</span>
+                        <span class="text-sm font-medium">Seguridad</span>
+                    </button>
+                    <button
+                        class="tab-btn-mobile flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container transition-all"
+                        data-tab="billing">
+                        <span class="material-symbols-outlined text-base">payments</span>
+                        <span class="text-sm font-medium">Facturación</span>
+                    </button>
+                    <button
+                        class="tab-btn-mobile flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container transition-all"
+                        data-tab="roles">
+                        <span class="material-symbols-outlined text-base">badge</span>
+                        <span class="text-sm font-medium">Roles</span>
+                    </button>
+                    <button
+                        class="tab-btn-mobile flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container transition-all"
+                        data-tab="supplier">
+                        <span class="material-symbols-outlined text-base">qr_code_2</span>
+                        <span class="text-sm font-medium">ID Proveedor</span>
+                    </button>
+                    <button
+                        class="tab-btn-mobile flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container transition-all"
+                        data-tab="public-card">
+                        <span class="material-symbols-outlined text-base">badge</span>
+                        <span class="text-sm font-medium">Tarjeta Pública</span>
+                    </button>
+                    <button
+                        class="tab-btn-mobile flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container transition-all"
+                        data-tab="support">
+                        <span class="material-symbols-outlined text-base">help_center</span>
+                        <span class="text-sm font-medium">Soporte</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Desktop left nav (visible on md+) -->
+            <div class="flex gap-stack-lg flex-col md:flex-row">
+                <nav class="hidden md:block w-64 shrink-0 flex flex-col gap-1">
+                    <button
+                        class="tab-btn active flex items-center justify-between px-gutter py-stack-md rounded-lg bg-surface-container-lowest border border-outline-variant text-primary font-semibold shadow-sm"
+                        id="btn-profile" onclick="switchTabDesktop('profile')"><span
+                            class="flex items-center gap-3"><span
+                                class="material-symbols-outlined">person</span><span>Perfil</span></span><span
+                            class="material-symbols-outlined text-sm">chevron_right</span></button>
+                    <button
+                        class="tab-btn flex items-center justify-between px-gutter py-stack-md rounded-lg hover:bg-surface-container transition-all text-on-surface-variant"
+                        id="btn-security" onclick="switchTabDesktop('security')"><span
+                            class="flex items-center gap-3"><span
+                                class="material-symbols-outlined">security</span><span>Seguridad</span></span><span
+                            class="material-symbols-outlined text-sm">chevron_right</span></button>
+                    <button
+                        class="tab-btn flex items-center justify-between px-gutter py-stack-md rounded-lg hover:bg-surface-container transition-all text-on-surface-variant"
+                        id="btn-billing" onclick="switchTabDesktop('billing')"><span
+                            class="flex items-center gap-3"><span
+                                class="material-symbols-outlined">payments</span><span>Facturación</span></span><span
+                            class="material-symbols-outlined text-sm">chevron_right</span></button>
+                    <button
+                        class="tab-btn flex items-center justify-between px-gutter py-stack-md rounded-lg hover:bg-surface-container transition-all text-on-surface-variant"
+                        id="btn-roles" onclick="switchTabDesktop('roles')"><span class="flex items-center gap-3"><span
+                                class="material-symbols-outlined">badge</span><span>Roles y Permisos</span></span><span
+                            class="material-symbols-outlined text-sm">chevron_right</span></button>
+                    <button
+                        class="tab-btn flex items-center justify-between px-gutter py-stack-md rounded-lg hover:bg-surface-container transition-all text-on-surface-variant"
+                        id="btn-public-card" onclick="switchTabDesktop('public-card')">
+                        <span class="flex items-center gap-3">
+                            <span class="material-symbols-outlined">badge</span><span>Tarjeta Pública</span>
+                        </span>
+                        <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    </button>
+                    <button
+                        class="tab-btn flex items-center justify-between px-gutter py-stack-md rounded-lg hover:bg-surface-container transition-all text-on-surface-variant"
+                        id="btn-supplier" onclick="switchTabDesktop('supplier')"><span
+                            class="flex items-center gap-3"><span
+                                class="material-symbols-outlined">qr_code_2</span><span>ID de
+                                Proveedor</span></span><span
+                            class="material-symbols-outlined text-sm">chevron_right</span></button>
+                    <button
+                        class="tab-btn flex items-center justify-between px-gutter py-stack-md rounded-lg hover:bg-surface-container transition-all text-on-surface-variant"
+                        id="btn-support" onclick="switchTabDesktop('support')"><span
+                            class="flex items-center gap-3"><span
+                                class="material-symbols-outlined">help_center</span><span>Soporte
+                                Técnico</span></span><span
+                            class="material-symbols-outlined text-sm">chevron_right</span></button>
+                    <div class="mt-8 pt-8 border-t border-outline-variant"><a
+                            class="flex items-center gap-3 px-gutter py-stack-md text-on-tertiary-fixed-variant"
+                            href="#"><span class="material-symbols-outlined">add_business</span><span
+                                class="text-body-sm">Vincular Nueva Cuenta</span></a></div>
+                </nav>
+
+                <!-- Content Area -->
+                <div class="flex-1 min-w-0 space-y-stack-lg">
+                    <!-- Profile Section -->
+                    <section class="tab-content block animate-in fade-in slide-in-from-right-4 duration-500"
+                        id="section-profile">
+                        <div
+                            class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                            <div class="p-stack-lg border-b border-outline-variant bg-surface-container-low">
+                                <h2 class="font-title-sm text-title-sm">Perfil y Avatar</h2>
+                                <p class="text-body-sm text-on-surface-variant">Gestiona tu información personal y
+                                    presencia visual.</p>
+                            </div>
+                            <div class="p-stack-lg space-y-stack-lg">
+                                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                                    <div class="relative group">
+                                        <div
+                                            class="w-24 h-24 rounded-full border-4 border-surface overflow-hidden shadow-lg">
+                                            <img id="avatar-preview" class="w-full h-full object-cover"
+                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBprueDMbzoK9spRijDRChobBMcI-DxV5oi8HD2sM40OvXLGb0nmN17ps65tYEUt5HDO7PTZJm61poESzdDP6Hx4yGPcFt0gBUpDXrkPDh2OO0i1qcLX-N-GnQ0UP9v8br2dn1JLttXYkhwgtiiLGlGeNmwJVwdzcusnqrdGT94psphr5P1Oav0OwepI7LDwt0ilbSWacjhUz5cjdDN6K9oFdxh76c2uV44Qa7rAPZi7pyR0dC8UiphC3Am_NsCbN7khFdr7fvqI0w">
+                                        </div><button type="button" id="avatar-overlay-btn"
+                                            class="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+                                            <span
+                                                class="material-symbols-outlined text-white">photo_camera</span></button>
+                                    </div>
+                                    <div class="flex flex-wrap justify-center gap-3"><button type="button"
+                                            id="avatar-change-btn"
+                                            class="px-4 py-2 bg-primary text-on-primary rounded-lg text-sm font-bold">Cambiar
+                                            Foto</button><button type="button" id="avatar-remove-btn"
+                                            class="px-4 py-2 border border-outline text-on-surface-variant rounded-lg text-sm font-bold hover:bg-surface-container">Eliminar</button>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div><label class="text-label-bold">Nombre Completo</label><input
+                                            class="w-full border border-outline-variant rounded-lg px-4 py-2"
+                                            id="profile-full-name" type="text" value=""></div>
+                                    <div><label class="text-label-bold">Correo Electrónico</label><input
+                                            class="w-full border border-outline-variant rounded-lg px-4 py-2 bg-surface-container-low cursor-not-allowed"
+                                            id="profile-email" type="email" value="" readonly
+                                            title="El correo no se puede editar desde aquí"></div>
+                                    <div class="sm:col-span-2"><label class="text-label-bold">Teléfono de
+                                            Contacto</label><input
+                                            class="w-full sm:w-1/2 border border-outline-variant rounded-lg px-4 py-2"
+                                            id="profile-phone" type="tel" value=""></div>
+                                </div>
+                                <div class="hidden text-sm text-on-error-container bg-error-container p-3 rounded-lg"
+                                    id="profile-error"></div>
+                                <div class="flex justify-end items-center gap-3">
+                                    <span class="hidden text-sm text-green-600" id="profile-saved-msg">Cambios
+                                        guardados</span>
+                                    <button
+                                        class="px-6 py-3 bg-primary text-on-primary rounded-lg font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
+                                        id="profile-save-btn">Guardar
+                                        Cambios</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Security, Billing, Roles, Supplier, Support (identical content preserved but fully responsive) -->
+                    <section class="tab-content hidden animate-in fade-in slide-in-from-right-4 duration-500"
+                        id="section-security">
+                        <div class="space-y-5">
+                            <div class="bg-surface-container-lowest border p-5 rounded-xl">
+                                <h3 class="font-semibold flex items-center gap-2"><span
+                                        class="material-symbols-outlined text-primary">lock</span> Cambiar Contraseña
+                                </h3>
+                                <div class="space-y-3 mt-4 max-w-md"><input class="w-full border rounded-lg p-2"
+                                        type="password" placeholder="Contraseña Actual"><input
+                                        class="w-full border rounded-lg p-2" type="password"
+                                        placeholder="Nueva Contraseña"><button
+                                        class="bg-primary text-white px-4 py-2 rounded-lg">Actualizar
+                                        Contraseña</button></div>
+                            </div>
+                            <div class="bg-surface-container-lowest border p-5 rounded-xl">
+                                <div class="flex justify-between items-center flex-wrap gap-3">
+                                    <div>
+                                        <h3 class="font-semibold">Autenticación de Dos Factores (2FA)</h3>
+                                        <p class="text-sm">Añade una capa extra de seguridad a tu cuenta.</p>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" id="two-factor-toggle">
+                                        <div
+                                            class="w-11 h-6 bg-surface-container-highest peer-checked:bg-primary rounded-full peer after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="mt-4 bg-primary-fixed p-3 rounded-lg flex gap-3"><span
+                                        class="material-symbols-outlined text-primary">verified_user</span>
+                                    <div>
+                                        <p class="font-bold">2FA Activo vía Google Authenticator</p>
+                                        <p class="text-sm">Última verificación hoy a las 09:12 AM</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="p-5 border border-error bg-error-container/20 rounded-xl flex flex-col sm:flex-row justify-between gap-4">
+                                <div>
+                                    <h3 class="font-semibold text-error">Sesión y Acceso</h3>
+                                    <p class="text-sm">Cerrar sesión en todos los dispositivos activos.</p>
+                                </div><button id="logout-btn"
+                                    class="bg-error text-white px-5 py-2 rounded-lg flex items-center gap-2 justify-center"><span
+                                        class="material-symbols-outlined">logout</span> Cerrar Sesión</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="tab-content hidden animate-in fade-in slide-in-from-right-4 duration-500"
+                        id="section-billing">
+                        <div
+                            class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                            <div class="p-stack-lg border-b border-outline-variant bg-surface-container-low">
+                                <h2 class="font-title-sm text-title-sm flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">credit_card</span>
+                                    Suscripción Suit Pro
+                                </h2>
+                                <p class="text-body-sm text-on-surface-variant">Administra tu plan, verifica pagos y
+                                    consulta el estado de tu membresía.</p>
+                            </div>
+
+                            <!-- Estado de Membresía -->
+                            <div class="p-stack-lg border-b border-outline-variant" id="membership-status">
+                                <!-- Cargando -->
+                                <div id="membership-loader" class="text-center py-4">
+                                    <span class="material-symbols-outlined spinning text-primary">autorenew</span>
+                                    <p class="text-body-sm mt-2">Cargando estado...</p>
+                                </div>
+                                <!-- Contenido dinámico -->
+                                <div id="membership-content" class="hidden"></div>
+                            </div>
+
+                            <!-- Formulario de Pago -->
+                            <div class="p-stack-lg border-b border-outline-variant">
+                                <h3 class="font-title-sm text-title-sm flex items-center gap-2 mb-stack-md">
+                                    <span class="material-symbols-outlined text-primary">verified</span>
+                                    Enviar Comprobante de Pago
+                                </h3>
+                                <p class="text-body-sm text-on-surface-variant mb-stack-lg">Si ya realizaste tu pago,
+                                    completa este formulario para activar tu suscripción.</p>
+
+                                <form id="payment-form" class="space-y-stack-md">
+                                    <div>
+                                        <label
+                                            class="block font-label-bold text-label-bold text-on-surface-variant uppercase mb-1">Plan
+                                            a Suscribirse</label>
+                                        <select id="payment-plan"
+                                            class="w-full border border-outline-variant rounded-lg p-2 focus:ring-2 focus:ring-primary focus:border-primary font-body-md bg-white">
+                                            <option value="">Seleccionar plan...</option>
+                                            <!-- Se llenará dinámicamente desde JS -->
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block font-label-bold text-label-bold text-on-surface-variant uppercase mb-1">Fecha
+                                            del Pago</label>
+                                        <input type="date" id="payment-date"
+                                            class="w-full border border-outline-variant rounded-lg p-2 focus:ring-2 focus:ring-primary focus:border-primary font-body-md"
+                                            required>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block font-label-bold text-label-bold text-on-surface-variant uppercase mb-1">Teléfono
+                                            (asociado a la transferencia)</label>
+                                        <input type="tel" id="payment-phone" placeholder="Ej: +53 5555 5555"
+                                            class="w-full border border-outline-variant rounded-lg p-2 focus:ring-2 focus:ring-primary focus:border-primary font-body-md"
+                                            required>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block font-label-bold text-label-bold text-on-surface-variant uppercase mb-1">ID
+                                            de Transacción</label>
+                                        <input type="text" id="payment-transaction-id"
+                                            placeholder="Código único de tu comprobante"
+                                            class="w-full border border-outline-variant rounded-lg p-2 focus:ring-2 focus:ring-primary focus:border-primary font-body-md"
+                                            required>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block font-label-bold text-label-bold text-on-surface-variant uppercase mb-1">Monto
+                                            Pagado (USD)</label>
+                                        <input type="number" id="payment-amount" step="0.01" placeholder="Ej: 500"
+                                            class="w-full border border-outline-variant rounded-lg p-2 focus:ring-2 focus:ring-primary focus:border-primary font-body-md"
+                                            required>
+                                        <p class="text-body-sm text-on-surface-variant mt-1">Monto esperado: <strong
+                                                id="expected-amount">$500.00</strong> (plan seleccionado)</p>
+                                    </div>
+
+                                    <div id="payment-feedback" class="hidden p-3 rounded-lg"></div>
+
+                                    <!-- Pagar: abrir Transfermóvil o escanear el QR del plan -->
+                                    <div class="grid grid-cols-1 min-[400px]:grid-cols-2 gap-2">
+                                        <button type="button" id="tm-pay-btn"
+                                            class="w-full py-3 px-3 bg-green-600 text-white rounded-lg font-bold hover:brightness-110 transition flex items-center justify-center gap-2">
+                                            <span class="material-symbols-outlined">open_in_new</span>
+                                            <span>Pagar con Transfermóvil</span>
+                                        </button>
+                                        <button type="button" id="tm-scan-btn"
+                                            class="w-full py-3 px-3 bg-white text-green-700 border-2 border-green-600 rounded-lg font-bold hover:bg-green-50 transition flex items-center justify-center gap-2">
+                                            <span class="material-symbols-outlined">qr_code_scanner</span>
+                                            <span>Escanear QR</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="text-center text-body-sm text-on-surface-variant my-2">— luego —</div>
+
+                                    <button type="submit"
+                                        class="w-full py-3 bg-primary text-on-primary rounded-lg font-bold hover:brightness-110 transition flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined">send</span>
+                                        Enviar Comprobante
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Historial de Comprobantes -->
+                            <div class="p-stack-lg">
+                                <h3 class="font-title-sm text-title-sm flex items-center gap-2 mb-stack-md">
+                                    <span class="material-symbols-outlined text-primary">receipt_long</span>
+                                    Historial de Comprobantes
+                                </h3>
+                                <div id="history-list">
+                                    <p class="text-body-sm text-on-surface-variant">Cargando historial...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="tab-content hidden" id="section-roles">
+                        <div class="bg-surface-container-lowest border p-5 rounded-xl">
+                            <div class="flex flex-col sm:flex-row gap-4 items-center mb-6">
+                                <div class="w-16 h-16 bg-primary-container rounded-xl flex items-center justify-center">
+                                    <span
+                                        class="material-symbols-outlined text-3xl text-primary">admin_panel_settings</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-xl" id="role-title">Nivel de Acceso: Manager</h3>
+                                    <p class="text-sm" id="role-description">Tu rol te permite gestionar proveedores,
+                                        aprobar vouchers y ver
+                                        reportes globales.</p>
+                                </div>
+                            </div>
+                            <h4 class="font-bold mb-3">Permisos Habilitados</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex gap-3 p-3 rounded-lg bg-surface-container-low border"><span
+                                        class="material-symbols-outlined text-primary">check_circle</span>
+                                    <div>
+                                        <p class="font-bold">Gestión de Proveedores</p>
+                                        <p class="text-sm">Alta, baja y edición de contratos comerciales.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3 p-3 rounded-lg bg-surface-container-low border"><span
+                                        class="material-symbols-outlined text-primary">check_circle</span>
+                                    <div>
+                                        <p class="font-bold">Auditoría de Vouchers</p>
+                                        <p class="text-sm">Visualización del historial completo.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3 p-3 rounded-lg bg-surface-container-low border"><span
+                                        class="material-symbols-outlined text-primary">check_circle</span>
+                                    <div>
+                                        <p class="font-bold">Exportación de Datos</p>
+                                        <p class="text-sm">Descarga de informes en CSV y PDF.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3 p-3 rounded-lg bg-surface-container-low border opacity-50"><span
+                                        class="material-symbols-outlined">block</span>
+                                    <div>
+                                        <p class="font-bold">Gestión de API</p>
+                                        <p class="text-sm">Restringido a administradores.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="tab-content hidden animate-in fade-in slide-in-from-right-4 duration-500"
+                        id="section-public-card">
+                        <div
+                            class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+                            <div
+                                class="p-4 sm:p-stack-lg border-b border-outline-variant bg-surface-container-low flex justify-between items-start gap-4">
+                                <div class="min-w-0">
+                                    <h2 class="font-title-sm text-title-sm">Tarjeta Pública</h2>
+                                    <p class="text-body-sm text-on-surface-variant">Esta información aparecerá en el
+                                        directorio visible para gestores.</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer shrink-0">
+                                    <input id="pc-published" type="checkbox" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-outline-variant rounded-full peer-checked:bg-primary
+                    after:content-[''] after:absolute after:top-0.5 after:left-0.5
+                    after:bg-white after:rounded-full after:h-5 after:w-5
+                    after:transition-all peer-checked:after:translate-x-5"></div>
+                                </label>
+                            </div>
+
+                            <div class="p-4 sm:p-stack-lg space-y-stack-md">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="md:col-span-2">
+                                        <label class="text-label-bold">Nombre público (opcional — por defecto tu
+                                            nombre)</label>
+                                        <input id="pc-display-name"
+                                            class="w-full border border-outline-variant rounded-lg px-4 py-2"
+                                            type="text">
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <label class="text-label-bold">Descripción de productos/servicios</label>
+                                        <textarea id="pc-company-info" rows="3"
+                                            class="w-full border border-outline-variant rounded-lg px-4 py-2"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="text-label-bold">Teléfono</label>
+                                        <input id="pc-phone" type="tel"
+                                            class="w-full border border-outline-variant rounded-lg px-4 py-2">
+                                    </div>
+                                    <div>
+                                        <label class="text-label-bold">WhatsApp</label>
+                                        <input id="pc-whatsapp" type="tel"
+                                            class="w-full border border-outline-variant rounded-lg px-4 py-2">
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <label class="text-label-bold">Sitio web (opcional)</label>
+                                        <input id="pc-website" type="url" inputmode="url" autocapitalize="off" autocomplete="off"
+                                            spellcheck="false" placeholder="https://..."
+                                            class="w-full min-w-0 border border-outline-variant rounded-lg px-4 py-2">
+                                    </div>
+
+                                    <div class="md:col-span-2">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <label class="text-label-bold">Enlaces a grupos/redes</label>
+                                            <button type="button" onclick="addPcSocialRow()"
+                                                class="text-[12px] font-bold text-primary hover:underline">+ Añadir
+                                                enlace</button>
+                                        </div>
+                                        <div id="pc-social-rows" class="space-y-3 lg:space-y-2"></div>
+                                    </div>
+
+                                    <div class="md:col-span-2">
+                                        <label class="text-label-bold">Etiquetas (separadas por coma)</label>
+                                        <input id="pc-tags" placeholder="electronica, mayoreo, envío nacional"
+                                            class="w-full border border-outline-variant rounded-lg px-4 py-2">
+                                    </div>
+                                </div>
+
+                                <p id="pc-error" role="alert"
+                                    class="hidden text-sm text-on-error-container bg-error-container p-3 rounded-lg"></p>
+
+                                <div class="flex flex-wrap justify-end items-center gap-3 pt-2">
+                                    <span id="pc-saved-msg" class="hidden text-sm text-green-600">Guardado</span>
+                                    <button id="pc-save-btn"
+                                        class="w-full sm:w-auto px-6 py-3 bg-primary text-on-primary rounded-lg font-semibold disabled:opacity-60">
+                                        Guardar tarjeta
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Publicar en redes sociales -->
+                            <div id="pc-share-block"
+                                class="p-4 sm:p-stack-lg border-t border-outline-variant bg-surface-container-low space-y-4">
+                                <div class="flex items-start gap-3">
+                                    <span class="material-symbols-outlined text-primary shrink-0">campaign</span>
+                                    <div class="min-w-0">
+                                        <h3 class="font-title-sm text-title-sm">Publicar en redes sociales</h3>
+                                        <p class="text-body-sm text-on-surface-variant">Comparte tu tarjeta en Facebook u
+                                            otras redes. La publicación incluye un enlace a Suit, adicional a los
+                                            enlaces de tu tarjeta, para que quien lo vea llegue a la app.</p>
+                                    </div>
+                                </div>
+
+                                <div id="pc-share-preview"
+                                    class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 text-body-sm break-words whitespace-pre-line">
+                                </div>
+
+                                <div>
+                                    <label class="text-label-bold" for="pc-share-link">Enlace a Suit</label>
+                                    <div class="flex gap-2 mt-1">
+                                        <input id="pc-share-link" type="text" readonly
+                                            class="min-w-0 flex-1 border border-outline-variant rounded-lg px-3 py-2 text-base lg:text-sm bg-surface-container-lowest text-on-surface-variant">
+                                        <button type="button" id="pc-share-copy-link" aria-label="Copiar enlace"
+                                            class="shrink-0 px-3 border border-outline-variant rounded-lg bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container disabled:opacity-50 disabled:cursor-not-allowed">
+                                            <span class="material-symbols-outlined text-[20px]">content_copy</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col min-[420px]:flex-row flex-wrap gap-2">
+                                    <button type="button" id="pc-share-facebook"
+                                        class="flex-1 min-w-[10rem] inline-flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-[#1877F2] text-white font-bold hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path
+                                                d="M22 12.06C22 6.505 17.523 2 12 2S2 6.505 2 12.06c0 5.02 3.657 9.18 8.438 9.94v-7.03H7.898v-2.91h2.54V9.845c0-2.522 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.775-1.63 1.568v1.88h2.773l-.443 2.91h-2.33V22C18.343 21.24 22 17.08 22 12.06z" />
+                                        </svg>
+                                        Publicar en Facebook
+                                    </button>
+                                    <button type="button" id="pc-share-native"
+                                        class="hidden flex-1 min-w-[10rem] items-center justify-center gap-2 py-3 px-4 rounded-lg border border-primary text-primary font-bold hover:bg-primary-fixed transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <span class="material-symbols-outlined">share</span>
+                                        Otras apps
+                                    </button>
+                                    <button type="button" id="pc-share-copy-text"
+                                        class="flex-1 min-w-[10rem] inline-flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-bold hover:bg-surface-container transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <span class="material-symbols-outlined">content_copy</span>
+                                        Copiar mensaje
+                                    </button>
+                                </div>
+
+                                <p id="pc-share-hint" class="text-xs text-on-surface-variant"></p>
+                                <p id="pc-share-feedback" role="status" class="hidden text-sm text-green-600"></p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="tab-content hidden" id="section-supplier">
+                        <div
+                            class="bg-surface-container-lowest border rounded-xl overflow-hidden shadow-lg max-w-2xl mx-auto">
+                            <div class="p-5 bg-inverse-surface text-white flex justify-between">
+                                <div>
+                                    <h3 class="text-2xl font-bold">Business ID</h3>
+                                    <p class="text-xs uppercase tracking-wide">Digital Supplier Card</p>
+                                </div><span class="material-symbols-outlined text-5xl">contactless</span>
+                            </div>
+                            <div class="p-5 flex flex-col sm:flex-row gap-6 items-center">
+                                <div class="flex-1">
+                                    <div>
+                                        <p class="text-xs font-bold">CÓDIGO ÚNICO</p>
+                                        <div class="flex items-center gap-2"><span
+                                                class="text-2xl font-mono font-bold text-primary"
+                                                id="provider-code-value">SUP-99234</span><button onclick="copyID()"
+                                                class="material-symbols-outlined p-1 hover:bg-gray-100 rounded-full">content_copy</button>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <p class="text-xs font-bold">FECHA DE EMISIÓN</p>
+                                        <p>12 de Octubre, 2023</p>
+                                    </div><button
+                                        class="mt-5 w-full flex justify-center items-center gap-2 bg-primary text-white py-2 rounded-lg"><span
+                                            class="material-symbols-outlined">share</span> Compartir con
+                                        Manager</button>
+                                </div>
+                                <div class="w-36 h-36 bg-white border p-2 rounded-xl flex items-center justify-center">
+                                    <div class="w-full h-full bg-gray-200 relative flex flex-wrap p-1">
+                                        <div class="w-1/3 h-1/3 border-4 border-black"></div>
+                                        <div class="w-1/3 h-1/3"></div>
+                                        <div class="w-1/3 h-1/3 border-4 border-black"></div>
+                                        <div class="w-full h-1/3 flex justify-around">
+                                            <div class="w-2 h-2 bg-black"></div>
+                                            <div class="w-4 h-2 bg-black"></div>
+                                            <div class="w-2 h-4 bg-black"></div>
+                                        </div>
+                                        <div class="w-1/3 h-1/3 border-4 border-black"></div>
+                                        <div class="w-2/3 h-1/3 bg-black/20"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-center text-gray-500 mt-4">Presenta este código o QR a tu Manager
+                            asignado.</p>
+                    </section>
+
+                    <section class="tab-content hidden" id="section-support">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                            <!-- Centro de Documentación -->
+                            <a class="bg-white border p-5 rounded-xl text-center sm:text-left hover:border-primary transition"
+                                href="terms-policy.html">
+                                <span class="material-symbols-outlined text-primary text-4xl">menu_book</span>
+                                <h3 class="font-bold mt-2">Documentación Legal</h3>
+                                <p class="text-sm mb-2">terminos y condiciones de uso.</p>
+                                <span
+                                    class="text-primary text-sm flex items-center gap-1 justify-center sm:justify-start">
+                                    Ir a base <span class="material-symbols-outlined text-sm">open_in_new</span>
+                                </span>
+                            </a>
+
+                            <!-- Grupo de Soporte (WhatsApp) -->
+                            <a class="bg-white border p-5 rounded-xl text-center sm:text-left hover:border-primary transition"
+                                href="https://chat.whatsapp.com/IDoelTPBa7VBfi8WUp68Wm?s=cl&amp;p=a&amp;mlu=4&amp;ilr=4&amp;iam=2"
+                                target="_blank" rel="noopener noreferrer">
+                                <span class="material-symbols-outlined text-primary text-4xl">support_agent</span>
+                                <h3 class="font-bold mt-2">Grupo de Soporte</h3>
+                                <p class="text-sm mb-2">Atención al cliente y resolución de incidencias en tiempo real.
+                                </p>
+                                <span
+                                    class="text-primary text-sm flex items-center gap-1 justify-center sm:justify-start">
+                                    Unirme al grupo <span class="material-symbols-outlined text-sm">chevron_right</span>
+                                </span>
+                            </a>
+
+                            <!-- Canal de Novedades (WhatsApp) -->
+                            <a class="bg-white border p-5 rounded-xl text-center sm:text-left hover:border-primary transition"
+                                href="https://whatsapp.com/channel/0029VbEA03rCxoB0NAhlp93N" target="_blank"
+                                rel="noopener noreferrer">
+                                <span class="material-symbols-outlined text-primary text-4xl">campaign</span>
+                                <h3 class="font-bold mt-2">Canal de Novedades</h3>
+                                <p class="text-sm mb-2">Cambios, actualizaciones y anuncios importantes.</p>
+                                <span
+                                    class="text-primary text-sm flex items-center gap-1 justify-center sm:justify-start">
+                                    Seguir canal <span class="material-symbols-outlined text-sm">chevron_right</span>
+                                </span>
+                            </a>
+
+                        </div>
+
+                        <!-- Estado del Sistema -->
+                        <div
+                            class="mt-5 bg-surface-container p-4 rounded-xl flex flex-wrap justify-between items-center gap-3">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white">
+                                    <span class="material-symbols-outlined text-sm">check</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Estado del Sistema: Operativo</h4>
+                                    <p class="text-xs">Todos los servicios funcionan correctamente.</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-gray-500">Última revisión: hace 4 mins</span>
+                        </div>
+                    </section>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal: Selección de Avatar -->
+    <div class="hidden fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-[100] flex items-center justify-center p-gutter"
+        id="avatar-modal">
+        <div class="bg-surface-container-lowest rounded-xl max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl">
+            <div class="p-stack-md border-b border-outline-variant flex justify-between items-center">
+                <div>
+                    <h3 class="font-title-sm text-title-sm text-on-surface">Elegir Avatar</h3>
+                    <p class="text-body-sm text-on-surface-variant">Selecciona una imagen de la galería.</p>
+                </div>
+                <button type="button" id="avatar-modal-close" class="p-1 text-on-surface-variant hover:text-primary">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-stack-md grid grid-cols-3 sm:grid-cols-4 gap-3 overflow-y-auto" id="avatar-grid">
+                <!-- Generado dinámicamente por JS a partir de AVATAR_GALLERY -->
+            </div>
+            <div class="p-stack-md border-t border-outline-variant flex justify-end gap-3">
+                <button type="button" id="avatar-modal-cancel"
+                    class="px-4 py-2 border border-outline text-on-surface-variant rounded-lg text-sm font-bold hover:bg-surface-container">Cancelar</button>
+                <button type="button" id="avatar-modal-confirm" disabled
+                    class="px-4 py-2 bg-primary text-on-primary rounded-lg text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed">Seleccionar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: QR de pago del plan -->
+    <div class="hidden fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-[110] flex items-center justify-center p-gutter"
+        id="qr-modal" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title">
+        <div class="bg-surface-container-lowest rounded-xl w-full max-w-sm max-h-[92vh] flex flex-col shadow-2xl">
+            <div class="p-stack-md border-b border-outline-variant flex justify-between items-start gap-3">
+                <div class="min-w-0">
+                    <h3 class="font-title-sm text-title-sm text-on-surface" id="qr-modal-title">Escanear QR de pago</h3>
+                    <p class="text-body-sm text-on-surface-variant break-words" id="qr-modal-plan"></p>
+                </div>
+                <button type="button" id="qr-modal-close" aria-label="Cerrar"
+                    class="p-1 shrink-0 text-on-surface-variant hover:text-primary">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-stack-md overflow-y-auto space-y-3">
+                <div class="w-full max-w-[260px] aspect-square mx-auto bg-white border border-outline-variant rounded-xl p-2 flex items-center justify-center">
+                    <img id="qr-image" alt="" class="hidden w-full h-full object-contain">
+                    <div id="qr-fallback" class="hidden text-center p-3">
+                        <span class="material-symbols-outlined text-4xl text-on-surface-variant">qr_code_2</span>
+                        <p class="text-body-sm text-on-surface-variant mt-1">El QR de este plan no está disponible aún.
+                            Usa el botón «Pagar con Transfermóvil».</p>
+                    </div>
+                </div>
+                <p class="text-body-sm text-center text-on-surface-variant">Abre Transfermóvil y escanea este código.
+                    Después copia el ID de transacción y envía tu comprobante.</p>
+            </div>
+            <div class="p-stack-md border-t border-outline-variant grid grid-cols-1 min-[360px]:grid-cols-2 gap-2">
+                <a id="qr-download" download
+                    class="hidden items-center justify-center gap-2 px-4 py-2 border border-outline text-on-surface-variant rounded-lg text-sm font-bold hover:bg-surface-container">
+                    <span class="material-symbols-outlined text-[18px]">download</span> Guardar QR
+                </a>
+                <button type="button" id="qr-paid-btn"
+                    class="px-4 py-2 bg-primary text-on-primary rounded-lg text-sm font-bold min-[360px]:col-span-1">Ya pagué</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation Bar (replaces the drawer) -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-surface-bright border-t border-outline-variant shadow-lg z-40 pb-safe pb-2"
+        style="display: none;">
+        <div class="flex justify-around items-center py-2">
+            <a class="flex flex-col items-center gap-1 text-on-surface-variant " href="home-managers.html">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                <span class="text-[10px] font-bold">Panel</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-on-surface-variant " href="vouche.html">
+                <span class="material-symbols-outlined">add_notes</span>
+                <span class="text-[10px]">Vale</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="histori-vouche.html">
+                <span class="material-symbols-outlined">history</span>
+                <span class="text-[10px]">Historial</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="supplier-managers.html">
+                <span class="material-symbols-outlined">handshake</span>
+                <span class="text-[10px]">proveedores</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-primary " href="settings.html">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="text-[10px]">Ajustes</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="loading-overlay.js" data-message="Cargando..." data-icon="autorenew" data-min-time="300"></script>
+
+    <script>
+        // Desktop tab switching (preserved)
+        // Reemplazar la función switchTabDesktop por esta versión
+        function switchTabDesktop(tabId) {
+            document.querySelectorAll('.tab-content').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('block');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-surface-container-lowest', 'border', 'border-outline-variant', 'text-primary', 'font-semibold', 'shadow-sm');
+                btn.classList.add('text-on-surface-variant', 'hover:bg-surface-container');
+            });
+            const targetSection = document.getElementById('section-' + tabId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                targetSection.classList.add('block');
+            }
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-on-surface-variant', 'hover:bg-surface-container');
+                activeBtn.classList.add('bg-surface-container-lowest', 'border', 'border-outline-variant', 'text-primary', 'font-semibold', 'shadow-sm');
+            }
+            updateMobileActiveTab(tabId);
+
+            // ---- NUEVO: Cargar datos de facturación si es la pestaña activa ----
+            if (tabId === 'billing') {
+                loadMembership();
+                loadVerificationHistory();
+                loadUserFeedback();
+            }
+        }
+
+        // Mobile tab switching (horizontal pills)
+        function initMobileTabs() {
+            const mobileBtns = document.querySelectorAll('.tab-btn-mobile');
+            const sections = ['profile', 'security', 'billing', 'roles', 'supplier', 'support'];
+            const switchMobileTab = (tabId) => {
+                document.querySelectorAll('.tab-content').forEach(sec => sec.classList.add('hidden'));
+                const activeSection = document.getElementById('section-' + tabId);
+                if (activeSection) { activeSection.classList.remove('hidden'); activeSection.classList.add('block'); }
+                mobileBtns.forEach(btn => {
+                    btn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+                    btn.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+                    if (btn.getAttribute('data-tab') === tabId) {
+                        btn.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+                        btn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+                    }
+                });
+                // Also sync desktop buttons if needed (optional)
+                const desktopTabMap = { profile: 'profile', security: 'security', billing: 'billing', roles: 'roles', supplier: 'supplier', support: 'support' };
+                if (desktopTabMap[tabId]) switchTabDesktop(desktopTabMap[tabId]);
+            };
+            mobileBtns.forEach(btn => { btn.addEventListener('click', (e) => { e.preventDefault(); switchMobileTab(btn.getAttribute('data-tab')); }); });
+            // default active: profile
+            switchMobileTab('profile');
+        }
+
+        function updateMobileActiveTab(tabId) {
+            const mobileBtns = document.querySelectorAll('.tab-btn-mobile');
+            mobileBtns.forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+                btn.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+                    btn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+                }
+            });
+        }
+
+        function copyID() {
+            const codeEl = document.getElementById('provider-code-value');
+            const code = codeEl ? codeEl.textContent.trim() : '';
+            if (code && navigator.clipboard) {
+                navigator.clipboard.writeText(code);
+            }
+            alert(`ID Proveedor ${code} copiado al portapapeles.`);
+        }
+
+        // ========== LÓGICA DE CAMBIO DE CONTRASEÑA ==========
+        async function changePassword() {
+            // Obtener los inputs de la sección de seguridad
+            const currentPasswordInput = document.querySelector('#section-security input[type="password"]:first-of-type');
+            const newPasswordInput = document.querySelector('#section-security input[type="password"]:last-of-type');
+            const updatePasswordBtn = document.querySelector('#section-security .bg-primary.text-white');
+
+            const currentPassword = currentPasswordInput?.value || '';
+            const newPassword = newPasswordInput?.value || '';
+
+            // Validaciones
+            if (!currentPassword || !newPassword) {
+                alert('Por favor, completa ambos campos');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                alert('La nueva contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            if (currentPassword === newPassword) {
+                alert('La nueva contraseña debe ser diferente a la actual');
+                return;
+            }
+
+            try {
+                // Deshabilitar botón mientras se procesa
+                const btn = updatePasswordBtn;
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = 'Actualizando...';
+
+                // Obtener email del usuario actual
+                const { data: { user } } = await window.suitSupabase.auth.getUser();
+
+                // Verificar que la contraseña actual es correcta
+                const { error: signInError } = await window.suitSupabase.auth.signInWithPassword({
+                    email: user.email,
+                    password: currentPassword
+                });
+
+                if (signInError) {
+                    alert('Contraseña actual incorrecta');
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                    return;
+                }
+
+                // Actualizar la contraseña
+                const { error } = await window.suitSupabase.auth.updateUser({
+                    password: newPassword
+                });
+
+                if (error) throw error;
+
+                alert('¡Contraseña actualizada correctamente!');
+
+                // Limpiar campos
+                currentPasswordInput.value = '';
+                newPasswordInput.value = '';
+
+            } catch (error) {
+                console.error('[Security] Error cambiando contraseña:', error);
+                alert('No se pudo actualizar la contraseña. Intenta nuevamente.');
+            } finally {
+                // Re-habilitar botón
+                const btn = updatePasswordBtn;
+                btn.disabled = false;
+                btn.textContent = 'Actualizar Contraseña';
+            }
+        }
+
+
+
+        // ========== LÓGICA DE 2FA CON GOOGLE AUTHENTICATOR ==========
+
+        // Estado del factor 2FA
+        let currentFactorId = null;
+        let is2FAEnabled = false;
+
+        const twoFactorToggle = document.getElementById('two-factor-toggle-btn');
+
+        // Verificar estado actual de 2FA al cargar la página
+        async function check2FAStatus() {
+            try {
+                const { data: factors, error } = await window.suitSupabase.auth.mfa.listFactors();
+                if (error) throw error;
+
+                const verifiedFactor = factors.totp?.find(f => f.status === 'verified');
+                is2FAEnabled = !!verifiedFactor;
+                currentFactorId = verifiedFactor?.id || null;
+
+                // Actualizar el botón toggle
+                const toggle = document.getElementById('two-factor-toggle-btn');
+                if (toggle) {
+                    const isChecked = is2FAEnabled;
+                    toggle.setAttribute('aria-checked', isChecked);
+                    if (isChecked) {
+                        toggle.classList.add('bg-primary');
+                        toggle.querySelector('span:last-child').classList.add('translate-x-5');
+                        toggle.classList.remove('bg-gray-200');
+                    } else {
+                        toggle.classList.remove('bg-primary');
+                        toggle.classList.add('bg-gray-200');
+                        toggle.querySelector('span:last-child').classList.remove('translate-x-5');
+                    }
+                }
+
+                update2FAStatusUI(is2FAEnabled);
+                return is2FAEnabled;
+            } catch (error) {
+                console.error('[2FA] Error:', error);
+                return false;
+            }
+        }
+
+        // Actualizar la UI del estado 2FA
+        function update2FAStatusUI(enabled) {
+            const statusDiv = document.querySelector('#section-security .bg-primary-fixed');
+            if (!statusDiv) return;
+
+            if (enabled) {
+                statusDiv.innerHTML = `
+            <span class="material-symbols-outlined text-primary">verified_user</span>
+            <div>
+                <p class="font-bold">2FA Activo vía Google Authenticator</p>
+                <p class="text-sm">Tu cuenta está protegida con autenticación de dos factores</p>
+            </div>
+        `;
+            } else {
+                statusDiv.innerHTML = `
+            <span class="material-symbols-outlined text-warning">security</span>
+            <div>
+                <p class="font-bold">2FA Desactivado</p>
+                <p class="text-sm">Activa la autenticación de dos factores para mayor seguridad</p>
+            </div>
+        `;
+            }
+        }
+
+        // Mostrar modal para configurar 2FA
+        function show2FASetupModal(qrCode, secret, factorId) {
+            // Remover modal existente si hay
+            const existingModal = document.querySelector('#mfa-modal');
+            if (existingModal) existingModal.remove();
+
+            const modal = document.createElement('div');
+            modal.id = 'mfa-modal';
+            modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+            modal.innerHTML = `
+        <div class="bg-white rounded-xl max-w-md w-full p-6 animate-in fade-in zoom-in duration-200">
+            <h3 class="text-xl font-bold mb-4">Configurar Autenticación de Dos Factores</h3>
+            <div class="space-y-4">
+                <div class="bg-gray-100 p-4 rounded-lg text-center">
+                    <img src="${qrCode}" alt="Código QR" class="mx-auto w-48 h-48">
+                </div>
+                <p class="text-sm text-center">Escanea el código QR con Google Authenticator</p>
+                <div class="bg-gray-50 p-3 rounded-lg">
+                    <p class="text-xs font-mono text-center break-all">${secret}</p>
+                    <p class="text-xs text-center text-gray-500 mt-2">Si no puedes escanear, ingresa este código manualmente</p>
+                </div>
+                <div class="space-y-2">
+                    <input type="text" id="2fa-verify-code" placeholder="Código de 6 dígitos" class="w-full border rounded-lg p-2 text-center text-2xl tracking-wider" maxlength="6" inputmode="numeric">
+                    <button id="verify-2fa-btn" class="w-full bg-primary text-white py-2 rounded-lg">Verificar y Activar</button>
+                </div>
+                <p class="text-xs text-gray-500 text-center">Una vez verificado, la autenticación de dos factores quedará activada</p>
+            </div>
+            <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl" onclick="this.closest('#mfa-modal').remove()">✕</button>
+        </div>
+    `;
+
+            document.body.appendChild(modal);
+
+            // Manejar verificación
+            const verifyBtn = document.querySelector('#verify-2fa-btn');
+            const codeInput = document.querySelector('#2fa-verify-code');
+
+            const handleVerify = async () => {
+                const code = codeInput.value.trim();
+
+                if (!code || code.length !== 6) {
+                    alert('Por favor, ingresa el código de 6 dígitos de Google Authenticator');
+                    return;
+                }
+
+                verifyBtn.disabled = true;
+                verifyBtn.textContent = 'Verificando...';
+
+                try {
+                    // Crear challenge y verificar en un solo paso usando challengeAndVerify
+                    const { error: verifyError } = await window.suitSupabase.auth.mfa.challengeAndVerify({
+                        factorId: factorId,
+                        code: code
+                    });
+
+                    if (verifyError) throw verifyError;
+
+                    // 2FA activado exitosamente
+                    is2FAEnabled = true;
+                    update2FAStatusUI(true);
+                    modal.remove();
+                    alert('¡2FA activado correctamente!');
+
+                    // Actualizar el toggle
+                    const toggle = document.querySelector('#section-security input[type="checkbox"]');
+                    if (toggle) toggle.checked = true;
+
+                } catch (error) {
+                    console.error('[2FA] Error verificando:', error);
+                    alert('Código incorrecto. Por favor, intenta nuevamente.');
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = 'Verificar y Activar';
+                }
+            };
+
+            verifyBtn.addEventListener('click', handleVerify);
+            codeInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleVerify();
+            });
+        }
+
+        // Activar 2FA
+        async function enable2FA() {
+            try {
+                const toggle = document.getElementById('two-factor-toggle-btn');
+                toggle.disabled = true;
+
+                const { data, error } = await window.suitSupabase.auth.mfa.enroll({
+                    factorType: 'totp',
+                    friendlyName: 'Google Authenticator'
+                });
+
+                if (error) throw error;
+
+                currentFactorId = data.id;
+                show2FASetupModal(data.totp.qr_code, data.totp.secret, data.id);
+
+            } catch (error) {
+                console.error('[2FA] Error:', error);
+                alert('No se pudo activar 2FA. Intenta nuevamente.');
+                const toggle = document.getElementById('two-factor-toggle-btn');
+                toggle.setAttribute('aria-checked', false);
+                toggle.classList.remove('bg-primary');
+                toggle.classList.add('bg-gray-200');
+                toggle.querySelector('span:last-child').classList.remove('translate-x-5');
+                toggle.disabled = false;
+            }
+        }
+
+        // Desactivar 2FA
+        async function disable2FA() {
+            const confirmed = confirm('¿Estás seguro? Al desactivar 2FA, tu cuenta será menos segura.');
+
+            if (!confirmed) {
+                const toggle = document.getElementById('two-factor-toggle-btn');
+                toggle.setAttribute('aria-checked', true);
+                toggle.classList.add('bg-primary');
+                toggle.querySelector('span:last-child').classList.add('translate-x-5');
+                return;
+            }
+
+            try {
+                const { data: factors, error: listError } = await window.suitSupabase.auth.mfa.listFactors();
+                if (listError) throw listError;
+
+                const totpFactor = factors.totp?.find(f => f.status === 'verified');
+
+                if (totpFactor) {
+                    const { error: unenrollError } = await window.suitSupabase.auth.mfa.unenroll({
+                        factorId: totpFactor.id
+                    });
+                    if (unenrollError) throw unenrollError;
+                }
+
+                is2FAEnabled = false;
+                currentFactorId = null;
+                update2FAStatusUI(false);
+                alert('2FA desactivado correctamente');
+
+                const toggle = document.getElementById('two-factor-toggle-btn');
+                toggle.setAttribute('aria-checked', false);
+                toggle.classList.remove('bg-primary');
+                toggle.classList.add('bg-gray-200');
+                toggle.querySelector('span:last-child').classList.remove('translate-x-5');
+
+            } catch (error) {
+                console.error('[2FA] Error:', error);
+                alert('No se pudo desactivar 2FA. Intenta nuevamente.');
+            }
+        }
+        // Manejador del toggle de 2FA
+        async function handle2FAToggle() {
+            const toggle = document.getElementById('two-factor-toggle-btn');
+            const isCurrentlyChecked = toggle.getAttribute('aria-checked') === 'true';
+            const willBeChecked = !isCurrentlyChecked;
+
+            // Deshabilitar temporalmente
+            toggle.disabled = true;
+
+            if (willBeChecked) {
+                await enable2FA();
+            } else {
+                await disable2FA();
+            }
+
+            toggle.disabled = false;
+        }
+
+        // On load, initialize both mobile & desktop UI consistency
+        // ========== INICIALIZAR EVENTOS ==========
+        window.addEventListener('DOMContentLoaded', () => {
+            initMobileTabs();
+            if (window.innerWidth >= 768) switchTabDesktop('profile');
+            else document.getElementById('section-profile')?.classList.remove('hidden');
+
+            // Inicializar cambio de contraseña
+            const updatePasswordBtn = document.querySelector('#section-security .bg-primary.text-white');
+            if (updatePasswordBtn) {
+                const newBtn = updatePasswordBtn.cloneNode(true);
+                updatePasswordBtn.parentNode.replaceChild(newBtn, updatePasswordBtn);
+                newBtn.addEventListener('click', changePassword);
+            }
+
+            // Inicializar 2FA
+            const twoFactorToggle = document.getElementById('two-factor-toggle-btn');
+            if (twoFactorToggle) {
+                twoFactorToggle.addEventListener('click', handle2FAToggle);
+            }
+
+            // Verificar estado actual de 2FA
+            check2FAStatus();
+        });
+
+        // ========== GALERÍA DE AVATARES ==========
+        const AVATAR_FOLDER = '/avatars/';
+        const AVATAR_GALLERY = [
+            'avatar-01.webp',
+            'avatar-02.webp',
+            'avatar-03.webp',
+            'avatar-04.webp',
+            'avatar-05.webp',
+            'avatar-06.webp',
+            'avatar-07.webp',
+            'avatar-08.webp',
+            'avatar-09.webp',
+            'avatar-10.webp',
+            'avatar-11.webp',
+            'avatar-12.webp'
+        ];
+        const DEFAULT_AVATAR_URL = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBprueDMbzoK9spRijDRChobBMcI-DxV5oi8HD2sM40OvXLGb0nmN17ps65tYEUt5HDO7PTZJm61poESzdDP6Hx4yGPcFt0gBUpDXrkPDh2OO0i1qcLX-N-GnQ0UP9v8br2dn1JLttXYkhwgtiiLGlGeNmwJVwdzcusnqrdGT94psphr5P1Oav0OwepI7LDwt0ilbSWacjhUz5cjdDN6K9oFdxh76c2uV44Qa7rAPZi7pyR0dC8UiphC3Am_NsCbN7khFdr7fvqI0w';
+
+        // ========== PERFIL (Supabase) ==========
+        const profileFullNameInput = document.getElementById('profile-full-name');
+        const profileEmailInput = document.getElementById('profile-email');
+        const profilePhoneInput = document.getElementById('profile-phone');
+        const profileSaveBtn = document.getElementById('profile-save-btn');
+        const profileSavedMsg = document.getElementById('profile-saved-msg');
+        const profileErrorEl = document.getElementById('profile-error');
+        const roleTitleEl = document.getElementById('role-title');
+        const roleDescriptionEl = document.getElementById('role-description');
+        const providerCodeEl = document.getElementById('provider-code-value');
+        const avatarPreviewEl = document.getElementById('avatar-preview');
+
+        let currentAvatarUrl = null;
+        let pendingAvatarUrl = null;
+
+        const ROLE_LABELS = { manager: 'Manager', provider: 'Proveedor' };
+        const ROLE_DESCRIPTIONS = {
+            manager: 'Tu rol te permite gestionar proveedores, aprobar vouchers y ver reportes globales.',
+            provider: 'Tu rol te permite digitalizar tu inventario, emitir vouchers y gestionar tu red de agentes.'
+        };
+
+        function showProfileError(message) {
+            profileErrorEl.textContent = message;
+            profileErrorEl.classList.remove('hidden');
+        }
+
+        function hideProfileError() {
+            profileErrorEl.classList.add('hidden');
+        }
+
+        function applyRoleVisibility(role) {
+            const isProvider = role === 'provider';
+            currentRole = role;
+            document.getElementById('btn-supplier')?.classList.toggle('hidden', !isProvider);
+            document.querySelector('.tab-btn-mobile[data-tab="supplier"]')?.classList.toggle('hidden', !isProvider);
+            if (roleTitleEl) roleTitleEl.textContent = `Nivel de Acceso: ${ROLE_LABELS[role] || role}`;
+            if (roleDescriptionEl) roleDescriptionEl.textContent = ROLE_DESCRIPTIONS[role] || '';
+        }
+
+        async function loadProfile() {
+            try {
+                const { data, error } = await window.suitSupabase.rpc('get_my_profile');
+                if (error) {
+                    // Si el error indica que no hay sesión, redirigir
+                    if (error.message.includes('JWT') || error.message.includes('auth')) {
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    throw error;
+                }
+                const profile = Array.isArray(data) ? data[0] : data;
+                if (!profile) { window.location.href = 'login.html'; return; }
+
+                if (profileFullNameInput) profileFullNameInput.value = profile.full_name || '';
+                if (profileEmailInput) profileEmailInput.value = profile.email || '';
+                if (profilePhoneInput) profilePhoneInput.value = profile.phone || '';
+
+                currentAvatarUrl = profile.avatar_url || null;
+                pendingAvatarUrl = null;
+                if (avatarPreviewEl) avatarPreviewEl.src = currentAvatarUrl || DEFAULT_AVATAR_URL;
+                if (providerCodeEl) providerCodeEl.textContent = profile.provider_code || 'N/A';
+
+                applyRoleVisibility(profile.role);
+
+                if (typeof suitPersistSession === 'function') {
+                    await suitPersistSession(profile);
+                }
+            } catch (error) {
+                console.error('[Settings] Error cargando perfil:', error);
+                showProfileError('No se pudo cargar tu perfil. Verifica tu conexión e intenta nuevamente.');
+            }
+        }
+
+        async function saveProfile() {
+            hideProfileError();
+            profileSavedMsg.classList.add('hidden');
+
+            const fullName = profileFullNameInput?.value.trim() || '';
+            const phone = profilePhoneInput?.value.trim() || '';
+
+            if (!fullName) {
+                showProfileError('El nombre completo no puede estar vacío.');
+                return;
+            }
+
+            profileSaveBtn.disabled = true;
+            try {
+                const rpcParams = { p_full_name: fullName, p_phone: phone };
+                if (pendingAvatarUrl !== null) {
+                    rpcParams.p_avatar_url = pendingAvatarUrl;
+                }
+
+                const { data, error } = await window.suitSupabase.rpc('update_my_profile', rpcParams);
+                if (error) throw error;
+
+                const profile = Array.isArray(data) ? data[0] : data;
+                if (profile && typeof suitPersistSession === 'function') {
+                    await suitPersistSession({ ...profile, email: profileEmailInput?.value || '' });
+                }
+
+                if (pendingAvatarUrl !== null) {
+                    currentAvatarUrl = pendingAvatarUrl || null;
+                    pendingAvatarUrl = null;
+                }
+
+                profileSavedMsg.classList.remove('hidden');
+                setTimeout(() => profileSavedMsg.classList.add('hidden'), 3000);
+            } catch (error) {
+                console.error('[Settings] Error guardando perfil:', error);
+                showProfileError('No se pudieron guardar los cambios. Intenta nuevamente.');
+            } finally {
+                profileSaveBtn.disabled = false;
+            }
+        }
+
+        profileSaveBtn?.addEventListener('click', saveProfile);
+
+        // ========== MODAL DE AVATAR ==========
+        const avatarModal = document.getElementById('avatar-modal');
+        const avatarGrid = document.getElementById('avatar-grid');
+        const avatarModalConfirm = document.getElementById('avatar-modal-confirm');
+        let modalSelectedAvatar = null;
+
+        function openAvatarModal() {
+            modalSelectedAvatar = null;
+            avatarModalConfirm.disabled = true;
+            avatarGrid.innerHTML = '';
+
+            AVATAR_GALLERY.forEach((filename) => {
+                const fullPath = AVATAR_FOLDER + filename;
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.dataset.path = fullPath;
+                item.className = 'relative aspect-square rounded-xl overflow-hidden border-2 border-outline-variant hover:border-primary transition-colors';
+                item.innerHTML = `<img src="${fullPath}" alt="Avatar" class="w-full h-full object-cover" loading="lazy">`;
+
+                if (fullPath === currentAvatarUrl) {
+                    item.classList.add('border-primary', 'ring-2', 'ring-primary');
+                    modalSelectedAvatar = fullPath;
+                    avatarModalConfirm.disabled = false;
+                }
+
+                item.addEventListener('click', () => {
+                    avatarGrid.querySelectorAll('button').forEach((btn) => {
+                        btn.classList.remove('border-primary', 'ring-2', 'ring-primary');
+                    });
+                    item.classList.add('border-primary', 'ring-2', 'ring-primary');
+                    modalSelectedAvatar = fullPath;
+                    avatarModalConfirm.disabled = false;
+                });
+
+                avatarGrid.appendChild(item);
+            });
+
+            avatarModal.classList.remove('hidden');
+        }
+
+        function closeAvatarModal() {
+            avatarModal.classList.add('hidden');
+        }
+
+        document.getElementById('avatar-change-btn')?.addEventListener('click', openAvatarModal);
+        document.getElementById('avatar-overlay-btn')?.addEventListener('click', openAvatarModal);
+        document.getElementById('avatar-modal-close')?.addEventListener('click', closeAvatarModal);
+        document.getElementById('avatar-modal-cancel')?.addEventListener('click', closeAvatarModal);
+        avatarModal?.addEventListener('click', (e) => {
+            if (e.target === avatarModal) closeAvatarModal();
+        });
+
+        avatarModalConfirm?.addEventListener('click', () => {
+            if (!modalSelectedAvatar) return;
+            if (avatarPreviewEl) avatarPreviewEl.src = modalSelectedAvatar;
+            pendingAvatarUrl = modalSelectedAvatar;
+            closeAvatarModal();
+        });
+
+        document.getElementById('avatar-remove-btn')?.addEventListener('click', () => {
+            if (avatarPreviewEl) avatarPreviewEl.src = DEFAULT_AVATAR_URL;
+            pendingAvatarUrl = '';
+        });
+
+        // ========== CERRAR SESIÓN ==========
+        document.getElementById('logout-btn')?.addEventListener('click', async () => {
+            if (!confirm('¿Cerrar sesión?')) return;
+            await suitLogout();
+            window.location.href = 'login.html';
+        });
+
+        // ========== SISTEMA DE TOAST (GLOBAL) ==========
+        function showToast(message, type = 'info') {
+            const t = document.getElementById('toast');
+            if (!t) return;
+            const colors = {
+                success: 'bg-green-600',
+                error: 'bg-error',
+                warning: 'bg-amber-500',
+                info: 'bg-primary'
+            };
+            const icons = {
+                success: 'check_circle',
+                error: 'error',
+                warning: 'warning',
+                info: 'info'
+            };
+            t.className = `fixed bottom-24 right-4 z-[60] transform transition-transform duration-500 ease-out px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 border border-outline/30 max-w-xs ${colors[type] || colors.info} text-white`;
+            t.innerHTML = `
+            <span class="material-symbols-outlined">${icons[type]}</span>
+            <span>${message}</span>
+            <button class="ml-4 p-1 hover:bg-white/10 rounded" onclick="this.closest('#toast').classList.add('translate-y-40')">
+                <span class="material-symbols-outlined text-body-sm">close</span>
+            </button>
+        `;
+            t.classList.remove('translate-y-40');
+            setTimeout(() => t.classList.add('translate-y-40'), 4000);
+        }
+
+        // ============================================================
+        // MÓDULO DE PAGO Y VERIFICACIÓN
+        // ============================================================
+
+        let currentSubscriptionStatus = null;
+        let availablePlans = [];
+
+        // Obtener planes disponibles
+        async function fetchPlans() {
+            const { data, error } = await window.suitSupabase
+                .from('subscription_plans')
+                .select('id, name, price, currency')
+                .eq('is_active', true);
+            if (error) {
+                console.error('Error cargando planes:', error);
+                return [];
+            }
+            return data;
+        }
+
+        // Renderizar estado de membresía
+        function renderMembership(status) {
+            const container = document.getElementById('membership-content');
+            const loader = document.getElementById('membership-loader');
+
+            // Caso sin suscripción
+            if (!status || status.status === 'none') {
+                container.innerHTML = `
+            <div class="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+                <span class="material-symbols-outlined text-4xl text-on-surface-variant">credit_card_off</span>
+                <div>
+                    <p class="font-title-sm text-title-sm">Sin suscripción activa</p>
+                    <p class="text-body-sm text-on-surface-variant">Selecciona un plan y realiza el pago para activar tu membresía.</p>
+                </div>
+            </div>
+        `;
+                loader.classList.add('hidden');
+                container.classList.remove('hidden');
+                return;
+            }
+
+            // Normalizar campos (valores por defecto)
+            const planName = status.plan_name || 'Plan no especificado';
+
+            // Determinar fecha de fin de forma segura
+            let endDate = null;
+            if (status.status === 'active' && status.end_date) {
+                endDate = new Date(status.end_date);
+            } else if (status.status === 'trial' && status.trial_end_date) {
+                endDate = new Date(status.trial_end_date);
+            } else {
+                // Fallback: usar cualquier fecha disponible
+                const endDateStr = status.end_date || status.trial_end_date || null;
+                endDate = endDateStr ? new Date(endDateStr) : null;
+            }
+
+            const isValidDate = endDate && !isNaN(endDate.getTime()) && endDate.getTime() > 0;
+
+            // Días restantes y barra de progreso
+            let daysLeft = 0;
+            let progressPercent = 0;
+            if (isValidDate) {
+                const now = new Date();
+                const diff = endDate - now;
+                daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+                progressPercent = Math.min(100, Math.max(0, (daysLeft / 30) * 100));
+            }
+
+            const isActive = status.status === 'active' || status.status === 'trial';
+            const statusLabel = status.status === 'active' ? 'Activa'
+                : status.status === 'trial' ? 'En período de prueba'
+                    : 'Expirada';
+            const statusColor = status.status === 'active' ? 'text-green-600'
+                : status.status === 'trial' ? 'text-secondary'
+                    : 'text-error';
+
+            const formattedEndDate = isValidDate
+                ? endDate.toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+                : 'No disponible';
+
+            container.innerHTML = `
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-surface-container-low rounded-xl border border-outline-variant">
+            <div>
+                <span class="font-label-bold uppercase text-on-surface-variant">Estado</span>
+                <p class="font-title-sm text-title-sm ${statusColor} flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">${status.status === 'active' ? 'check_circle' : status.status === 'trial' ? 'hourglass_top' : 'cancel'}</span>
+                    ${statusLabel}
+                </p>
+                ${isValidDate ? `<p class="text-body-sm text-on-surface-variant">${status.status === 'active' ? 'Válida hasta' : 'Prueba termina'}: ${formattedEndDate}</p>` : ''}
+            </div>
+            ${isActive && isValidDate ? `
+            <div class="w-full sm:w-48">
+                <div class="flex justify-between text-body-sm text-on-surface-variant">
+                    <span>Días restantes</span>
+                    <span class="font-bold text-on-surface">${daysLeft} días</span>
+                </div>
+                <div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden mt-1">
+                    <div class="h-full bg-primary transition-all duration-700" style="width:${Math.min(progressPercent, 100)}%"></div>
+                </div>
+            </div>` : ''}
+        </div>
+        <p class="text-body-sm text-on-surface-variant mt-2">
+            <span class="font-label-bold uppercase">Plan:</span> ${planName}
+        </p>
+    `;
+
+            loader.classList.add('hidden');
+            container.classList.remove('hidden');
+        }
+
+        // Cargar estado de membresía
+        async function loadMembership() {
+            const loader = document.getElementById('membership-loader');
+            const container = document.getElementById('membership-content');
+            try {
+                if (typeof window.SUBSCRIPTION === 'undefined' || !window.SUBSCRIPTION.getStatus) {
+                    throw new Error('Módulo de suscripción no disponible');
+                }
+                const status = await window.SUBSCRIPTION.getStatus();
+                currentSubscriptionStatus = status;
+                renderMembership(status);
+            } catch (error) {
+                console.error('[Settings] Error loading membership:', error);
+                loader.classList.add('hidden');
+                container.classList.remove('hidden');
+                container.innerHTML = `
+            <div class="flex items-center gap-4 p-4 bg-error-container/20 rounded-xl border border-error">
+                <span class="material-symbols-outlined text-error">error</span>
+                <div>
+                    <p class="font-title-sm text-title-sm text-error">Error al cargar la suscripción</p>
+                    <p class="text-body-sm text-on-surface-variant">${error.message || 'Intenta nuevamente más tarde.'}</p>
+                </div>
+            </div>
+        `;
+            }
+        }
+
+        // Cargar historial de comprobantes
+        async function loadVerificationHistory() {
+            const container = document.getElementById('history-list');
+            try {
+                const { data: { user } } = await window.suitSupabase.auth.getUser();
+                if (!user) {
+                    container.innerHTML = `<p class="text-body-sm text-on-surface-variant">Inicia sesión para ver tu historial.</p>`;
+                    return;
+                }
+
+                const { data, error } = await window.suitSupabase
+                    .from('payment_verifications')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = `
+                <div class="text-center py-6">
+                    <span class="material-symbols-outlined text-4xl text-on-surface-variant">inbox</span>
+                    <p class="text-body-sm text-on-surface-variant mt-2">No has enviado comprobantes aún.</p>
+                </div>
+            `;
+                    return;
+                }
+
+                container.innerHTML = data.map(item => {
+                    const statusBadge = item.status === 'verified'
+                        ? '<span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-bold rounded-full">Verificado</span>'
+                        : item.status === 'rejected'
+                            ? '<span class="px-2 py-0.5 bg-error-container text-error text-xs font-bold rounded-full">Rechazado</span>'
+                            : '<span class="px-2 py-0.5 bg-secondary-container text-secondary text-xs font-bold rounded-full">Pendiente</span>';
+                    const feedback = item.feedback_message ? `<p class="text-xs text-on-surface-variant mt-1">${item.feedback_message}</p>` : '';
+                    return `
+                <div class="flex justify-between items-start p-3 border-b border-outline-variant last:border-none">
+                    <div>
+                        <p class="font-data-mono text-data-mono text-primary">${item.transaction_id}</p>
+                        <p class="text-body-sm text-on-surface-variant">${new Date(item.payment_date).toLocaleDateString('es-ES')} · ${item.phone}</p>
+                        <p class="text-body-sm font-bold">$${item.amount.toFixed(2)}</p>
+                        ${feedback}
+                    </div>
+                    <div class="text-right">
+                        ${statusBadge}
+                        <p class="text-[10px] text-on-surface-variant mt-1">${new Date(item.created_at).toLocaleDateString('es-ES')}</p>
+                    </div>
+                </div>
+            `;
+                }).join('');
+            } catch (error) {
+                console.error('[Settings] Error cargando historial:', error);
+                container.innerHTML = `
+            <div class="text-center py-6">
+                <span class="material-symbols-outlined text-4xl text-error">error</span>
+                <p class="text-body-sm text-on-surface-variant mt-2">No se pudo cargar el historial. Intenta nuevamente.</p>
+            </div>
+        `;
+            }
+        }
+
+
+
+        // ========== REDIRECCIÓN A TRANSFERMÓVIL ==========
+        // Datos fijos extraídos de tu QR estático
+        const TM_PROVIDER_NUMBER = '6344376';  // tu número de proveedor
+        const TM_CURRENCY = 'CUP';      // moneda de tu QR
+        const TM_VERSION = '5';        // versión de tu QR
+        const TM_TITLE ='Suit-Mensual';
+        const TM_DESCRIPTION ='null';
+        const TM_EXTRA='doB96NZE7QN0TGX1Kg+5JLWx+hEcIB7ZnGscd2D5WpU=';
+
+        /**
+         * Genera un ID único de transacción y abre la app Transfermóvil.
+         * @param {number|string} amount - monto a pagar (ej: 500)
+         * @returns {string} el id_transaccion generado
+         */
+        function openTransfermovilPayment(amount) {
+            // ID único: SUIT + timestamp + 3 dígitos aleatorios
+            //const transactionId = 'SUIT' + Date.now() + Math.floor(Math.random() * 1000);
+            const transactionId = 'ESTATICO';
+
+            // Monto con 2 decimales obligatorios
+            const importe = Number(amount).toFixed(2);
+
+            // Construir deep link
+            const deepLink = 'transfermovil://tm_compra_en_linea/action'
+                + '?id_transaccion=' + encodeURIComponent(transactionId)
+                + '&importe=' + encodeURIComponent(importe)
+                + '&moneda=' + encodeURIComponent(TM_CURRENCY)
+                + '&numero_proveedor=' + encodeURIComponent(TM_PROVIDER_NUMBER)
+                + '&version=' + encodeURIComponent(TM_VERSION)
+                + '&titulo=' +
+encodeURIComponent (TM_TITLE)
+                + '&descripcion=' +
+encodeURIComponent (TM_DESCRIPTION)
+                + '&extra=' +
+encodeURIComponent (TM_EXTRA);
+
+            console.log('[Transfermóvil] Abriendo:', deepLink);
+
+            // Redirigir
+            window.location.href = deepLink;
+
+            return transactionId;
+        }
+
+
+
+
+        // Enviar comprobante
+        async function submitVerification(event) {
+            event.preventDefault();
+            const form = document.getElementById('payment-form');
+            const feedbackEl = document.getElementById('payment-feedback');
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            // Recoger datos
+            const planId = document.getElementById('payment-plan').value;
+            const paymentDate = document.getElementById('payment-date').value;
+            const phone = document.getElementById('payment-phone').value.trim();
+            const transactionId = document.getElementById('payment-transaction-id').value.trim();
+            const amount = parseFloat(document.getElementById('payment-amount').value);
+
+            // Validar monto contra plan seleccionado
+            const selectedPlan = availablePlans.find(p => p.id === planId);
+            if (selectedPlan && Math.abs(amount - selectedPlan.price) > 0.01) {
+                feedbackEl.className = 'p-3 rounded-lg bg-error-container text-on-error-container';
+                feedbackEl.textContent = `El monto debe ser $${selectedPlan.price.toFixed(2)} (precio del plan seleccionado).`;
+                feedbackEl.classList.remove('hidden');
+                return;
+            }
+
+            // Validaciones
+            if (!planId) {
+                feedbackEl.className = 'p-3 rounded-lg bg-error-container text-on-error-container';
+                feedbackEl.textContent = 'Selecciona un plan.';
+                feedbackEl.classList.remove('hidden');
+                return;
+            }
+            if (!paymentDate || !phone || !transactionId || isNaN(amount) || amount <= 0) {
+                feedbackEl.className = 'p-3 rounded-lg bg-error-container text-on-error-container';
+                feedbackEl.textContent = 'Completa todos los campos correctamente.';
+                feedbackEl.classList.remove('hidden');
+                return;
+            }
+
+            // Obtener user_id
+            const { data: { user } } = await window.suitSupabase.auth.getUser();
+            if (!user) {
+                feedbackEl.className = 'p-3 rounded-lg bg-error-container text-on-error-container';
+                feedbackEl.textContent = 'Debes iniciar sesión.';
+                feedbackEl.classList.remove('hidden');
+                return;
+            }
+
+            // Deshabilitar botón
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="material-symbols-outlined spinning">autorenew</span> Enviando...';
+
+            try {
+                const { data, error } = await window.suitSupabase.rpc('submit_payment_verification', {
+                    p_user_id: user.id,
+                    p_transaction_id: transactionId,
+                    p_amount: amount,
+                    p_phone: phone,
+                    p_payment_date: paymentDate,
+                    p_plan_id: planId
+                });
+
+                if (error) throw error;
+
+                // Mostrar feedback positivo
+                feedbackEl.className = 'p-3 rounded-lg bg-green-100 text-green-800';
+                feedbackEl.textContent = 'Comprobante enviado correctamente. Recibirás notificación cuando sea verificado.';
+                feedbackEl.classList.remove('hidden');
+
+                // Resetear formulario
+                // Dentro de submitVerification (después del éxito)
+                // En lugar de form.reset()
+                document.getElementById('payment-date').value = '';
+                document.getElementById('payment-phone').value = '';
+                document.getElementById('payment-transaction-id').value = '';
+                document.getElementById('payment-amount').value = '';
+                // El campo payment-plan NO se toca
+                // Recargar historial
+                await loadVerificationHistory();
+                // Recargar feedback del usuario
+                await loadUserFeedback();
+
+            } catch (err) {
+                console.error('Error enviando comprobante:', err);
+                feedbackEl.className = 'p-3 rounded-lg bg-error-container text-on-error-container';
+                feedbackEl.textContent = err.message || 'Error al enviar el comprobante. Intenta nuevamente.';
+                feedbackEl.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="material-symbols-outlined">send</span> Enviar Comprobante';
+            }
+        }
+
+        // Cargar feedback del usuario (mensajes)
+        async function loadUserFeedback() {
+            try {
+                const { data: { user } } = await window.suitSupabase.auth.getUser();
+                if (!user) return;
+
+                const { data, error } = await window.suitSupabase.rpc('get_user_feedback', { p_user_id: user.id });
+                if (error || !data || data.length === 0) return;
+
+                // Mostrar el primer mensaje no leído
+                const first = data[0];
+                showToast(first.message, first.type);
+
+                // Marcar como leídos (si falla, no importa)
+                try {
+                    await window.suitSupabase.rpc('mark_feedback_as_read', { p_user_id: user.id });
+                } catch (markError) {
+                    console.warn('[Settings] Could not mark feedback as read:', markError);
+                }
+            } catch (error) {
+                console.error('[Settings] Error loading feedback:', error);
+            }
+        }
+
+
+        /**
+ * Construye la URL de Transfermóvil SIN redirigir.
+ * @returns {{ transactionId: string, deepLink: string }}
+ */
+        function buildTransfermovilLink(amount) {
+            //const transactionId = 'SUIT' + Date.now() + Math.floor(Math.random() * 1000);
+            const transactionId = 'ESTATICO';
+            const importe = Number(amount).toFixed(2);
+
+            const deepLink = 'transfermovil://tm_compra_en_linea/action'
+                + '?id_transaccion=' + encodeURIComponent(transactionId)
+                + '&importe=' + encodeURIComponent(importe)
+                + '&moneda=' + encodeURIComponent(TM_CURRENCY)
+                + '&numero_proveedor=' + encodeURIComponent(TM_PROVIDER_NUMBER)
+                + '&version=' + encodeURIComponent(TM_VERSION);
+
+            return { transactionId, deepLink };
+        }
+
+        // Inicializar planes y UI de pago
+        async function initPaymentUI() {
+            // Cargar planes
+            availablePlans = await fetchPlans();
+            const planSelect = document.getElementById('payment-plan');
+            planSelect.innerHTML = '<option value="">Seleccionar plan...</option>';
+            availablePlans.forEach(plan => {
+                const opt = document.createElement('option');
+                opt.value = plan.id;
+                opt.textContent = `${plan.name} - $${plan.price} ${plan.currency || 'USD'}`;
+                planSelect.appendChild(opt);
+            });
+
+            // ✅ Seleccionar el primer plan por defecto
+            if (availablePlans.length > 0) {
+                planSelect.value = availablePlans[0].id;
+                const expected = document.getElementById('expected-amount');
+                expected.textContent = `$${availablePlans[0].price.toFixed(2)} (${availablePlans[0].name})`;
+            }
+
+            // Actualizar monto esperado al cambiar plan
+            planSelect.addEventListener('change', () => {
+                const selected = availablePlans.find(p => p.id === planSelect.value);
+                const expected = document.getElementById('expected-amount');
+                if (selected) {
+                    expected.textContent = `$${selected.price.toFixed(2)} (${selected.name})`;
+                } else {
+                    expected.textContent = '$500.00 (plan seleccionado)';
+                }
+            });
+
+
+            // 🔽 NUEVO: listener del botón "Pagar con Transfermóvil"
+            document.getElementById('tm-pay-btn')?.addEventListener('click', () => {
+                const planSelect = document.getElementById('payment-plan');
+                const selectedPlan = availablePlans.find(p => p.id === planSelect.value);
+
+                if (!selectedPlan) {
+                    alert('Selecciona un plan primero.');
+                    return;
+                }
+
+                // 1. Construir el link SIN redirigir todavía
+                const { deepLink } = buildTransfermovilLink(selectedPlan.price);
+
+                // 2. Rellenar solo el monto. El ID de transacción se deja vacío:
+                //    el usuario lo copiará desde la app Transfermóvil tras pagar.
+                //    ('ESTATICO' viaja únicamente en el deep link, nunca en el formulario)
+                document.getElementById('payment-amount').value = selectedPlan.price.toFixed(2);
+
+                // 3. Aviso al usuario
+                if (typeof showToast === 'function') {
+                    showToast('Abriendo Transfermóvil. Al terminar, vuelve e ingresa el ID de transacción.', 'info');
+                }
+
+                // 4. Redirigir DESPUÉS con un pequeño delay para que el DOM se actualice
+                setTimeout(() => {
+                    window.location.href = deepLink;
+                }, 300);
+            });
+
+
+            // Event listener del formulario
+            document.getElementById('payment-form').addEventListener('submit', submitVerification);
+        }
+
+
+        // ── TARJETA PÚBLICA DEL PROVEEDOR ─────────────────────────────
+        function addPcSocialRow(data = {}) {
+            const wrap = document.getElementById('pc-social-rows');
+            const row = document.createElement('div');
+            // Móvil/tablet: tarjeta apilada. Escritorio (lg): una sola fila.
+            row.className = 'pc-social-row grid grid-cols-[minmax(0,1fr)_auto] lg:grid-cols-[9rem_minmax(0,1fr)_minmax(0,2fr)_auto] gap-2 items-center p-3 lg:p-0 rounded-lg border border-outline-variant lg:border-0 bg-surface-container-low lg:bg-transparent';
+
+            const inputCls = 'w-full min-w-0 border border-outline-variant rounded-lg px-3 py-2 text-base lg:text-sm bg-white';
+
+            const select = document.createElement('select');
+            select.className = inputCls + ' pc-type col-start-1 row-start-1 lg:col-start-auto lg:row-start-auto';
+            select.setAttribute('aria-label', 'Tipo de enlace');
+            [['whatsapp', 'WhatsApp'], ['telegram', 'Telegram'], ['facebook', 'Facebook'],
+            ['instagram', 'Instagram'], ['other', 'Otro']].forEach(([v, t]) => {
+                const o = document.createElement('option');
+                o.value = v; o.textContent = t;
+                select.appendChild(o);
+            });
+
+            const label = document.createElement('input');
+            label.type = 'text';
+            label.placeholder = 'Etiqueta';
+            label.setAttribute('aria-label', 'Etiqueta del enlace');
+            label.className = inputCls + ' pc-label col-span-2 lg:col-span-1';
+            label.value = data.label || '';
+
+            const url = document.createElement('input');
+            url.type = 'url';
+            url.inputMode = 'url';
+            url.autocapitalize = 'off';
+            url.autocomplete = 'off';
+            url.spellcheck = false;
+            url.placeholder = 'https://...';
+            url.setAttribute('aria-label', 'Dirección del enlace');
+            url.className = inputCls + ' pc-url col-span-2 lg:col-span-1';
+            url.value = data.url || '';
+
+            const del = document.createElement('button');
+            del.type = 'button';
+            del.setAttribute('aria-label', 'Eliminar enlace');
+            del.className = 'col-start-2 row-start-1 lg:col-start-auto lg:row-start-auto justify-self-end p-2 text-error hover:bg-error-container rounded-full';
+            del.innerHTML = '<span class="material-symbols-outlined text-[20px]">delete</span>';
+            del.addEventListener('click', () => { row.remove(); });
+
+            row.append(select, label, url, del);
+            if (data.type) select.value = data.type;
+            wrap.appendChild(row);
+        }
+
+        async function loadMyProviderCard() {
+            const { data } = await window.suitSupabase.rpc('get_my_provider_card');
+            if (!data) return;
+            document.getElementById('pc-published').checked = !!data.is_published;
+            document.getElementById('pc-display-name').value = data.display_name || '';
+            document.getElementById('pc-company-info').value = data.company_info || '';
+            document.getElementById('pc-phone').value = data.phone || '';
+            document.getElementById('pc-whatsapp').value = data.whatsapp || '';
+            document.getElementById('pc-website').value = data.website || '';
+            document.getElementById('pc-tags').value = (data.tags || []).join(', ');
+            document.getElementById('pc-social-rows').innerHTML = '';
+            (data.social_links || []).forEach(d => addPcSocialRow(d));
+            if (typeof updateShareState === 'function') updateShareState();
+        }
+
+        // Devuelve '' si está vacío, null si no es http(s) válido, o la URL normalizada.
+        function normalizeUrl(raw) {
+            const v = (raw || '').trim();
+            if (!v) return '';
+            const withScheme = /^[a-z][a-z0-9+.-]*:/i.test(v) ? v : 'https://' + v;
+            try {
+                const u = new URL(withScheme);
+                if (u.protocol !== 'http:' && u.protocol !== 'https:') return null;
+                return u.toString();
+            } catch (_) {
+                return null;
+            }
+        }
+
+        async function saveMyProviderCard() {
+            const btn = document.getElementById('pc-save-btn');
+            const errEl = document.getElementById('pc-error');
+            const markInvalid = (el) => el.classList.add('border-error', 'ring-1', 'ring-error');
+
+            errEl.classList.add('hidden');
+            document.querySelectorAll('.pc-url, #pc-website').forEach(el =>
+                el.classList.remove('border-error', 'ring-1', 'ring-error'));
+
+            const socials = [];
+            let firstInvalid = null;
+            document.querySelectorAll('.pc-social-row').forEach(r => {
+                const urlEl = r.querySelector('.pc-url');
+                if (!urlEl.value.trim()) return;
+                const normalized = normalizeUrl(urlEl.value);
+                if (normalized === null) {
+                    markInvalid(urlEl);
+                    firstInvalid = firstInvalid || urlEl;
+                    return;
+                }
+                socials.push({
+                    type: r.querySelector('.pc-type').value,
+                    label: r.querySelector('.pc-label').value.trim(),
+                    url: normalized
+                });
+            });
+
+            const websiteEl = document.getElementById('pc-website');
+            const website = normalizeUrl(websiteEl.value);
+            if (website === null) {
+                markInvalid(websiteEl);
+                firstInvalid = firstInvalid || websiteEl;
+            }
+
+            if (firstInvalid) {
+                errEl.textContent = 'Revisa los enlaces marcados: deben ser direcciones web válidas (https://...).';
+                errEl.classList.remove('hidden');
+                firstInvalid.focus();
+                return;
+            }
+
+            const tags = document.getElementById('pc-tags').value
+                .split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+
+            btn.disabled = true;
+            try {
+                const { error } = await window.suitSupabase.rpc('upsert_my_provider_card', {
+                    p_display_name: document.getElementById('pc-display-name').value.trim() || null,
+                    p_avatar_url: currentAvatarUrl || null,
+                    p_company_info: document.getElementById('pc-company-info').value.trim(),
+                    p_phone: document.getElementById('pc-phone').value.trim(),
+                    p_whatsapp: document.getElementById('pc-whatsapp').value.trim(),
+                    p_website: website,
+                    p_social_links: socials,
+                    p_tags: tags,
+                    p_is_published: document.getElementById('pc-published').checked
+                });
+                if (error) throw error;
+            } catch (err) {
+                console.error('[Tarjeta pública] Error guardando:', err);
+                errEl.textContent = 'No se pudo guardar la tarjeta. Intenta nuevamente.';
+                errEl.classList.remove('hidden');
+                return;
+            } finally {
+                btn.disabled = false;
+            }
+
+            // Reflejar las URLs ya normalizadas en el formulario
+            websiteEl.value = website;
+            document.querySelectorAll('.pc-social-row .pc-url').forEach(el => {
+                const n = normalizeUrl(el.value);
+                if (n) el.value = n;
+            });
+            updateShareState();
+
+            const msg = document.getElementById('pc-saved-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 2500);
+        }
+
+        // Engancha al DOMContentLoaded existente:
+        document.addEventListener('DOMContentLoaded', async () => {
+            await new Promise(r => {
+                const i = setInterval(() => {
+                    if (window.suitSupabase && typeof loadProfile === 'function') { clearInterval(i); r(); }
+                }, 100);
+            });
+            // Mostrar la pestaña sólo a proveedores
+            const { data: prof } = await window.suitSupabase.rpc('get_my_profile');
+            const role = Array.isArray(prof) ? prof[0]?.role : prof?.role;
+            if (role === 'provider') {
+                await loadMyProviderCard();
+                document.getElementById('pc-save-btn')?.addEventListener('click', saveMyProviderCard);
+            } else {
+                document.getElementById('btn-public-card')?.classList.add('hidden');
+                document.querySelector('.tab-btn-mobile[data-tab="public-card"]')?.classList.add('hidden');
+            }
+        });
+
+
+
+        // ========== CERRAR VISTA (volver a la pantalla anterior) ==========
+        let currentRole = null;
+        const HOME_BY_ROLE = { manager: 'home-managers.html', provider: 'home-supplier.html' };
+        const HOME_FALLBACK = 'home-managers.html';
+
+        function closeSettingsView() {
+            let cameFromApp = false;
+            try {
+                if (document.referrer) {
+                    const ref = new URL(document.referrer);
+                    cameFromApp = ref.origin === window.location.origin
+                        && ref.pathname !== window.location.pathname
+                        && !/\/(login|signup)(\.html)?$/i.test(ref.pathname);
+                }
+            } catch (_) { /* referrer inválido: se usa el destino de respaldo */ }
+
+            if (cameFromApp && window.history.length > 1) {
+                window.history.back();
+                return;
+            }
+            // Sin historial útil (abierta directo, recargada o desde login): ir al inicio del rol
+            window.location.href = HOME_BY_ROLE[currentRole] || HOME_FALLBACK;
+        }
+        document.querySelectorAll('[data-close-view]').forEach(btn =>
+            btn.addEventListener('click', closeSettingsView));
+
+
+        // ========== QR DE PAGO POR PLAN ==========
+        // Los QR se guardan en una carpeta local del proyecto, uno por plan.
+        // Convención: /qr-planes/<nombre-del-plan-en-minusculas-con-guiones>.png
+        //   "Plan Mensual"  -> /qr-planes/plan-mensual.png
+        // Si algún archivo tiene otro nombre, mapéalo aquí por id o por slug del plan.
+        const PLAN_QR_FOLDER = '/qr-planes/';
+        const PLAN_QR_EXT = 'png';
+        const PLAN_QR_OVERRIDES = {
+            // 'plan-mensual': 'mensual.png',
+            // '<uuid-del-plan>': 'qr-especial.png'
+        };
+
+        function slugifyPlan(name) {
+            return String(name || '')
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
+
+        function getPlanQrSrc(plan) {
+            if (!plan) return null;
+            const slug = slugifyPlan(plan.name);
+            const file = PLAN_QR_OVERRIDES[plan.id] || PLAN_QR_OVERRIDES[slug] || `${slug}.${PLAN_QR_EXT}`;
+            return PLAN_QR_FOLDER + file;
+        }
+
+        function getSelectedPlan() {
+            const id = document.getElementById('payment-plan')?.value;
+            return availablePlans.find(p => p.id === id) || null;
+        }
+
+        function showPaymentNotice(message) {
+            const el = document.getElementById('payment-feedback');
+            if (!el) return;
+            el.className = 'p-3 rounded-lg bg-error-container text-on-error-container';
+            el.textContent = message;
+            setTimeout(() => el.classList.add('hidden'), 4000);
+        }
+
+        const qrModal = document.getElementById('qr-modal');
+        const qrImage = document.getElementById('qr-image');
+        const qrFallback = document.getElementById('qr-fallback');
+        const qrDownload = document.getElementById('qr-download');
+        let qrReturnFocus = null;
+
+        function openPlanQrModal() {
+            const plan = getSelectedPlan();
+            if (!plan) {
+                showPaymentNotice('Selecciona un plan para ver su QR.');
+                return;
+            }
+            const src = getPlanQrSrc(plan);
+
+            document.getElementById('qr-modal-plan').textContent =
+                `${plan.name} · $${Number(plan.price).toFixed(2)} ${plan.currency || 'USD'}`;
+
+            qrImage.classList.add('hidden');
+            qrFallback.classList.add('hidden');
+            qrDownload.classList.add('hidden');
+            qrDownload.classList.remove('inline-flex');
+
+            qrImage.onload = () => {
+                qrImage.classList.remove('hidden');
+                qrDownload.href = src;
+                qrDownload.download = `qr-${slugifyPlan(plan.name)}.${src.split('.').pop()}`;
+                qrDownload.classList.remove('hidden');
+                qrDownload.classList.add('inline-flex');
+            };
+            qrImage.onerror = () => {
+                console.warn('[QR] No se encontró el archivo del QR:', src);
+                qrImage.classList.add('hidden');
+                qrFallback.classList.remove('hidden');
+            };
+            qrImage.alt = `Código QR de pago del plan ${plan.name}`;
+            qrImage.src = src;
+
+            qrReturnFocus = document.activeElement;
+            qrModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+            document.getElementById('qr-modal-close').focus();
+        }
+
+        function closePlanQrModal() {
+            qrModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            qrImage.onload = qrImage.onerror = null;
+            if (qrReturnFocus && typeof qrReturnFocus.focus === 'function') qrReturnFocus.focus();
+        }
+
+        document.getElementById('tm-scan-btn')?.addEventListener('click', openPlanQrModal);
+        document.getElementById('qr-modal-close')?.addEventListener('click', closePlanQrModal);
+        qrModal?.addEventListener('click', (e) => { if (e.target === qrModal) closePlanQrModal(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && qrModal && !qrModal.classList.contains('hidden')) closePlanQrModal();
+        });
+
+        // "Ya pagué": cierra el modal, rellena el monto y lleva al campo del ID de transacción
+        document.getElementById('qr-paid-btn')?.addEventListener('click', () => {
+            const plan = getSelectedPlan();
+            const amountEl = document.getElementById('payment-amount');
+            if (plan && amountEl && !amountEl.value) amountEl.value = Number(plan.price).toFixed(2);
+            closePlanQrModal();
+            const tx = document.getElementById('payment-transaction-id');
+            if (tx) {
+                tx.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => tx.focus({ preventScroll: true }), 300);
+            }
+        });
+
+        // Precarga el QR del plan elegido (queda en caché del Service Worker para uso sin conexión)
+        document.getElementById('payment-plan')?.addEventListener('change', () => {
+            const plan = getSelectedPlan();
+            if (plan) { const img = new Image(); img.src = getPlanQrSrc(plan); }
+        });
+
+
+        // ========== PUBLICAR TARJETA EN REDES SOCIALES ==========
+        const APP_PUBLIC_URL = 'https://suit-cu.onrender.com';
+
+        // Enlace principal de Suit (sin parámetros)
+        function buildShareUrl() {
+            return APP_PUBLIC_URL;
+        }
+
+        function buildShareText() {
+            const name = document.getElementById('pc-display-name')?.value.trim()
+                || document.getElementById('profile-full-name')?.value.trim()
+                || 'Mi negocio';
+            let info = (document.getElementById('pc-company-info')?.value || '').trim().replace(/\s+/g, ' ');
+            if (info.length > 200) info = info.slice(0, 197).trimEnd() + '…';
+            return info ? `${name} — ${info}` : name;
+        }
+
+        // Enlaces de la tarjeta (sitio web + redes/grupos) tal como están en el formulario
+        function getShareLinks() {
+            const SOCIAL_NAMES = { whatsapp: 'WhatsApp', telegram: 'Telegram', facebook: 'Facebook', instagram: 'Instagram', other: 'Enlace' };
+            const links = [];
+            const seen = new Set();
+            const add = (label, raw) => {
+                const url = normalizeUrl(raw);
+                if (!url || seen.has(url)) return;
+                seen.add(url);
+                links.push({ label, url });
+            };
+            add('Sitio web', document.getElementById('pc-website')?.value);
+            document.querySelectorAll('.pc-social-row').forEach(r => {
+                const label = r.querySelector('.pc-label')?.value.trim()
+                    || SOCIAL_NAMES[r.querySelector('.pc-type')?.value] || 'Enlace';
+                add(label, r.querySelector('.pc-url')?.value);
+            });
+            return links;
+        }
+
+        // Descripción + enlaces de la tarjeta (sin el enlace a Suit)
+        function buildShareBody() {
+            const links = getShareLinks();
+            let body = buildShareText();
+            if (links.length) body += '\n\n' + links.map(l => `${l.label}: ${l.url}`).join('\n');
+            return body;
+        }
+
+        // Mensaje completo: descripción + enlaces de la tarjeta + enlace a Suit
+        function buildShareMessage() {
+            return `${buildShareBody()}\n\nEncuéntranos en Suit: ${buildShareUrl()}`;
+        }
+
+        function flashShareFeedback(message) {
+            const el = document.getElementById('pc-share-feedback');
+            if (!el) return;
+            el.textContent = message;
+            el.classList.remove('hidden');
+            clearTimeout(flashShareFeedback._t);
+            flashShareFeedback._t = setTimeout(() => el.classList.add('hidden'), 2200);
+        }
+
+        async function copyToClipboard(text) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                    return true;
+                }
+            } catch (_) { /* cae al método alternativo */ }
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+            document.body.appendChild(ta);
+            ta.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch (_) { ok = false; }
+            ta.remove();
+            return ok;
+        }
+
+        function updateShareState() {
+            const published = !!document.getElementById('pc-published')?.checked;
+            const preview = document.getElementById('pc-share-preview');
+            const link = document.getElementById('pc-share-link');
+            if (preview) preview.textContent = buildShareMessage();
+            if (link) link.value = buildShareUrl();
+
+            ['pc-share-facebook', 'pc-share-native', 'pc-share-copy-text', 'pc-share-copy-link']
+                .forEach(id => { const b = document.getElementById(id); if (b) b.disabled = !published; });
+
+            const hint = document.getElementById('pc-share-hint');
+            if (hint) {
+                hint.textContent = published
+                    ? 'Facebook puede ignorar el texto y mostrar solo la vista previa del enlace. Usa «Copiar mensaje» para pegar la descripción con todos tus enlaces.'
+                    : 'Activa «Publicar» en la parte superior y guarda tu tarjeta para poder compartirla.';
+            }
+        }
+
+        function shareOnFacebook() {
+            const fbUrl = 'https://www.facebook.com/sharer/sharer.php?u='
+                + encodeURIComponent(buildShareUrl())
+                + '&quote=' + encodeURIComponent(buildShareBody());
+            window.open(fbUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        document.getElementById('pc-share-facebook')?.addEventListener('click', shareOnFacebook);
+
+        document.getElementById('pc-share-copy-link')?.addEventListener('click', async () => {
+            const ok = await copyToClipboard(buildShareUrl());
+            flashShareFeedback(ok ? 'Enlace copiado' : 'No se pudo copiar. Selecciona el enlace y cópialo manualmente.');
+        });
+
+        document.getElementById('pc-share-copy-text')?.addEventListener('click', async () => {
+            const ok = await copyToClipboard(buildShareMessage());
+            flashShareFeedback(ok ? 'Mensaje copiado' : 'No se pudo copiar el mensaje.');
+        });
+
+        if (navigator.share) {
+            const nativeBtn = document.getElementById('pc-share-native');
+            nativeBtn?.classList.remove('hidden');
+            nativeBtn?.addEventListener('click', async () => {
+                try {
+                    await navigator.share({
+                        title: 'Suit',
+                        text: buildShareBody(),
+                        url: buildShareUrl()
+                    });
+                } catch (err) {
+                    if (err && err.name !== 'AbortError') console.warn('[Compartir] Error:', err);
+                }
+            });
+        }
+
+        document.getElementById('pc-share-link')?.addEventListener('focus', (e) => e.target.select());
+        document.getElementById('pc-published')?.addEventListener('change', updateShareState);
+        ['pc-display-name', 'pc-company-info', 'pc-website'].forEach(id =>
+            document.getElementById(id)?.addEventListener('input', updateShareState));
+        const pcSocialWrap = document.getElementById('pc-social-rows');
+        pcSocialWrap?.addEventListener('input', updateShareState);
+        if (pcSocialWrap) new MutationObserver(updateShareState).observe(pcSocialWrap, { childList: true });
+        updateShareState();
+
+
+        // ========== INICIALIZACIÓN ==========
+        // Añadir al DOMContentLoaded existente
+        document.addEventListener('DOMContentLoaded', async () => {
+
+
+            // Esperar a que los scripts defer se carguen
+            await new Promise(resolve => {
+                if (window.suitSupabase && window.SUBSCRIPTION) resolve();
+                else {
+                    const check = setInterval(() => {
+                        if (window.suitSupabase && window.SUBSCRIPTION) {
+                            clearInterval(check);
+                            resolve();
+                        }
+                    }, 100);
+                }
+            });
+
+            await loadProfile();
+
+            // Verificar si SUBSCRIPTION está disponible en window
+            if (typeof window.SUBSCRIPTION !== 'undefined') {
+                await window.SUBSCRIPTION.init();
+            } else {
+                console.warn('SUBSCRIPTION no cargado.');
+            }
+
+            // Cargar UI de suscripción al hacer clic en facturación
+            document.querySelector('#btn-billing')?.addEventListener('click', async () => {
+                await loadMembership();
+                await loadVerificationHistory();
+                await loadUserFeedback();
+            });
+
+            // Si la pestaña de facturación está activa por defecto, cargar
+            // (puedes comprobarlo con la clase active)
+            if (document.getElementById('btn-billing')?.classList.contains('active')) {
+                await loadMembership();
+                await loadVerificationHistory();
+                await loadUserFeedback();
+            }
+
+            // Inicializar UI de pago (planes, formulario)
+            await initPaymentUI();
+
+            // ---- NUEVO: Si la pestaña de facturación está activa, cargar datos ----
+            const billingBtn = document.getElementById('btn-billing');
+            if (billingBtn && billingBtn.classList.contains('active')) {
+                await loadMembership();
+                await loadVerificationHistory();
+                await loadUserFeedback();
+            }
+
+        });
+
+
+    </script>
+
+
+</body>
+
+</html>

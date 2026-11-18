@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Historial de Vales - Suit</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="subscription.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#d5e3fd",
+                        "primary": "#004ac6",
+                        "tertiary": "#943700",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary-fixed": "#00174b",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "error-container": "#ffdad6",
+                        "background": "#f7f9fb",
+                        "inverse-primary": "#b4c5ff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#2563eb",
+                        "outline-variant": "#c3c6d7",
+                        "surface-container": "#eceef0",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "outline": "#737686",
+                        "on-tertiary-container": "#ffede6",
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface-tint": "#0053db",
+                        "primary-fixed": "#dbe1ff",
+                        "surface-variant": "#e0e3e5",
+                        "surface": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary": "#515f74",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#bc4800",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#434655",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-surface": "#191c1e",
+                        "on-primary-container": "#eeefff",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-container": "#57657b",
+                        "secondary-fixed": "#d5e3fd",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "base": "4px",
+                        "stack-sm": "8px",
+                        "container-padding": "24px",
+                        "stack-lg": "32px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spinning {
+            display: inline-block;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* action dropdown */
+        .action-menu {
+            transform-origin: top right;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+        }
+
+        .action-menu.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+            display: block !important;
+            visibility: hidden;
+        }
+
+        .action-menu.open {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        /* Detail drawer slide */
+        #voucher-detail .drawer-panel {
+            transition: transform 0.3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        /* Toast */
+        #toast {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #toast.gone {
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="flex min-h-screen overflow-x-hidden w-full">
+
+    <!-- ── SideNavBar ────────────────────────────────────────── -->
+    <aside
+        class="fixed left-0 top-0 h-screen w-64 bg-surface border-r border-outline-variant flex flex-col py-stack-lg z-40 hidden md:flex">
+        <div class="px-6 mb-10">
+            <h2 class="font-headline-md text-headline-md font-bold text-primary">Suit</h2>
+            <p class="text-[10px] text-on-surface-variant leading-none uppercase tracking-widest">Panel de Proveedor</p>
+        </div>
+        <nav class="flex-1 space-y-1 px-3">
+            <a class="flex items-center gap-3 px-3 py-2 text-on-secondary-fixed-variant hover:bg-surface-container-highest rounded-lg transition-all text-label-bold font-label-bold group"
+                href="home-supplier.html">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">dashboard</span>
+                <span>Panel</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container rounded-lg transition-all text-label-bold font-label-bold group"
+                href="histori-vouche-receive.html">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">receipt_long</span>
+                <span>Historial de Vales</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-on-secondary-fixed-variant hover:bg-surface-container-highest rounded-lg transition-all text-label-bold font-label-bold group"
+                href="manage-managers.html">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">handshake</span>
+                <span>Gestores</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-on-secondary-fixed-variant hover:bg-surface-container-highest rounded-lg transition-all text-label-bold font-label-bold group"
+                href="settings.html">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+                <span>Ajustes</span>
+            </a>
+        </nav>
+        <div class="px-6 pt-6 mt-auto border-t border-outline-variant">
+            <div class="flex items-center gap-3">
+                <div id="sidebar-avatar"
+                    class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-sm overflow-hidden">
+                    <span id="sidebar-initials">--</span>
+                </div>
+                <div>
+                    <p id="sidebar-name" class="font-label-bold text-label-bold text-on-surface">Cargando...</p>
+                    <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Proveedor</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ── Main ─────────────────────────────────────────────── -->
+    <main class="md:ml-64 flex-1 flex flex-col min-h-screen min-w-0 overflow-x-hidden">
+
+        <!-- TopBar -->
+        <header
+            class="sticky top-0 z-30 flex justify-between items-center px-container-padding h-16 bg-surface border-b border-outline-variant">
+            <div class="flex items-center gap-4">
+                <!-- mobile menu trigger -->
+                <button class="md:hidden p-2 text-on-surface-variant hidden" onclick="openMobileSidebar()">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <div class="relative hidden sm:block">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input id="top-search"
+                        class="pl-10 pr-4 py-1.5 rounded-lg border border-outline bg-surface-container-low text-body-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-64"
+                        placeholder="Buscar..." type="text" />
+                </div>
+            </div>
+            <div class="flex items-center gap-stack-md">
+                <button
+                    class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-all hidden">notifications</button>
+                <div id="header-avatar-wrap"
+                    class="w-8 h-8 rounded-full border border-outline-variant overflow-hidden flex items-center justify-center bg-primary-container text-on-primary-container text-xs font-bold">
+                    <span id="header-initials">--</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="p-container-padding flex-1 max-w-[1440px] mx-auto w-full overflow-x-hidden"
+            style="padding-bottom:6rem;">
+
+            <!-- Page header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-lg">
+                <div>
+                    <h1 class="font-display-lg text-display-lg text-on-surface">Historial de Vales</h1>
+                    <p class="text-on-surface-variant text-body-md">Gestión y seguimiento de transacciones de vales.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                    <button onclick="exportCSV()"
+                        class="bg-surface-container-low border border-outline px-4 py-2 rounded text-label-bold text-on-surface hover:bg-surface-container-highest transition-all flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">download</span> Exportar CSV
+                    </button>
+                    <button onclick="exportPDF()" data-premium="pdf_export"
+                        class="bg-primary text-on-primary px-4 py-2 rounded text-label-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span> Exportar PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md mb-stack-lg">
+                <div
+                    class="bg-surface-container-lowest p-stack-md rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+                    <div
+                        class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="flex justify-between items-start z-10">
+                        <span class="text-label-bold text-on-surface-variant">Vales Pendientes</span>
+                        <span
+                            class="material-symbols-outlined text-primary bg-primary/10 p-1.5 rounded-lg">pending_actions</span>
+                    </div>
+                    <div class="z-10">
+                        <span id="stat-pending" class="text-headline-md font-headline-md">—</span>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="text-[10px] text-on-surface-variant">en revisión</span>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="bg-surface-container-lowest p-stack-md rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+                    <div
+                        class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary/5 rounded-full group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="flex justify-between items-start z-10">
+                        <span class="text-label-bold text-on-surface-variant">Volumen Mensual</span>
+                        <span
+                            class="material-symbols-outlined text-tertiary bg-tertiary/10 p-1.5 rounded-lg">payments</span>
+                    </div>
+                    <div class="z-10">
+                        <span id="stat-volume" class="text-headline-md font-headline-md">—</span>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="text-[10px] text-on-surface-variant">este mes</span>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="bg-surface-container-lowest p-stack-md rounded-xl border border-outline-variant shadow-sm flex flex-col justify-between h-32 relative overflow-hidden group">
+                    <div
+                        class="absolute -right-4 -top-4 w-24 h-24 bg-secondary-container/30 rounded-full group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="flex justify-between items-start z-10">
+                        <span class="text-label-bold text-on-surface-variant">Tasa de Aprobación</span>
+                        <span
+                            class="material-symbols-outlined text-on-secondary-container bg-secondary-container p-1.5 rounded-lg">verified</span>
+                    </div>
+                    <div class="z-10">
+                        <span id="stat-approval" class="text-headline-md font-headline-md">—</span>
+                        <div class="flex items-center gap-1 mt-1">
+                            <span class="text-[10px] text-primary font-bold flex items-center">
+                                <span class="material-symbols-outlined text-[12px]">check_circle</span> Meta: 90%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-t-xl p-stack-md border-b-0">
+                <div class="flex flex-col lg:flex-row items-stretch lg:items-end gap-stack-md flex-wrap">
+                    <div class="relative w-full lg:w-80">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+                        <input id="filter-search"
+                            class="w-full pl-10 pr-4 py-2 rounded-lg border border-outline bg-surface text-body-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                            placeholder="Buscar por ID, Cliente o Manager..." type="text" />
+                    </div>
+                    <div class="flex flex-col gap-1 w-full lg:w-auto">
+                        <label
+                            class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Gestor</label>
+                        <select id="filter-manager"
+                            class="bg-surface border border-outline rounded-lg text-body-sm px-3 py-2 focus:ring-2 focus:ring-primary outline-none w-full lg:min-w-[180px]">
+                            <option value="">Todos los Gestores</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1 w-full lg:w-auto">
+                        <label
+                            class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Desde</label>
+                        <input id="filter-date-from" type="date"
+                            class="bg-surface border border-outline rounded-lg text-body-sm px-3 py-2 focus:ring-2 focus:ring-primary outline-none w-full" />
+                    </div>
+                    <div class="flex flex-col gap-1 w-full lg:w-auto">
+                        <label
+                            class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Hasta</label>
+                        <input id="filter-date-to" type="date"
+                            class="bg-surface border border-outline rounded-lg text-body-sm px-3 py-2 focus:ring-2 focus:ring-primary outline-none w-full" />
+                    </div>
+                    <div class="flex flex-col gap-1 w-full lg:w-auto">
+                        <label
+                            class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Estado</label>
+                        <select id="filter-status"
+                            class="bg-surface border border-outline rounded-lg text-body-sm px-3 py-2 focus:ring-2 focus:ring-primary outline-none w-full">
+                            <option value="">Todos los Estados</option>
+                            <option value="pending">Pendiente</option>
+                            <option value="approved">Aprobado</option>
+                            <option value="rejected">Rechazado</option>
+                            <option value="cancelled">Cancelado</option>
+                        </select>
+                    </div>
+                    <button onclick="applyFilters()"
+                        class="bg-primary text-on-primary px-4 py-2 rounded-lg text-label-bold hover:bg-primary/90 transition-all flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[18px]">filter_alt</span> Filtrar
+                    </button>
+                    <button onclick="clearFilters()"
+                        class="text-primary hover:bg-primary/5 px-3 py-2 rounded-lg text-label-bold transition-all flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[18px]">filter_alt_off</span> Limpiar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div
+                class="bg-surface-container-lowest border border-outline-variant rounded-b-xl overflow-hidden shadow-sm">
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse min-w-[900px]">
+                        <thead>
+                            <tr class="bg-surface-container-low border-b border-outline-variant">
+                                <th class="px-6 py-4 text-label-bold text-on-surface-variant uppercase">Fecha</th>
+                                <th class="px-6 py-4 text-label-bold text-on-surface-variant uppercase">ID Vale</th>
+                                <th class="px-6 py-4 text-label-bold text-on-surface-variant uppercase">Manager</th>
+                                <th class="px-6 py-4 text-label-bold text-on-surface-variant uppercase">Cliente</th>
+                                <th class="px-6 py-4 text-label-bold text-on-surface-variant uppercase">Producto</th>
+                                <th class="px-6 py-4 text-label-bold text-on-surface-variant uppercase text-right">Monto
+                                </th>
+                                <th class="px-6 py-4 text-label-bold text-on-surface-variant uppercase">Estado</th>
+                                <th class="px-6 py-4 text-label-bold text-on-surface-variant uppercase text-center">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-tbody" class="divide-y divide-outline-variant">
+                            <tr id="table-loading-row">
+                                <td colspan="8" class="px-6 py-14 text-center text-on-surface-variant">
+                                    <span
+                                        class="material-symbols-outlined spinning text-primary text-3xl block mx-auto mb-2">sync</span>
+                                    Cargando historial...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Pagination -->
+                <div
+                    class="px-6 py-4 bg-surface-container-low border-t border-outline-variant flex items-center justify-between flex-wrap gap-3">
+                    <span id="pagination-info" class="text-body-sm text-on-surface-variant">—</span>
+                    <div id="pagination-controls" class="flex items-center gap-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer
+            class="w-full py-stack-lg px-container-padding flex justify-between items-center bg-surface border-t border-outline-variant"
+            style="margin-bottom:5rem;">
+            <span class="text-label-bold font-label-bold text-on-surface-variant">© 2026 Pixel Logic Solutions. Todos los derechos
+                reservados.</span>
+        </footer>
+    </main>
+
+    <!-- Mobile overlay -->
+    <div id="mobileOverlay" class="md:hidden fixed inset-0 bg-on-background/40 backdrop-blur-sm z-40 hidden"
+        onclick="closeMobileSidebar()"></div>
+    <!-- Mobile sidebar (reuse aside) -->
+
+    <!-- ── VOUCHER DETAIL MODAL ──────────────────────────────── -->
+    <div class="fixed inset-0 z-[60] hidden" id="voucher-detail">
+        <div class="absolute inset-0 bg-on-background/40 backdrop-blur-sm" onclick="closeDetail()"></div>
+        <div
+            class="drawer-panel absolute right-0 top-0 h-screen w-full max-w-2xl bg-surface shadow-2xl flex flex-col transform translate-x-full">
+            <div class="p-4 md:p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-background text-xl md:text-2xl">
+                        Detalles del Vale <span id="detail-id-label" class="text-primary"></span>
+                    </h3>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Información completa del vale procesado
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span id="detail-status-badge" class="px-2 py-1 text-[11px] font-bold rounded uppercase"></span>
+                    <button class="p-2 hover:bg-surface-container rounded-full" onclick="closeDetail()">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 md:space-y-8 custom-scrollbar">
+                <!-- ID Documentation -->
+                <section>
+                    <h4 class="font-title-sm text-title-sm text-primary mb-3 md:mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined">fingerprint</span> Documentación del Cliente
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <span
+                                class="font-label-bold text-label-bold text-on-surface-variant uppercase">Identificación
+                                (Anverso)</span>
+                            <div id="detail-front-id"
+                                class="aspect-[1.6/1] bg-surface-variant rounded-lg overflow-hidden border border-outline-variant relative cursor-zoom-in group">
+                                <div class="w-full h-full flex items-center justify-center text-on-surface-variant">
+                                    <span class="material-symbols-outlined text-3xl">image_not_supported</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <span
+                                class="font-label-bold text-label-bold text-on-surface-variant uppercase">Identificación
+                                (Reverso)</span>
+                            <div id="detail-back-id"
+                                class="aspect-[1.6/1] bg-surface-variant rounded-lg overflow-hidden border border-outline-variant relative cursor-zoom-in group">
+                                <div class="w-full h-full flex items-center justify-center text-on-surface-variant">
+                                    <span class="material-symbols-outlined text-3xl">image_not_supported</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Product Breakdown -->
+                <section>
+                    <h4 class="font-title-sm text-title-sm text-primary mb-3 md:mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined">inventory_2</span> Desglose del Producto
+                    </h4>
+                    <div class="bg-surface-container-low rounded-xl border border-outline-variant overflow-hidden">
+                        <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-y-4">
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Producto
+                                </p>
+                                <p id="detail-product" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Cliente</p>
+                                <p id="detail-client" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Teléfono
+                                </p>
+                                <p id="detail-phone" class="font-data-mono text-data-mono text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Dirección
+                                </p>
+                                <p id="detail-address" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Correo</p>
+                                <p id="detail-email" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                            <div>
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Manager</p>
+                                <p id="detail-manager" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                            <div class="sm:col-span-2">
+                                <p class="font-label-bold text-label-bold text-on-surface-variant uppercase">Notas</p>
+                                <p id="detail-notes" class="font-body-md text-body-md text-on-surface">—</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Financials -->
+                <section>
+                    <h4 class="font-title-sm text-title-sm text-primary mb-3 md:mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined">account_balance_wallet</span> Resumen Financiero
+                    </h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center py-2 border-b border-outline-variant">
+                            <span class="font-body-md text-body-md text-on-surface">Precio Base</span>
+                            <span id="detail-base" class="font-data-mono text-data-mono text-on-surface">—</span>
+                        </div>
+                        <div class="flex justify-between items-center py-2 border-b border-outline-variant">
+                            <span class="font-body-md text-body-md text-on-surface">Comisión</span>
+                            <span id="detail-commission" class="font-data-mono text-data-mono text-on-surface">—</span>
+                        </div>
+                        <div class="flex justify-between items-center py-4">
+                            <span class="font-title-sm text-title-sm text-on-surface">Total del Vale</span>
+                            <span id="detail-total"
+                                class="font-display-lg text-display-lg text-primary text-2xl md:text-3xl">—</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- Footer — read-only info + share/download actions -->
+            <div
+                class="p-4 md:p-6 border-t border-outline-variant bg-surface-container-low flex flex-col sm:flex-row gap-3">
+                <button onclick="downloadDetailTxt()"
+                    class="py-3 px-5 border border-outline-variant text-on-surface font-bold rounded-lg hover:bg-surface-container transition-all flex items-center justify-center gap-2 w-full sm:w-auto">
+                    <span class="material-symbols-outlined text-xl">description</span> Descargar TXT
+                </button>
+                <button onclick="shareVoucher()"
+                    class="py-3 px-5 bg-primary text-on-primary font-bold rounded-lg hover:bg-primary/90 transition-all flex items-center justify-center gap-2 flex-1">
+                    <span class="material-symbols-outlined text-xl">share</span> Compartir Vale
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── TOAST ─────────────────────────────────────────────── -->
+    <div id="toast"
+        class="fixed bottom-24 md:bottom-6 left-1/2 -translate-x-1/2 z-[100] px-5 py-3 rounded-xl font-label-bold text-label-bold shadow-lg gone flex items-center gap-2 bg-on-surface text-inverse-on-surface">
+    </div>
+
+       <!-- ── Mobile Bottom Nav ─────────────────────────────────── -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant z-50 flex items-center justify-around h-16 px-2">
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant relative" href="home-supplier.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span>
+            <span
+                class="nav-badge-messages-dot hidden absolute top-0 right-3 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface"></span>
+            <span class="text-[10px] font-bold">Panel</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-primary" href="histori-vouche-receive.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">receipt_long</span>
+            <span class="text-[10px] font-bold">Historial</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="manage-managers.html">
+            <span class="material-symbols-outlined">handshake</span>
+            <span class="text-[10px]">Gestores</span>
+        </a>
+          <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="financial-books.html">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">menu_book</span>
+            <span class="text-[10px] font-bold">Libros</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="settings.html">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="text-[10px]">Ajustes</span>
+        </a>
+    </nav>
+
+    <script src="loading-overlay.js" data-message="Cargando..." data-icon="autorenew" data-min-time="300"></script>
+
+    <!-- ════════════════════════════════════════════════════════
+         JAVASCRIPT
+    ════════════════════════════════════════════════════════ -->
+    <script>
+        // ── Supabase ─────────────────────────────────────────────
+        const SUPABASE_URL = 'https://szerfamhvpkbbkrbnxpr.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_XmTLkx14AFr9znbfA1hxew_9ftQimrm';
+        const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+        });
+
+        window.suitSupabase = db;
+        
+        // ── State ────────────────────────────────────────────────
+        let currentProfile = null;
+        let allRows = [];        // current page rows
+        let totalCount = 0;
+        let currentPage = 1;
+        const PAGE_SIZE = 20;
+        let activeVoucher = null;      // voucher object shown in detail drawer
+
+        // ── Helpers ──────────────────────────────────────────────
+        const fmt = n => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(n);
+        const fmtDate = iso => iso ? new Date(iso).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+        const initials = name => (name || '??').trim().split(/\s+/).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+        const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            const colors = { info: 'bg-on-surface text-inverse-on-surface', success: 'bg-primary text-on-primary', error: 'bg-error text-on-error' };
+            const icons = { info: 'info', success: 'check_circle', error: 'error' };
+            t.className = `fixed bottom-24 md:bottom-6 left-1/2 -translate-x-1/2 z-[100] px-5 py-3 rounded-xl font-label-bold text-label-bold shadow-lg flex items-center gap-2 ${colors[type]}`;
+            t.innerHTML = `<span class="material-symbols-outlined text-lg">${icons[type]}</span>${msg}`;
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.add('gone'), 3500);
+        }
+
+        // Las imágenes de identificación viven en un bucket privado ('vouches').
+        // Se genera una URL firmada de corta duración bajo demanda, en vez de
+        // exponer una URL pública permanente y adivinable.
+        const VOUCHER_IMAGES_BUCKET = 'vouches';
+        const SIGNED_URL_TTL = 300; // segundos (5 minutos)
+
+        async function getVoucherImageUrl(path) {
+            if (!path) return null;
+            // Compatibilidad con registros antiguos que aún tengan una URL pública guardada
+            if (path.startsWith('http')) return path;
+            const { data, error } = await db.storage
+                .from(VOUCHER_IMAGES_BUCKET)
+                .createSignedUrl(path, SIGNED_URL_TTL);
+            if (error) {
+                console.warn('[Storage] No se pudo generar URL firmada:', error);
+                return null;
+            }
+            return data?.signedUrl ?? null;
+        }
+
+        // ── Status badge ─────────────────────────────────────────
+        const STATUS_MAP = {
+            pending: { label: 'Pendiente', cls: 'bg-amber-100 text-amber-700' },
+            approved: { label: 'Aprobado', cls: 'bg-green-100 text-green-700' },
+            rejected: { label: 'Rechazado', cls: 'bg-red-100 text-red-700' },
+            cancelled: { label: 'Cancelado', cls: 'bg-surface-container-high text-on-surface-variant' },
+        };
+        function statusBadge(status) {
+            const s = STATUS_MAP[status] || { label: status, cls: 'bg-surface-container text-on-surface-variant' };
+            return `<span class="px-3 py-1 rounded-full text-[11px] font-bold flex items-center w-fit gap-1 uppercase tracking-wide ${s.cls}">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current opacity-70"></span> ${s.label}
+                </span>`;
+        }
+
+        // ── Auth + Boot ──────────────────────────────────────────
+        async function init() {
+            const { data: { session } } = await db.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            const { data: profile } = await db.from('profiles').select('*').eq('id', session.user.id).single();
+            if (!profile || profile.role !== 'provider') { window.location.href = 'home-supplier.html'; return; }
+
+
+            // Inicializar sistema premium (para futuros elementos con data-premium)
+            if (window.SUBSCRIPTION) {
+                await window.SUBSCRIPTION.init();
+            } else {
+                console.warn('SUBSCRIPTION no cargado.');
+            }
+
+            currentProfile = profile;
+            renderProfileUI(profile);
+            await Promise.all([loadStats(), loadManagers(), loadHistory()]);
+await loadUnreadCounts();
+            subscribeToGlobalMessageBadges();
+            setupFilterListeners();
+        }
+
+        function renderProfileUI(p) {
+            const ini = initials(p.full_name);
+            document.getElementById('sidebar-name').textContent = p.full_name || p.email;
+            document.getElementById('sidebar-initials').textContent = ini;
+            document.getElementById('header-initials').textContent = ini;
+            if (p.avatar_url) {
+                document.getElementById('sidebar-avatar').innerHTML = `<img src="${p.avatar_url}" class="w-full h-full object-cover"/>`;
+                document.getElementById('header-avatar-wrap').innerHTML = `<img src="${p.avatar_url}" class="w-full h-full object-cover"/>`;
+            }
+        }
+
+        // ── Stats ────────────────────────────────────────────────
+        async function loadStats() {
+            const { data } = await db.rpc('get_history_stats_for_provider');
+            if (!data) return;
+            document.getElementById('stat-pending').textContent = data.pending_count ?? '—';
+            document.getElementById('stat-volume').textContent = data.monthly_volume != null ? fmt(data.monthly_volume) : '—';
+            document.getElementById('stat-approval').textContent = data.approval_rate != null ? `${data.approval_rate}%` : '—';
+        }
+
+        // ── Linked managers (for filter select) ─────────────────
+        async function loadManagers() {
+            const { data } = await db.rpc('get_linked_managers_for_provider');
+            if (!data?.length) return;
+            const sel = document.getElementById('filter-manager');
+            data.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m.manager_id;
+                opt.textContent = m.manager_name;
+                sel.appendChild(opt);
+            });
+        }
+
+        // ── History load ─────────────────────────────────────────
+        function getFilters() {
+            return {
+                p_search: document.getElementById('filter-search').value.trim() || null,
+                p_manager_id: document.getElementById('filter-manager').value || null,
+                p_date_from: document.getElementById('filter-date-from').value || null,
+                p_date_to: document.getElementById('filter-date-to').value || null,
+                p_status: document.getElementById('filter-status').value || null,
+                p_page: currentPage,
+                p_page_size: PAGE_SIZE,
+            };
+        }
+
+        async function loadHistory() {
+            const tbody = document.getElementById('history-tbody');
+            tbody.innerHTML = `<tr><td colspan="8" class="px-6 py-14 text-center text-on-surface-variant">
+            <span class="material-symbols-outlined spinning text-primary text-3xl block mx-auto mb-2">sync</span>Cargando...
+        </td></tr>`;
+
+            const filters = getFilters();
+            const { data, error } = await db.rpc('get_voucher_history_for_provider', filters);
+
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="8" class="px-6 py-10 text-center text-error font-body-sm">Error al cargar historial</td></tr>`;
+                console.error(error);
+                return;
+            }
+
+            allRows = data ?? [];
+            totalCount = allRows.length > 0 ? Number(allRows[0].total_count) : 0;
+
+            renderTable();
+            renderPagination();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('history-tbody');
+            if (!allRows.length) {
+                tbody.innerHTML = `<tr><td colspan="8" class="px-6 py-16 text-center">
+                <span class="material-symbols-outlined text-4xl text-on-surface-variant block mx-auto mb-3">inbox</span>
+                <p class="text-on-surface-variant font-body-md">Sin resultados para los filtros aplicados</p>
+            </td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = allRows.map(v => {
+                const ini = initials(v.manager_name);
+                const avatarHtml = v.manager_avatar
+                    ? `<img src="${v.manager_avatar}" class="w-6 h-6 rounded-full object-cover" alt="${esc(v.manager_name)}"/>`
+                    : `<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center text-[10px] font-bold text-on-secondary-container">${ini}</div>`;
+
+                return `
+            <tr class="hover:bg-surface-container-low transition-colors group cursor-pointer" onclick="openDetail('${v.id}')">
+                <td class="px-6 py-4 text-body-sm font-medium whitespace-nowrap">${fmtDate(v.sent_at || v.created_at)}</td>
+                <td class="px-6 py-4 text-data-mono font-data-mono text-primary whitespace-nowrap">${esc(v.voucher_number)}</td>
+                <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                        ${avatarHtml}
+                        <span class="text-body-sm whitespace-nowrap">${esc(v.manager_name)}</span>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-body-sm">${esc(v.client_name)}</td>
+                <td class="px-6 py-4 text-body-sm">${esc(v.product_name)}</td>
+                <td class="px-6 py-4 text-body-sm font-semibold text-right whitespace-nowrap">${fmt(v.total_amount)}</td>
+                <td class="px-6 py-4">${statusBadge(v.status)}</td>
+                <td class="px-6 py-4" onclick="event.stopPropagation()">
+                    <div class="flex items-center justify-center gap-1">
+                        <button title="Ver detalles"
+                            class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-lg hover:bg-surface-container"
+                            onclick="openDetail('${v.id}')">
+                            <span class="material-symbols-outlined text-xl">open_in_new</span>
+                        </button>
+                        <button title="Descargar TXT"
+                            class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-lg hover:bg-surface-container"
+                            onclick="downloadRowTxt('${v.id}')">
+                            <span class="material-symbols-outlined text-xl">description</span>
+                        </button>
+                        <button title="Compartir"
+                            class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-lg hover:bg-surface-container"
+                            onclick="shareRow('${v.id}')">
+                            <span class="material-symbols-outlined text-xl">share</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
+            }).join('');
+        }
+
+        // ── Pagination ───────────────────────────────────────────
+        function renderPagination() {
+            const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+            const start = totalCount === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
+            const end = Math.min(currentPage * PAGE_SIZE, totalCount);
+
+            document.getElementById('pagination-info').textContent =
+                `Mostrando ${start}–${end} de ${totalCount.toLocaleString('es-MX')} vales`;
+
+            const ctrl = document.getElementById('pagination-controls');
+            ctrl.innerHTML = '';
+
+            const mkBtn = (label, page, disabled, active) => {
+                const b = document.createElement('button');
+                b.innerHTML = label;
+                b.disabled = disabled;
+                b.className = active
+                    ? 'px-3 py-1 rounded bg-primary text-white text-label-bold'
+                    : 'px-3 py-1 rounded hover:bg-surface-container-highest text-label-bold disabled:opacity-30';
+                if (!disabled && !active) b.onclick = () => goPage(page);
+                ctrl.appendChild(b);
+            };
+
+            const prevBtn = document.createElement('button');
+            prevBtn.innerHTML = '<span class="material-symbols-outlined">chevron_left</span>';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.className = 'p-1 rounded hover:bg-surface-container-highest disabled:opacity-30';
+            if (currentPage > 1) prevBtn.onclick = () => goPage(currentPage - 1);
+            ctrl.appendChild(prevBtn);
+
+            // page numbers: show ±2 around current
+            let pages = new Set();
+            pages.add(1);
+            pages.add(totalPages);
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) pages.add(i);
+            pages = [...pages].sort((a, b) => a - b);
+
+            let prev = null;
+            pages.forEach(p => {
+                if (prev !== null && p - prev > 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.className = 'px-2 text-on-surface-variant';
+                    ctrl.appendChild(ellipsis);
+                }
+                mkBtn(p, p, false, p === currentPage);
+                prev = p;
+            });
+
+            const nextBtn = document.createElement('button');
+            nextBtn.innerHTML = '<span class="material-symbols-outlined">chevron_right</span>';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.className = 'p-1 rounded hover:bg-surface-container-highest disabled:opacity-30';
+            if (currentPage < totalPages) nextBtn.onclick = () => goPage(currentPage + 1);
+            ctrl.appendChild(nextBtn);
+        }
+
+        function goPage(n) {
+            currentPage = n;
+            loadHistory();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ── Filters ──────────────────────────────────────────────
+        function setupFilterListeners() {
+            // top search bar mirrors filter-search
+            document.getElementById('top-search').addEventListener('input', e => {
+                document.getElementById('filter-search').value = e.target.value;
+            });
+        }
+        function applyFilters() { currentPage = 1; loadHistory(); }
+        function clearFilters() {
+            ['filter-search', 'filter-date-from', 'filter-date-to'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('filter-manager').value = '';
+            document.getElementById('filter-status').value = '';
+            document.getElementById('top-search').value = '';
+            applyFilters();
+        }
+
+        // ── Detail Drawer ─────────────────────────────────────────
+        function getVoucherById(id) { return allRows.find(v => v.id === id) || null; }
+
+        function openDetail(voucherId) {
+            const v = getVoucherById(voucherId);
+            if (!v) return;
+            activeVoucher = v;
+
+            // populate
+            document.getElementById('detail-id-label').textContent = v.voucher_number;
+            document.getElementById('detail-product').textContent = v.product_name || '—';
+            document.getElementById('detail-client').textContent = v.client_name || '—';
+            document.getElementById('detail-phone').textContent = v.client_phone || '—';
+            document.getElementById('detail-address').textContent = v.client_address || '—';
+            document.getElementById('detail-email').textContent = v.client_email || '—';
+            document.getElementById('detail-manager').textContent = v.manager_name || '—';
+            document.getElementById('detail-notes').textContent = v.notes || '—';
+            document.getElementById('detail-base').textContent = fmt(v.base_price);
+            document.getElementById('detail-commission').textContent = `${v.commission_pct}%`;
+            document.getElementById('detail-total').textContent = fmt(v.total_amount);
+
+            // status badge in header
+            const s = STATUS_MAP[v.status] || { label: v.status, cls: '' };
+            const badge = document.getElementById('detail-status-badge');
+            badge.textContent = s.label;
+            badge.className = `px-2 py-1 text-[11px] font-bold rounded uppercase ${s.cls}`;
+
+            // images
+            setDetailImage('detail-front-id', v.front_id_image);
+            setDetailImage('detail-back-id', v.back_id_image);
+
+            // open drawer
+            const modal = document.getElementById('voucher-detail');
+            const panel = modal.querySelector('.drawer-panel');
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => panel.classList.remove('translate-x-full'));
+        }
+
+        async function setDetailImage(containerId, path) {
+            const el = document.getElementById(containerId);
+            el.innerHTML = `<div class="w-full h-full flex items-center justify-center text-on-surface-variant">
+                   <span class="material-symbols-outlined text-3xl spinning">progress_activity</span>
+               </div>`;
+            const url = await getVoucherImageUrl(path);
+            el.innerHTML = url
+                ? `<img src="${url}" class="w-full h-full object-cover grayscale-[0.15] group-hover:scale-105 transition-transform" alt="ID"/>
+               <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>`
+                : `<div class="w-full h-full flex items-center justify-center text-on-surface-variant">
+                   <span class="material-symbols-outlined text-3xl">image_not_supported</span>
+               </div>`;
+        }
+
+        function closeDetail() {
+            const modal = document.getElementById('voucher-detail');
+            const panel = modal.querySelector('.drawer-panel');
+            panel.classList.add('translate-x-full');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+            activeVoucher = null;
+        }
+
+
+        // ── Badges de mensajes no leídos ───────────────────────────────────
+        async function loadUnreadCounts() {
+            if (!window.suitSupabase) return;
+            const { data, error } = await window.suitSupabase.rpc('get_unread_message_counts');
+            if (error) { console.warn('[Unread] Error cargando conteos:', error); return; }
+            unreadCounts = {};
+            (data || []).forEach(r => { unreadCounts[r.voucher_id] = Number(r.unread_count); });
+            renderGlobalBadge();
+        }
+
+        function totalUnread() {
+            return Object.values(unreadCounts).reduce((a, b) => a + b, 0);
+        }
+
+        function renderGlobalBadge() {
+            const total = totalUnread();
+            document.querySelectorAll('.nav-badge-messages-count').forEach(el => {
+                el.textContent = total > 9 ? '9+' : String(total);
+                el.classList.toggle('hidden', total === 0);
+            });
+            document.querySelectorAll('.nav-badge-messages-dot').forEach(el => {
+                el.classList.toggle('hidden', total === 0);
+            });
+        }
+
+        function subscribeToGlobalMessageBadges() {
+            if (!window.suitSupabase) return;
+            if (globalBadgeChannel) window.suitSupabase.removeChannel(globalBadgeChannel);
+
+            globalBadgeChannel = window.suitSupabase
+                .channel('global-msg-badges-provider')
+                .on(
+                    'postgres_changes',
+                    { event: 'INSERT', schema: 'public', table: 'voucher_messages' },
+                    (payload) => {
+                        const msg = payload.new;
+                        if (!msg || msg.sender_id === currentProfile?.id) return;
+                        const belongsToMe = allVouchers.some(v => v.id === msg.voucher_id);
+                        if (!belongsToMe) return;
+                        if (chatVoucherId === msg.voucher_id) return; // chat abierto, se marca leído al instante
+
+                        unreadCounts[msg.voucher_id] = (unreadCounts[msg.voucher_id] || 0) + 1;
+                        renderGlobalBadge();
+                        renderTable(filteredVouchers);
+                    }
+                )
+                .subscribe();
+        }
+
+        //******************
+
+        // ── Voucher text builder ──────────────────────────────────
+        function buildVoucherText(v) {
+            const line = '─'.repeat(48);
+            return [
+                'SUIT — DETALLE DE VALE',
+                line,
+                `Número de Vale  : ${v.voucher_number}`,
+                `Estado          : ${(STATUS_MAP[v.status]?.label || v.status).toUpperCase()}`,
+                `Fecha           : ${fmtDate(v.sent_at || v.created_at)}`,
+                ``,
+                'CLIENTE',
+                `  Nombre        : ${v.client_name}`,
+                `  Teléfono      : ${v.client_phone}`,
+                `  Dirección     : ${v.client_address}`,
+                `  Correo        : ${v.client_email || '—'}`,
+                ``,
+                'PRODUCTO',
+                `  Nombre        : ${v.product_name}`,
+                ``,
+                'GESTOR (MANAGER)',
+                `  Nombre        : ${v.manager_name}`,
+                ``,
+                'RESUMEN FINANCIERO',
+                `  Precio Base   : ${fmt(v.base_price)}`,
+                `  Comisión      : ${v.commission_pct}%`,
+                `  TOTAL         : ${fmt(v.total_amount)}`,
+                v.notes ? `\nNOTAS\n  ${v.notes}` : '',
+                ``,
+                line,
+                `Generado por Suit · ${new Date().toLocaleString('es-MX')}`,
+            ].filter(l => l !== undefined).join('\n');
+        }
+
+        // ── Download TXT (row action) ────────────────────────────
+        function downloadRowTxt(voucherId) {
+            const v = getVoucherById(voucherId);
+            if (!v) return;
+            triggerTxtDownload(v);
+        }
+
+        // ── Download TXT (detail modal) ──────────────────────────
+        function downloadDetailTxt() {
+            if (!activeVoucher) return;
+            triggerTxtDownload(activeVoucher);
+        }
+
+        function triggerTxtDownload(v) {
+            const text = buildVoucherText(v);
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `vale-${v.voucher_number}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Archivo descargado', 'success');
+        }
+
+        // ── Share (native Web Share API) ─────────────────────────
+        async function shareRow(voucherId) {
+            const v = getVoucherById(voucherId);
+            if (!v) return;
+            await triggerShare(v);
+        }
+
+        async function shareVoucher() {
+            if (!activeVoucher) return;
+            await triggerShare(activeVoucher);
+        }
+
+        async function triggerShare(v) {
+            const text = buildVoucherText(v);
+            // Try native share sheet first (mobile/desktop support)
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: `Vale ${v.voucher_number}`,
+                        text,
+                    });
+                    return;
+                } catch (err) {
+                    // user cancelled or not supported — fall through to clipboard
+                    if (err.name === 'AbortError') return;
+                }
+            }
+            // Fallback: copy to clipboard
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('Texto copiado al portapapeles', 'success');
+            } catch {
+                showToast('No se pudo compartir', 'error');
+            }
+        }
+
+        // ── Export CSV (all loaded rows) ─────────────────────────
+        function exportCSV() {
+            if (!allRows.length) { showToast('No hay datos para exportar', 'info'); return; }
+            const cols = [
+                ['Número', v => v.voucher_number],
+                ['Fecha', v => fmtDate(v.sent_at || v.created_at)],
+                ['Manager', v => v.manager_name],
+                ['Cliente', v => v.client_name],
+                ['Teléfono', v => v.client_phone],
+                ['Dirección', v => v.client_address],
+                ['Correo', v => v.client_email],
+                ['Producto', v => v.product_name],
+                ['Base', v => v.base_price],
+                ['Comisión%', v => v.commission_pct],
+                ['Total', v => v.total_amount],
+                ['Estado', v => STATUS_MAP[v.status]?.label || v.status],
+            ];
+            const csvEsc = s => `"${String(s ?? '').replace(/"/g, '""')}"`;
+            const header = cols.map(([h]) => csvEsc(h)).join(',');
+            const rows = allRows.map(v => cols.map(([, fn]) => csvEsc(fn(v))).join(',')).join('\n');
+            const blob = new Blob(['\uFEFF' + header + '\n' + rows], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `historial-vales-${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('CSV descargado', 'success');
+        }
+
+        // ── Export PDF (print-based, no library needed) ───────────
+        async function exportPDF() {
+
+            // Verificar que SUBSCRIPTION esté disponible
+            if (!window.SUBSCRIPTION) {
+                showToast('Sistema de suscripción no disponible', 'error');
+                return;
+            }
+
+            // Verificar acceso a la característica premium
+            const hasAccess = await window.SUBSCRIPTION.checkFeature('pdf_export');
+            if (!hasAccess) {
+                showToast('La exportación a PDF es una función premium. Suscríbete para desbloquearla.', 'warning');
+                return;
+            }
+
+            if (!allRows.length) { showToast('No hay datos para exportar', 'info'); return; }
+
+            const rows = allRows.map(v => `
+            <tr>
+                <td>${fmtDate(v.sent_at || v.created_at)}</td>
+                <td>${esc(v.voucher_number)}</td>
+                <td>${esc(v.manager_name)}</td>
+                <td>${esc(v.client_name)}</td>
+                <td>${esc(v.product_name)}</td>
+                <td style="text-align:right">${fmt(v.total_amount)}</td>
+                <td>${STATUS_MAP[v.status]?.label || v.status}</td>
+            </tr>`).join('');
+
+            const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/>
+            <title>Historial de Vales - Suit</title>
+            <style>
+                body{font-family:Inter,Arial,sans-serif;font-size:12px;color:#191c1e;margin:32px;}
+                h1{font-size:20px;margin-bottom:4px;color:#004ac6;}
+                p{color:#737686;margin-bottom:16px;}
+                table{width:100%;border-collapse:collapse;}
+                th{background:#f2f4f6;padding:8px 12px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#434655;}
+                td{padding:8px 12px;border-bottom:1px solid #c3c6d7;vertical-align:middle;}
+                tr:hover td{background:#f2f4f6;}
+                footer{margin-top:32px;font-size:10px;color:#737686;}
+            </style></head><body>
+            <h1>Historial de Vales</h1>
+            <p>Generado el ${new Date().toLocaleString('es-MX')} · ${allRows.length} registros</p>
+            <table>
+                <thead><tr>
+                    <th>Fecha</th><th>ID Vale</th><th>Manager</th>
+                    <th>Cliente</th><th>Producto</th><th>Monto</th><th>Estado</th>
+                </tr></thead>
+                <tbody>${rows}</tbody>
+            </table>
+            <footer>Suit — Panel de Proveedor</footer>
+            <script>window.onload=()=>{window.print();}<\/script>
+            </body></html>`;
+
+            const win = window.open('', '_blank');
+            if (!win) { showToast('Permite ventanas emergentes para descargar PDF', 'info'); return; }
+            win.document.write(html);
+            win.document.close();
+        }
+
+        // ── Mobile Sidebar ───────────────────────────────────────
+        function openMobileSidebar() {
+            document.querySelector('aside').classList.remove('hidden');
+            document.getElementById('mobileOverlay').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileSidebar() {
+            document.querySelector('aside').classList.add('hidden');
+            document.getElementById('mobileOverlay').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // ── Boot ─────────────────────────────────────────────────
+        init();
+    </script>
+</body>
+
+</html>

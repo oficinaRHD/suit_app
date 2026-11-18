@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Suit · Proveedores</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="stylesheet" href="/icon-premiun.css?v=002">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f7f9fb;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #c3c6d7;
+      border-radius: 10px;
+    }
+
+
+    /* Pulso de brillo exterior */
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb, 59 130 246) / 0.55),
+                    0 0 0 0 rgba(var(--color-primary-rgb, 59 130 246) / 0.35);
+        border-color: currentColor;
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(var(--color-primary-rgb, 59 130 246) / 0),
+                    0 0 12px 2px rgba(var(--color-primary-rgb, 59 130 246) / 0.35);
+    }
+}
+
+/* Barrido tipo shimmer */
+@keyframes shimmerSweep {
+    0%   { transform: translateX(-150%) skewX(-20deg); }
+    60%  { transform: translateX(250%)  skewX(-20deg); }
+    100% { transform: translateX(250%)  skewX(-20deg); }
+}
+
+/* Wiggle del ícono */
+@keyframes iconWiggle {
+    0%, 85%, 100% { transform: rotate(0deg) scale(1); }
+    88%           { transform: rotate(-14deg) scale(1.15); }
+    91%           { transform: rotate(12deg)  scale(1.15); }
+    94%           { transform: rotate(-8deg)  scale(1.1); }
+    97%           { transform: rotate(6deg)   scale(1.05); }
+}
+
+/* Aplicación */
+.btn-directory {
+    animation: pulseGlow 2.2s ease-in-out infinite;
+    will-change: box-shadow;
+}
+
+.btn-directory .shimmer-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0) 20%,
+        rgba(255, 255, 255, 0.55) 50%,
+        rgba(255, 255, 255, 0) 80%,
+        transparent 100%
+    );
+    pointer-events: none;
+    animation: shimmerSweep 3.5s ease-in-out infinite;
+}
+
+.btn-directory .icon-wiggle {
+    display: inline-block;
+    transform-origin: 50% 50%;
+    animation: iconWiggle 4s ease-in-out infinite;
+}
+
+/* Respeta la preferencia de accesibilidad "reduce motion" */
+@media (prefers-reduced-motion: reduce) {
+    .btn-directory,
+    .btn-directory .shimmer-layer,
+    .btn-directory .icon-wiggle {
+        animation: none !important;
+    }
+}
+    
+  </style>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "outline-variant": "#c3c6d7",
+            "surface-container-lowest": "#ffffff",
+            "primary-container": "#2563eb",
+            "secondary-fixed-dim": "#b9c7e0",
+            "on-surface": "#191c1e",
+            "on-primary-fixed-variant": "#003ea8",
+            "surface-tint": "#0053db",
+            "on-primary": "#ffffff",
+            "primary-fixed-dim": "#b4c5ff",
+            "secondary": "#515f74",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#7d2d00",
+            "tertiary-container": "#bc4800",
+            "surface-variant": "#e0e3e5",
+            "surface-bright": "#f7f9fb",
+            "inverse-primary": "#b4c5ff",
+            "tertiary-fixed": "#ffdbcd",
+            "secondary-fixed": "#d5e3fd",
+            "surface-container-highest": "#e0e3e5",
+            "on-secondary-fixed-variant": "#3a485c",
+            "on-tertiary-container": "#ffede6",
+            "inverse-on-surface": "#eff1f3",
+            "error": "#ba1a1a",
+            "outline": "#737686",
+            "on-surface-variant": "#434655",
+            "on-error-container": "#93000a",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#d5e3fd",
+            "primary": "#004ac6",
+            "on-error": "#ffffff",
+            "inverse-surface": "#2d3133",
+            "on-tertiary-fixed": "#360f00",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed-dim": "#ffb596",
+            "on-background": "#191c1e",
+            "surface-container-high": "#e6e8ea",
+            "tertiary": "#943700",
+            "on-secondary-container": "#57657b",
+            "on-primary-container": "#eeefff",
+            "surface-container-low": "#f2f4f6",
+            "surface-container": "#eceef0",
+            "surface-dim": "#d8dadc",
+            "primary-fixed": "#dbe1ff",
+            "on-secondary-fixed": "#0d1c2f",
+            "on-primary-fixed": "#00174b",
+            "background": "#f7f9fb",
+            "surface": "#f7f9fb"
+          },
+          borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+          spacing: { "gutter": "16px", "container-padding": "24px", "stack-md": "16px", "stack-sm": "8px", "base": "4px", "stack-lg": "32px" },
+          fontSize: {
+            "title-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+            "label-bold": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "data-mono": ["14px", { lineHeight: "20px", fontWeight: "500" }],
+            "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "display-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-background text-on-background antialiased min-h-screen">
+
+  <!-- Sidebar -->
+  <aside
+    class="bg-surface h-screen w-64 fixed left-0 top-0 border-r border-outline-variant flex flex-col py-stack-lg z-50 transition-transform -translate-x-full lg:translate-x-0"
+    id="sidebar">
+    <div class="px-container-padding mb-stack-lg flex justify-between items-center">
+      <div>
+        <h1 class="text-headline-md font-bold text-primary">Suit</h1>
+        <p class="text-on-surface-variant text-body-sm">Agente Independiente</p>
+      </div>
+      <button class="lg:hidden text-on-surface" onclick="toggleSidebar()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <nav class="flex-grow space-y-1">
+      <a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors text-body-md"
+        href="home-managers.html">
+        <span class="material-symbols-outlined mr-3">dashboard</span><span>Panel</span>
+      </a>
+      <a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors text-body-md"
+        href="vouche.html">
+        <span class="material-symbols-outlined mr-3">add_notes</span><span>Crear Vale</span>
+      </a>
+      <a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors text-body-md"
+        href="histori-vouche.html">
+        <span class="material-symbols-outlined mr-3">history</span><span>Historial</span>
+        <span
+          class="nav-badge-messages-count hidden ml-auto bg-error text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">0</span>
+
+      </a>
+      <a class="flex items-center px-6 py-3 text-primary font-bold border-r-4 border-primary transition-colors text-body-md"
+        href="supplier-managers.html">
+        <span class="material-symbols-outlined mr-3">handshake</span><span>Proveedores</span>
+      </a>
+      <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors"
+        href="financial-books.html">
+        <span class="material-symbols-outlined"
+          style="font-variation-settings:'FILL' 1;">menu_book</span><span>Biblioteca</span>
+      </a>
+      <a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high transition-colors text-body-md"
+        href="settings.html">
+        <span class="material-symbols-outlined mr-3">settings</span><span>Ajustes</span>
+      </a>
+    </nav>
+    <div class="px-6 mt-auto">
+      <button
+        class="w-full bg-primary text-on-primary py-3 px-4 rounded text-label-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
+        onclick="openLinkModal()">
+        Nuevo Cupón
+      </button>
+      <div class="mt-8 flex items-center text-on-surface-variant text-body-sm">
+        <span class="material-symbols-outlined mr-2 text-primary"
+          style="font-variation-settings:'FILL' 1;">cloud_done</span>
+        <span id="syncStatus">Sincronizado</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Top Nav -->
+  <header
+    class="bg-surface-bright border-b border-outline-variant flex justify-between items-center w-full px-4 lg:px-container-padding h-16 fixed top-0 left-0 lg:pl-64 z-40">
+    <div class="flex items-center gap-3 min-w-0">
+      <button class="lg:hidden text-on-surface mr-1 hidden" onclick="toggleSidebar()">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+      <h1 class="text-headline-md font-black text-primary tracking-tight shrink-0">Suit</h1>
+      <div
+        class="hidden md:flex items-center bg-surface-container-low rounded px-4 py-2 w-64 lg:w-96 border border-outline-variant transition-all"
+        id="searchWrap">
+        <span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+        <input class="bg-transparent border-none focus:ring-0 text-body-md w-full placeholder-on-surface-variant"
+          id="searchInput" placeholder="Buscar proveedores..." type="text" oninput="filterProviders(this.value)" />
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 lg:gap-stack-md shrink-0">
+
+      <!-- 🆕 Directorio: ícono solo en móvil, texto completo en desktop -->
+<button onclick="openDirectoryModal()"
+        title="Directorio de proveedores"
+        class="btn-directory relative overflow-hidden flex items-center gap-2 border border-primary text-primary px-3 py-2 rounded-lg text-label-bold uppercase tracking-wider hover:bg-primary/5 active:scale-95 transition-all">
+    <span class="material-symbols-outlined text-[18px] icon-wiggle">storefront</span>
+    <span class="hidden lg:inline">Directorio</span>
+    <!-- Barrido shimmer -->
+    <span class="shimmer-layer"></span>
+</button>
+
+      <button class="text-on-surface-variant hover:text-primary transition-transform active:scale-90 p-2"
+        onclick="loadAll()" title="Sincronizar">
+        <span class="material-symbols-outlined" id="syncIcon">sync</span>
+      </button>
+
+      <button
+        class="text-on-surface-variant hover:text-primary transition-transform active:scale-90 p-2 relative hidden">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface-bright"></span>
+      </button>
+
+      <div class="h-8 w-px bg-outline-variant mx-1 lg:mx-2"></div>
+
+      <div class="flex items-center gap-2">
+        <div class="text-right hidden sm:block">
+          <p class="text-[14px] text-primary font-bold leading-tight" id="userNameDisplay">—</p>
+          <p class="text-[12px] text-on-surface-variant">Agente</p>
+        </div>
+        <img id="userAvatar" alt="Avatar"
+          class="w-8 h-8 lg:w-10 lg:h-10 rounded-full border-2 border-primary object-cover"
+          src="https://ui-avatars.com/api/?name=M&background=004ac6&color=fff" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="lg:ml-64 pt-16 min-h-screen">
+    <div class="max-w-[1440px] mx-auto p-4 lg:p-container-padding flex flex-col flex-1 min-h-screen pb-20 md:pb-0">
+
+      <!-- Page Header -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-stack-lg gap-gutter">
+        <div>
+          <h2 class="text-[24px] lg:text-display-lg font-bold text-on-surface mb-1">Gestión de Proveedores</h2>
+          <p class="text-body-md text-on-surface-variant">Administra tus membresías corporativas y enlaces de
+            proveedores activos.</p>
+        </div>
+        <div
+          class="flex items-center gap-stack-sm bg-primary-container/10 px-4 py-2 rounded-lg border border-primary-container/20 self-start lg:self-auto">
+          <span class="material-symbols-outlined text-primary-container"
+            style="font-variation-settings:'FILL' 1;">wifi</span>
+          <span class="text-[10px] lg:text-body-sm text-label-bold text-primary-container uppercase">Conexión Online
+            Requerida</span>
+        </div>
+      </div>
+
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-12 gap-gutter">
+
+        <!-- Left column: Link card + Summary -->
+        <section class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+
+          <!-- Link new provider card -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant p-6 lg:p-stack-lg rounded-xl flex flex-col relative overflow-hidden shadow-sm">
+            <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+              <span class="material-symbols-outlined text-[120px]">add_link</span>
+            </div>
+            <h3 class="text-title-sm font-semibold text-on-surface mb-stack-sm">Vincular Nuevo Proveedor</h3>
+            <p class="text-body-sm text-on-surface-variant mb-stack-lg">Ingrese el Código del Proveedor para establecer
+              una nueva relación de facturación directa.</p>
+            <div class="space-y-stack-md mt-auto">
+              <div>
+                <label class="block text-label-bold text-[11px] text-on-surface-variant uppercase mb-1">Código del
+                  Proveedor</label>
+                <input id="providerCodeInput"
+                  class="w-full border border-outline rounded-lg px-4 py-3 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all uppercase placeholder:normal-case"
+                  placeholder="ej. SUP-99234" type="text" />
+              </div>
+              <button id="linkBtn" onclick="handleSendLinkRequest()"
+                class="w-full bg-primary text-on-primary py-3 rounded-lg text-title-sm font-semibold hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">add_link</span>
+                Vincular Proveedor
+              </button>
+              <!-- Feedback message -->
+              <div id="linkFeedback" class="hidden text-[12px] flex items-center gap-1.5 px-3 py-2 rounded-lg"></div>
+              <p class="text-[11px] text-on-surface-variant flex items-center justify-center gap-1 italic">
+                <span class="material-symbols-outlined text-[14px]">info</span>
+                Se requiere conexión directa para validación.
+              </p>
+            </div>
+          </div>
+
+          <!-- Activity Summary -->
+          <div
+            class="bg-secondary-container text-on-secondary-container p-6 lg:p-stack-lg rounded-xl border border-secondary-fixed-dim shadow-sm">
+            <h4 class="text-label-bold uppercase opacity-80 mb-stack-sm">Resumen de Actividad</h4>
+            <div class="flex justify-between items-end">
+              <div>
+                <p class="text-display-lg leading-none font-bold" id="activeCount">—</p>
+                <p class="text-body-sm">Proveedores Activos</p>
+              </div>
+              <div class="text-right">
+                <p class="text-on-secondary-fixed-variant text-label-bold font-semibold" id="inactiveCount">— Inactivos
+                </p>
+                <div class="w-24 h-1 bg-on-secondary-container/20 mt-2 rounded-full overflow-hidden">
+                  <div class="h-full bg-on-secondary-container transition-all duration-700" id="activeBar"
+                    style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right column: Provider list -->
+        <section
+          class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col shadow-sm">
+          <div
+            class="p-4 lg:p-stack-lg border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+            <h3 class="text-title-sm font-semibold text-on-surface">Proveedores Vinculados</h3>
+            <div class="flex gap-2 items-center">
+              <!-- Filter pills -->
+              <div class="hidden sm:flex gap-1 text-[11px] font-bold">
+                <button onclick="setFilter('all')" id="filterAll"
+                  class="px-3 py-1 rounded-full border border-outline-variant bg-primary text-on-primary transition-all">Todos</button>
+                <button onclick="setFilter('active')" id="filterActive"
+                  class="px-3 py-1 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all">Activos</button>
+                <button onclick="setFilter('inactive')" id="filterInactive"
+                  class="px-3 py-1 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all">Inactivos</button>
+              </div>
+              <button class="p-2 rounded hover:bg-surface-container-high text-on-surface-variant" onclick="loadAll()"
+                title="Recargar">
+                <span class="material-symbols-outlined">refresh</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Table header (desktop) -->
+          <div
+            class="hidden lg:grid grid-cols-4 bg-surface-container text-left border-b border-outline-variant px-6 py-3 text-label-bold text-on-surface-variant uppercase">
+            <div>Proveedor</div>
+            <div>Estado</div>
+            <div>ID Contrato</div>
+            <div class="text-right">Acciones</div>
+          </div>
+
+          <!-- List -->
+          <div id="providerList" class="divide-y divide-outline-variant">
+            <!-- Skeleton -->
+            <div id="listSkeleton" class="flex flex-col gap-4 p-6">
+              <div class="h-12 bg-surface-container-high rounded-lg animate-pulse"></div>
+              <div class="h-12 bg-surface-container-high rounded-lg animate-pulse"></div>
+              <div class="h-12 bg-surface-container-high rounded-lg animate-pulse"></div>
+            </div>
+          </div>
+
+          <!-- Empty state -->
+          <div id="emptyState" class="hidden flex-col items-center justify-center py-16 text-center px-6">
+            <span class="material-symbols-outlined text-[56px] text-outline mb-4">handshake</span>
+            <p class="text-title-sm font-semibold text-on-surface mb-1">Sin proveedores vinculados</p>
+            <p class="text-body-sm text-on-surface-variant">Ingresa un código de proveedor para comenzar.</p>
+          </div>
+
+          <!-- Pagination -->
+          <div class="p-4 border-t border-outline-variant bg-surface-container-low flex justify-between items-center">
+            <p class="text-body-sm text-on-surface-variant" id="paginationInfo">Cargando…</p>
+            <div class="flex gap-1">
+              <button id="prevBtn" onclick="changePage(-1)"
+                class="px-3 py-1 border border-outline-variant rounded bg-surface text-on-surface-variant hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed">Anterior</button>
+              <button id="nextBtn" onclick="changePage(1)"
+                class="px-3 py-1 border border-outline-variant rounded bg-surface text-on-surface-variant hover:bg-surface-container-high disabled:opacity-40 disabled:cursor-not-allowed">Siguiente</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Help footer -->
+        <section
+          class="col-span-12 bg-surface-container-high/50 border border-outline-variant p-4 lg:p-6 rounded-xl flex flex-col lg:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-4 lg:gap-6 text-center lg:text-left">
+            <div
+              class="w-12 h-12 rounded-full bg-white flex-shrink-0 flex items-center justify-center text-primary shadow-sm">
+              <span class="material-symbols-outlined">help</span>
+            </div>
+            <div>
+              <h4 class="text-title-sm font-semibold text-on-surface">¿Necesitas ayuda conectando?</h4>
+              <p class="text-body-sm text-on-surface-variant">Consulta nuestra guía de integración o contacta con el
+                soporte centralizado.</p>
+            </div>
+          </div>
+          <button
+            class="w-full lg:w-auto bg-surface text-primary border border-primary px-6 py-2 rounded-lg text-label-bold uppercase tracking-wider hover:bg-primary/5 transition-colors">
+            Abrir Soporte
+          </button>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Nav (mobile) -->
+  <nav
+    class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant z-50 flex items-center justify-around h-16 px-2">
+    <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="home-managers.html">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span>
+      <span class="text-[10px] font-bold">Panel</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="vouche.html">
+      <span class="material-symbols-outlined">add_notes</span>
+      <span class="text-[10px]">Vale</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-on-surface-variant relative" href="histori-vouche.html">
+      <span class="material-symbols-outlined">history</span>
+      <span
+        class="nav-badge-messages-dot hidden absolute top-0 right-3 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface"></span>
+      <span class="text-[10px]">Historial</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-primary" href="supplier-managers.html">
+      <span class="material-symbols-outlined">handshake</span>
+      <span class="text-[10px]">Proveedor</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="financial-books.html">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">menu_book</span>
+      <span class="text-[10px] font-bold">Libros</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="settings.html">
+      <span class="material-symbols-outlined">settings</span>
+      <span class="text-[10px]">Ajustes</span>
+    </a>
+  </nav>
+
+  <!-- Doirectorio -->
+  <div id="directoryModal" class="fixed inset-0 z-[80] hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeDirectoryModal()"></div>
+
+    <div class="relative h-full md:h-[90vh] md:max-w-6xl md:mx-auto md:my-[5vh]
+              bg-surface rounded-none md:rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant bg-surface-bright">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-primary">storefront</span>
+          <div>
+            <h3 class="text-title-sm font-bold text-on-surface">Directorio de Proveedores</h3>
+            <p class="text-body-sm text-on-surface-variant">Explora y contacta directamente</p>
+          </div>
+        </div>
+        <button onclick="closeDirectoryModal()" class="p-2 rounded-full hover:bg-surface-container-high">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="px-6 py-3 border-b border-outline-variant flex items-center gap-2 bg-surface-container-low">
+        <div class="flex items-center bg-surface rounded px-3 py-2 border border-outline-variant flex-1">
+          <span class="material-symbols-outlined text-on-surface-variant mr-2 text-[20px]">search</span>
+          <input id="directorySearch" oninput="debouncedDirectorySearch()"
+            class="bg-transparent border-none focus:ring-0 text-body-md w-full placeholder-on-surface-variant"
+            placeholder="Buscar por nombre, código o servicio..." />
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-6">
+        <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div id="directoryEmpty" class="hidden flex-col items-center justify-center py-20 text-center">
+          <span class="material-symbols-outlined text-[56px] text-outline mb-3">storefront</span>
+          <p class="text-title-sm font-semibold text-on-surface mb-1">Sin proveedores publicados</p>
+          <p class="text-body-sm text-on-surface-variant">Aún nadie ha activado su tarjeta pública.</p>
+        </div>
+        <div id="directoryLoader" class="flex justify-center py-6 hidden">
+          <span class="material-symbols-outlined animate-spin text-primary text-[32px]">progress_activity</span>
+        </div>
+      </div>
+
+      <div class="px-6 py-3 border-t border-outline-variant bg-surface-container-low flex justify-between items-center">
+        <p id="directoryInfo" class="text-body-sm text-on-surface-variant">—</p>
+        <div class="flex gap-1">
+          <button id="dirPrev" onclick="directoryPage(-1)"
+            class="px-3 py-1 border border-outline-variant rounded bg-surface hover:bg-surface-container-high disabled:opacity-40">Anterior</button>
+          <button id="dirNext" onclick="directoryPage(1)"
+            class="px-3 py-1 border border-outline-variant rounded bg-surface hover:bg-surface-container-high disabled:opacity-40">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="fixed bottom-24 right-4 z-[60] transform translate-y-25 transition-transform duration-500 ease-out hidden"
+    id="toast">
+    <div
+      class="bg-inverse-surface text-inverse-on-surface px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 border border-outline/30 max-w-xs">
+      <span class="material-symbols-outlined text-tertiary-fixed" id="toastIcon">info</span>
+      <div>
+        <p class="text-label-bold uppercase" id="toastTitle">Aviso</p>
+        <p class="text-body-sm opacity-80" id="toastMsg">…</p>
+      </div>
+      <button class="ml-4 p-1 hover:bg-white/10 rounded" onclick="hideToast()">
+        <span class="material-symbols-outlined text-body-sm">close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- Supabase JS (cliente compartido) -->
+  <!-- ============================================================ -->
+  <!-- ============================================================ -->
+  <!-- Supabase JS (librería) -->
+  <!-- ============================================================ -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js?v=0012"></script>
+  <script src="subscription.js"></script>
+
+  <script>
+    const PAGE_SIZE = 5;
+
+    // ── State ─────────────────────────────────────────────────────
+    let allProviders = [];   // raw from RPC
+    let filtered = [];   // after search + filter
+    let currentPage = 1;
+    let activeFilter = 'all';
+    let searchQuery = '';
+
+    // Unread messages badge state
+    let unreadCounts = {};              // { [voucherId]: count }
+    let globalBadgeChannel = null;
+    let allVouchers = [];
+    let chatVoucherId = null;
+    let currentProfile = null;
+
+    // ── Bootstrap ─────────────────────────────────────────────────
+    window.addEventListener('DOMContentLoaded', async () => {
+      const { data: { user } } = await window.suitSupabase.auth.getUser();
+      if (!user) { window.location.href = 'login.html'; return; }
+
+      // Cargar perfil
+      const { data: profile } = await window.suitSupabase
+        .from('profiles')
+        .select('full_name, avatar_url')
+        .eq('id', user.id)
+        .single();
+
+      if (profile) {
+        document.getElementById('userNameDisplay').textContent = profile.full_name || user.email;
+        if (profile.avatar_url) document.getElementById('userAvatar').src = profile.avatar_url;
+
+        // ⚠️ IMPORTANTE: Asignar currentProfile para que subscribe funcione
+        window.currentProfile = { id: user.id, ...profile };
+      }
+
+      await loadAll();
+
+      // ✅ 1. Inicializar subs base
+      SUBSCRIPTION.init();
+
+      // ✅ 3. Cargar contadores
+      await loadUnreadCounts();
+
+      // ✅ 4. Suscribirse a badges
+      subscribeToGlobalMessageBadges();
+    });
+
+    window.loadAll = async function () {
+      spinSync(true);
+      // Mostrar esqueleto (si estaba oculto)
+      const skeleton = document.getElementById('listSkeleton');
+      skeleton.classList.remove('hidden');
+
+      // No limpiar el contenedor, ni reinsertar el esqueleto
+
+      const { data, error } = await window.suitSupabase.rpc('get_my_providers');
+      spinSync(false);
+      if (error) { showToast('Error', 'No se pudo cargar la lista.', 'error'); return; }
+
+      allProviders = data || [];
+      applyFiltersAndRender();  // esto llama a renderPage
+
+      // Summary card (igual)
+      const { data: summary } = await window.suitSupabase.rpc('get_provider_summary');
+      if (summary) {
+        const total = summary.active_count + summary.inactive_count;
+        document.getElementById('activeCount').textContent = summary.active_count;
+        document.getElementById('inactiveCount').textContent = `${summary.inactive_count} Inactivos`;
+        document.getElementById('activeBar').style.width = total > 0
+          ? `${Math.round((summary.active_count / total) * 100)}%`
+          : '0%';
+      }
+    };
+
+    // ── Filter + Search ───────────────────────────────────────────
+    window.setFilter = function (f) {
+      activeFilter = f;
+      currentPage = 1;
+      ['all', 'active', 'inactive'].forEach(k => {
+        const btn = document.getElementById('filter' + k.charAt(0).toUpperCase() + k.slice(1));
+        if (k === f) {
+          btn.classList.add('bg-primary', 'text-on-primary');
+          btn.classList.remove('text-on-surface-variant');
+        } else {
+          btn.classList.remove('bg-primary', 'text-on-primary');
+          btn.classList.add('text-on-surface-variant');
+        }
+      });
+      applyFiltersAndRender();
+    };
+
+    window.filterProviders = function (q) {
+      searchQuery = q.toLowerCase();
+      currentPage = 1;
+      applyFiltersAndRender();
+    };
+
+    function applyFiltersAndRender() {
+      filtered = allProviders.filter(p => {
+        const matchFilter =
+          activeFilter === 'all' ? true :
+            activeFilter === 'active' ? p.is_active :
+              !p.is_active;
+        const matchSearch =
+          !searchQuery ||
+          p.full_name.toLowerCase().includes(searchQuery) ||
+          p.contract_id.toLowerCase().includes(searchQuery) ||
+          (p.provider_code || '').toLowerCase().includes(searchQuery);
+        return matchFilter && matchSearch;
+      });
+      renderPage();
+    }
+
+    function renderPage() {
+      const list = document.getElementById('providerList');
+      const skeleton = document.getElementById('listSkeleton');
+      const empty = document.getElementById('emptyState');
+
+      // Ocultar esqueleto
+      skeleton.classList.add('hidden');
+
+      // Eliminar solo las filas anteriores (no el esqueleto ni el empty state)
+      list.querySelectorAll('.provider-row').forEach(el => el.remove());
+
+      const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      if (filtered.length === 0) {
+        empty.classList.remove('hidden');
+        document.getElementById('paginationInfo').textContent = 'Sin resultados';
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('nextBtn').disabled = true;
+        return;
+      }
+      empty.classList.add('hidden');
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const page = filtered.slice(start, start + PAGE_SIZE);
+
+      page.forEach(p => {
+        const row = buildProviderRow(p);
+        row.classList.add('provider-row'); // asignar clase para poder eliminarlas luego
+        list.appendChild(row);
+      });
+
+      document.getElementById('paginationInfo').textContent =
+        `Mostrando ${start + 1}–${Math.min(start + PAGE_SIZE, filtered.length)} de ${filtered.length} Proveedores`;
+      document.getElementById('prevBtn').disabled = currentPage <= 1;
+      document.getElementById('nextBtn').disabled = currentPage >= totalPages;
+    }
+
+    function buildProviderRow(p) {
+      const initials = p.full_name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      const statusBadge = p.is_active
+        ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200"><span class="w-1.5 h-1.5 rounded-full bg-green-600 mr-1.5"></span>Activo</span>`
+        : `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface-variant text-on-surface-variant border border-outline-variant"><span class="w-1.5 h-1.5 rounded-full bg-outline mr-1.5"></span>Inactivo</span>`;
+
+      const toggleBtn = p.is_active
+        ? `<button onclick="handleDeactivate('${p.link_id}')" class="p-2 text-error hover:bg-error-container rounded-full transition-all" title="Desvincular"><span class="material-symbols-outlined">link_off</span></button>`
+        : p.can_reactivate
+          ? `<button onclick="handleReactivate('${p.link_id}')" class="p-2 text-primary hover:bg-primary/10 rounded-full transition-all" title="Reactivar"><span class="material-symbols-outlined">add_link</span></button>`
+          : `<button onclick="handleResendRequest('${p.provider_code}')" class="p-2 text-secondary hover:bg-secondary-container rounded-full transition-all" title="Reenviar solicitud de vinculación"><span class="material-symbols-outlined">send</span></button>`;
+
+      // Nota visible cuando el proveedor fue quien desvinculó: no se puede reactivar directo
+      const waitingNote = (!p.is_active && !p.can_reactivate)
+        ? `<p class="text-[11px] text-on-surface-variant italic mt-1">El proveedor te desvinculó. Debes reenviar la solicitud.</p>`
+        : '';
+
+      const avatarHtml = p.avatar_url
+        ? `<img src="${p.avatar_url}" class="w-10 h-10 rounded object-cover" alt="${p.full_name}" />`
+        : `<div class="w-10 h-10 flex-shrink-0 rounded bg-primary/10 flex items-center justify-center text-primary font-bold text-[13px]">${initials}</div>`;
+
+      const row = document.createElement('div');
+      row.className = 'flex flex-col lg:grid lg:grid-cols-4 lg:items-center px-4 py-5 lg:px-6 lg:py-4 hover:bg-surface-container-low transition-colors group';
+      row.classList.add('provider-row');
+      row.innerHTML = `
+    <div class="flex items-center gap-3 mb-3 lg:mb-0">
+      ${avatarHtml}
+      <div>
+        <p class="font-semibold text-on-surface text-body-md">${p.full_name}</p>
+        <p class="text-body-sm text-on-surface-variant">${p.provider_code || '—'}</p>
+      </div>
+    </div>
+    <div class="mb-2 lg:mb-0">
+      <div class="flex items-center justify-between lg:block">
+        <span class="lg:hidden text-[10px] uppercase font-bold text-on-surface-variant/60">Estado</span>
+        ${statusBadge}
+      </div>
+      ${waitingNote}
+    </div>
+    <div class="flex items-center justify-between lg:block mb-4 lg:mb-0">
+      <span class="lg:hidden text-[10px] uppercase font-bold text-on-surface-variant/60">ID Contrato</span>
+      <p class="text-data-mono text-on-surface-variant font-medium">${p.contract_id}</p>
+    </div>
+    <div class="flex items-center justify-between lg:justify-end gap-2 border-t border-outline-variant/30 pt-4 lg:pt-0 lg:border-t-0">
+      <span class="lg:hidden text-[10px] uppercase font-bold text-on-surface-variant/60">Acciones</span>
+      <div class="flex gap-2">
+<div class="flex gap-2" data-premium="manager_supplier_communication">
+  ${p.phone ? `
+    <a href="sms:${p.phone}" class="p-2 text-primary hover:bg-primary/10 rounded-full transition-all" title="Enviar SMS">
+      <span class="material-symbols-outlined">sms</span>
+    </a>
+    <a href="tel:${p.phone}" class="p-2 text-primary hover:bg-primary/10 rounded-full transition-all" title="Llamar">
+      <span class="material-symbols-outlined">call</span>
+    </a>
+  ` : `
+    <span class="p-2 text-on-surface-variant/40 cursor-not-allowed" title="Sin teléfono registrado">
+      <span class="material-symbols-outlined">phone_disabled</span>
+    </span>
+  `}
+</div>
+        ${toggleBtn}
+      </div>
+    </div>`;
+      return row;
+    }
+
+    // ── Pagination ────────────────────────────────────────────────
+    window.changePage = function (dir) {
+      currentPage += dir;
+      renderPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // ── Send link request ──────────────────────────────────────────
+    window.handleSendLinkRequest = async function () {
+      const code = document.getElementById('providerCodeInput').value.trim();
+      const btn = document.getElementById('linkBtn');
+      const feedback = document.getElementById('linkFeedback');
+
+      if (!code) { showFeedback('Ingresa un código de proveedor.', 'warn'); return; }
+
+      btn.disabled = true;
+      btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> Enviando…`;
+
+      const { data, error } = await window.suitSupabase.rpc('send_link_request', { p_provider_code: code });
+
+      btn.disabled = false;
+      btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">add_link</span> Vincular Proveedor`;
+
+      if (error || data?.error) {
+        const msg = errorLabel(data?.error || error.message);
+        showFeedback(msg, 'error');
+        return;
+      }
+
+      document.getElementById('providerCodeInput').value = '';
+      showFeedback(`Solicitud enviada a ${data.provider_name}. Pendiente de aprobación.`, 'ok');
+      showToast('Solicitud enviada', `${data.provider_name} debe aprobar el enlace.`, 'ok');
+    };
+
+    // ── Deactivate / Reactivate ───────────────────────────────────
+    window.handleDeactivate = async function (linkId) {
+      if (!confirm('¿Desvincular este proveedor?')) return;
+      const { data, error } = await window.suitSupabase.rpc('deactivate_link', { p_link_id: linkId });
+      if (error || data?.error) { showToast('Error', 'No se pudo desvincular.', 'error'); return; }
+      showToast('Desvinculado', 'El proveedor fue marcado como inactivo.', 'ok');
+      await loadAll();
+    };
+
+    window.handleReactivate = async function (linkId) {
+      const { data, error } = await window.suitSupabase.rpc('reactivate_link', { p_link_id: linkId });
+      if (error || data?.error) {
+        const code = data?.error;
+        if (code === 'not_authorized_reactivate') {
+          showToast('No autorizado', 'El proveedor te desvinculó. Debes reenviar la solicitud.', 'warn');
+        } else {
+          showToast('Error', 'No se pudo reactivar.', 'error');
+        }
+        await loadAll(); // refresca por si el estado cambió (can_reactivate)
+        return;
+      }
+      showToast('Reactivado', 'Enlace con proveedor restaurado.', 'ok');
+      await loadAll();
+    };
+
+    // ── Reenviar solicitud (cuando el proveedor fue quien desvinculó) ──
+    window.handleResendRequest = async function (providerCode) {
+      if (!providerCode) { showToast('Error', 'Código de proveedor no disponible.', 'error'); return; }
+
+      const { data, error } = await window.suitSupabase.rpc('send_link_request', { p_provider_code: providerCode });
+
+      if (error || data?.error) {
+        const msg = errorLabel(data?.error || error.message);
+        showToast('Error', msg, 'error');
+        return;
+      }
+
+      showToast('Solicitud enviada', `${data.provider_name} debe aprobar el enlace nuevamente.`, 'ok');
+      await loadAll();
+    };
+
+
+
+    // ================================================================
+    // BADGES DE MENSAJES NO LEÍDOS
+    // ================================================================
+
+    async function loadUnreadCounts() {
+      if (!window.suitSupabase) return;
+      const { data, error } = await window.suitSupabase.rpc('get_unread_message_counts');
+      if (error) { console.warn('[Unread] Error cargando conteos:', error); return; }
+      unreadCounts = {};
+      (data || []).forEach(r => { unreadCounts[r.voucher_id] = Number(r.unread_count); });
+      renderGlobalBadge();
+    }
+
+    function totalUnread() {
+      return Object.values(unreadCounts).reduce((a, b) => a + b, 0);
+    }
+
+    function renderGlobalBadge() {
+      const total = totalUnread();
+      document.querySelectorAll('.nav-badge-messages-count').forEach(el => {
+        el.textContent = total > 9 ? '9+' : String(total);
+        el.classList.toggle('hidden', total === 0);
+      });
+      document.querySelectorAll('.nav-badge-messages-dot').forEach(el => {
+        el.classList.toggle('hidden', total === 0);
+      });
+    }
+
+    function subscribeToGlobalMessageBadges() {
+      if (!window.suitSupabase) return;
+      if (globalBadgeChannel) window.suitSupabase.removeChannel(globalBadgeChannel);
+
+      globalBadgeChannel = window.suitSupabase
+        .channel('global-msg-badges-manager')
+        .on(
+          'postgres_changes',
+          { event: 'INSERT', schema: 'public', table: 'voucher_messages' },
+          (payload) => {
+            const msg = payload.new;
+            if (!msg || msg.sender_id === currentProfile?.id) return;
+            // Solo nos interesan vales que pertenecen a este gestor y ya están cargados
+            const belongsToMe = allVouchers.some(v => v.supabaseId === msg.voucher_id);
+            if (!belongsToMe) return;
+            // Si el chat de ese vale está abierto, se marca leído al instante (no sumar)
+            if (chatVoucherId && allVouchers.find(v => v.id === chatVoucherId)?.supabaseId === msg.voucher_id) return;
+
+            unreadCounts[msg.voucher_id] = (unreadCounts[msg.voucher_id] || 0) + 1;
+            renderGlobalBadge();
+            renderPage();
+          }
+        )
+        .subscribe();
+    }
+
+    //*************
+
+
+
+    // ── DIRECTORIO DE PROVEEDORES ─────────────────────────────────
+    let dirState = { page: 0, size: 12, search: '', lastLen: 0 };
+    let dirDebounce = null;
+
+    window.openDirectoryModal = function () {
+      document.getElementById('directoryModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      if (!dirState.lastLen) loadDirectory();
+    };
+    window.closeDirectoryModal = function () {
+      document.getElementById('directoryModal').classList.add('hidden');
+      document.body.style.overflow = '';
+    };
+    window.debouncedDirectorySearch = function () {
+      clearTimeout(dirDebounce);
+      dirDebounce = setTimeout(() => {
+        dirState.search = document.getElementById('directorySearch').value.trim();
+        dirState.page = 0;
+        loadDirectory();
+      }, 350);
+    };
+    window.directoryPage = function (dir) {
+      const next = dirState.page + dir;
+      if (next < 0) return;
+      if (dir > 0 && dirState.lastLen < dirState.size) return;
+      dirState.page = next;
+      loadDirectory();
+    };
+
+    async function loadDirectory() {
+      const grid = document.getElementById('directoryGrid');
+      const empty = document.getElementById('directoryEmpty');
+      const loader = document.getElementById('directoryLoader');
+      loader.classList.remove('hidden');
+      empty.classList.add('hidden');
+
+      const { data, error } = await window.suitSupabase.rpc('list_provider_cards', {
+        p_search: dirState.search,
+        p_limit: dirState.size + 1,
+        p_offset: dirState.page * dirState.size
+      });
+
+      loader.classList.add('hidden');
+      if (error) { showToast('Error', 'No se pudo cargar el directorio.', 'error'); return; }
+
+      const rows = data || [];
+      const hasMore = rows.length > dirState.size;
+      const visible = hasMore ? rows.slice(0, dirState.size) : rows;
+      dirState.lastLen = visible.length;
+
+      grid.innerHTML = '';
+      if (visible.length === 0) {
+        empty.classList.remove('hidden');
+        empty.classList.add('flex');
+        document.getElementById('directoryInfo').textContent = 'Sin resultados';
+        document.getElementById('dirPrev').disabled = true;
+        document.getElementById('dirNext').disabled = true;
+        return;
+      }
+      empty.classList.add('hidden');
+      visible.forEach(c => grid.appendChild(buildCardEl(c)));
+
+      document.getElementById('dirPrev').disabled = dirState.page === 0;
+      document.getElementById('dirNext').disabled = !hasMore;
+      document.getElementById('directoryInfo').textContent =
+        `Mostrando ${dirState.page * dirState.size + 1}–${dirState.page * dirState.size + visible.length}`;
+    }
+
+    function buildCardEl(c) {
+      const initials = (c.display_name || '?').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      const avatar = c.avatar_url
+        ? `<img src="${c.avatar_url}" class="w-14 h-14 rounded-xl object-cover" alt="${c.display_name}"/>`
+        : `<div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold">${initials}</div>`;
+
+      const tags = (c.tags || []).map(t =>
+        `<span class="text-[10px] font-bold uppercase bg-surface-container-high px-2 py-0.5 rounded">${t}</span>`
+      ).join(' ');
+
+      const socials = (c.social_links || []).map(s => `
+    <a href="${s.url}" target="_blank" rel="noopener"
+       class="inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:underline">
+      <span class="material-symbols-outlined text-[14px]">link</span>${s.label || s.type}
+    </a>`).join('');
+
+      const waLink = c.whatsapp ? `https://wa.me/${c.whatsapp.replace(/\D/g, '')}` : null;
+
+      const card = document.createElement('div');
+      card.className = 'bg-surface-container-lowest border border-outline-variant rounded-xl p-5 flex flex-col gap-3 hover:shadow-lg transition-shadow';
+      card.innerHTML = `
+    <div class="flex items-start gap-3">
+      ${avatar}
+      <div class="flex-1 min-w-0">
+        <h4 class="font-bold text-on-surface truncate">${c.display_name}</h4>
+        <p class="text-[11px] text-on-surface-variant font-mono">${c.provider_code || '—'}</p>
+      </div>
+    </div>
+    <p class="text-body-sm text-on-surface-variant line-clamp-3">${c.company_info || 'Sin descripción'}</p>
+    ${tags ? `<div class="flex flex-wrap gap-1">${tags}</div>` : ''}
+    ${socials ? `<div class="flex flex-wrap gap-3 pt-2 border-t border-outline-variant/40">${socials}</div>` : ''}
+    <div class="flex gap-2 mt-auto pt-3">
+      ${waLink ? `<a href="${waLink}" target="_blank" rel="noopener"
+        class="flex-1 bg-green-600 text-white py-2 rounded-lg text-label-bold uppercase text-center hover:opacity-90 flex items-center justify-center gap-1">
+        <span class="material-symbols-outlined text-[16px]">chat</span>WhatsApp</a>` : ''}
+      ${c.phone ? `<a href="tel:${c.phone}"
+        class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container-high" title="Llamar">
+        <span class="material-symbols-outlined text-[18px]">call</span></a>` : ''}
+    </div>`;
+      return card;
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────
+    function errorLabel(code) {
+      return {
+        provider_not_found: 'Código de proveedor no encontrado.',
+        already_linked: 'Ya tienes un enlace activo con este proveedor.',
+        not_a_manager: 'Tu perfil no tiene rol de agente.',
+        cannot_link_to_self: 'No puedes vincularte contigo mismo.',
+      }[code] || 'Error inesperado. Intenta de nuevo.';
+    }
+
+    function showFeedback(msg, type) {
+      const el = document.getElementById('linkFeedback');
+      const colors = { ok: 'bg-green-50 text-green-800', error: 'bg-error-container text-on-error-container', warn: 'bg-yellow-50 text-yellow-800' };
+      const icons = { ok: 'check_circle', error: 'error', warn: 'warning' };
+      el.className = `text-[12px] flex items-center gap-1.5 px-3 py-2 rounded-lg ${colors[type]}`;
+      el.innerHTML = `<span class="material-symbols-outlined text-[16px]">${icons[type]}</span>${msg}`;
+      el.classList.remove('hidden');
+    }
+
+    window.showToast = function (title, msg, type = 'ok') {
+      const t = document.getElementById('toast');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastMsg').textContent = msg;
+      document.getElementById('toastIcon').textContent = type === 'error' ? 'error' : type === 'ok' ? 'check_circle' : 'info';
+      t.classList.remove('translate-y-20');
+      setTimeout(() => t.classList.add('translate-y-20'), 4000);
+    };
+
+    function hideToast() {
+      document.getElementById('toast').classList.add('translate-y-40');
+    }
+
+    function spinSync(on) {
+      const ic = document.getElementById('syncIcon');
+      if (on) ic.classList.add('animate-spin');
+      else ic.classList.remove('animate-spin');
+      document.getElementById('syncStatus').textContent = on ? 'Sincronizando…' : 'Sincronizado';
+    }
+
+    window.toggleSidebar = function () {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+    };
+
+    // Search bar focus style
+    const si = document.getElementById('searchInput');
+    const sw = document.getElementById('searchWrap');
+    if (si) {
+      si.addEventListener('focus', () => { sw.classList.add('border-primary'); sw.classList.remove('border-outline-variant'); });
+      si.addEventListener('blur', () => { sw.classList.remove('border-primary'); sw.classList.add('border-outline-variant'); });
+    }
+  </script>
+</body>
+
+</html>
